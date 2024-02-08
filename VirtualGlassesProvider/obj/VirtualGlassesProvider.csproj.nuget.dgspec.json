@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\JacobSeed\\source\\repos\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.csproj": {}
+    "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.csproj": {}
   },
   "projects": {
-    "C:\\Users\\JacobSeed\\source\\repos\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.csproj": {
+    "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JacobSeed\\source\\repos\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.csproj",
+        "projectUniqueName": "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.csproj",
         "projectName": "VirtualGlassesProvider",
-        "projectPath": "C:\\Users\\JacobSeed\\source\\repos\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.csproj",
-        "packagesPath": "C:\\Users\\JacobSeed\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JacobSeed\\source\\repos\\VirtualGlassesProvider\\VirtualGlassesProvider\\obj\\",
+        "projectPath": "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.csproj",
+        "packagesPath": "C:\\Users\\thavr\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\JacobSeed\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\thavr\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,6 +39,42 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.1, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -58,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
