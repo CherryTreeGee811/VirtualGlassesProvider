@@ -1,6 +1,6 @@
 # Database Migrations
-/Migrations
-/Migrations/**
+/VirtualGlassesProvider/Migrations
+/VirtualGlassesProvider/Migrations/**
 
 # Visual Studio cache/options directory
 .vs/
