@@ -1,5 +1,5 @@
 # Database Migrations
-/VirtualGlassesProvider/Migrations/
+VirtualGlassesProvider/Migrations
 
 # Visual Studio cache/options directory
 .vs/
