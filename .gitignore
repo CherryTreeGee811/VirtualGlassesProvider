@@ -12,6 +12,10 @@ VirtualGlassesProvider/bin/Debug/net8.0/*
 VirtualGlassesProvider/obj/Debug/net8.0/refint/*
 VirtualGlassesProvider/obj/Debug/net8.0/ref/*
 VirtualGlassesProvider/obj/Debug/net8.0/scopedcss/bundle/*
+VirtualGlassesProvider/obj/Debug/net8.0/scopedcss/projectbundle/*
+VirtualGlassesProvider/obj/Debug/net8.0/scopedcss/Views/Shared/*
+VirtualGlassesProvider/obj/Debug/net8.0/*.AssemblyReference.cache
+VirtualGlassesProvider/obj/Debug/net8.0/*.CopyComplete
 VirtualGlassesProvider/obj/Debug/net8.0/staticwebassets/*
 VirtualGlassesProvider/obj/Debug/net8.0/*.json
 VirtualGlassesProvider/obj/Debug/net8.0/*.dll
@@ -23,5 +27,5 @@ VirtualGlassesProvider/obj/Debug/net8.0/*.RazorAssemblyInfo.cache
 VirtualGlassesProvider/obj/Debug/net8.0/*.editorconfig
 VirtualGlassesProvider/obj/Debug/net8.0/*.CoreCompileInputs.cache
 VirtualGlassesProvider/obj/Debug/net8.0/*.genruntimeconfig.cache
-VirtualGlassesProvider/obj/Debug/net8.0/*.MvcApplicationAssemblyInfo.cache
+VirtualGlassesProvider/obj/Debug/net8.0/*.MvcApplicationPartsAssemblyInfo.cache
 VirtualGlassesProvider/obj/*.cache
