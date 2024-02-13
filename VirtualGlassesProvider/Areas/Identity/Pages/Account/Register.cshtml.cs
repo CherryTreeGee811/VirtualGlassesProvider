@@ -132,7 +132,8 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>." +
+                               $"\nPlease Note this email was sent by one of Representative's of Vision Vogue's Team.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

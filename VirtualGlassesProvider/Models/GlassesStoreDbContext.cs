@@ -12,8 +12,8 @@ namespace VirtualGlassesProvider.Models
             base.OnModelCreating(builder);
 
             builder.Entity<Glasses>().HasData(
-               new Glasses { glassesID = 1, glassesBrandName = "Rayban", Description = "Black Colour Sqaured shaped Rayban Sunglasses", Price = 10.99m, color="Black", Style="Square"  },
-               new Glasses { glassesID = 2, glassesBrandName = "Rayban", Description = "Blue Colour Circular shaped Rayban Sunglasses", Price = 10.99m, color = "Blue", Style = "Circular" }
+               new Glasses { glassesID = 1, glassesBrandName = "Rayban", Description = "Black Colour Sqaured shaped Rayban Sunglasses", Price = 10.99m, color="Black", Style="Square", Image= "GlassesImage/glasses.png" },
+               new Glasses { glassesID = 2, glassesBrandName = "Rayban", Description = "Blue Colour Circular shaped Rayban Sunglasses", Price = 10.99m, color = "Blue", Style = "Circular", Image = "GlassesImage/glassesbluerayban.png" }
                );
 
         }

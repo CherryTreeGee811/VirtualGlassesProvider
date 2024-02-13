@@ -27,7 +27,8 @@ namespace VirtualGlassesProvider.Controllers
                 Description = glass.Description,
                 Price = glass.Price,
                 color = glass.color,
-                Style = glass.Style
+                Style = glass.Style,
+                Image = glass.Image
             });
 
             var model = await glassQuery.Skip(excludeRecords).Take(PageSize).ToListAsync();
@@ -73,7 +74,8 @@ namespace VirtualGlassesProvider.Controllers
                     Description = glass.Description,
                     Price = glass.Price,
                     color = glass.color,
-                    Style = glass.Style
+                    Style = glass.Style,
+                    Image = glass.Image
                 };
 
                 glassClientList.Add(glassClient);

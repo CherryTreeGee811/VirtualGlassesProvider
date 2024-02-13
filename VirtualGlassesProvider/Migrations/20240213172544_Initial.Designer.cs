@@ -12,8 +12,8 @@ using VirtualGlassesProvider.Models;
 namespace VirtualGlassesProvider.Migrations
 {
     [DbContext(typeof(GlassesStoreDbContext))]
-    [Migration("20240208002900_Init")]
-    partial class Init
+    [Migration("20240213172544_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -225,6 +225,64 @@ namespace VirtualGlassesProvider.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("VirtualGlassesProvider.Models.Glasses", b =>
+                {
+                    b.Property<int>("glassesID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("glassesID"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Style")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("color")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("glassesBrandName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("glassesID");
+
+                    b.ToTable("Glasses");
+
+                    b.HasData(
+                        new
+                        {
+                            glassesID = 1,
+                            Description = "Black Colour Sqaured shaped Rayban Sunglasses",
+                            Image = "GlassesImage/glasses.png",
+                            Price = 10.99m,
+                            Style = "Square",
+                            color = "Black",
+                            glassesBrandName = "Rayban"
+                        },
+                        new
+                        {
+                            glassesID = 2,
+                            Description = "Blue Colour Circular shaped Rayban Sunglasses",
+                            Image = "GlassesImage/glassesbluerayban.png",
+                            Price = 10.99m,
+                            Style = "Circular",
+                            color = "Blue",
+                            glassesBrandName = "Rayban"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

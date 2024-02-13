@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\VirtualGlassesProvider.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider\\wwwroot\\GlassesImage\\glasses.png",
+      "PackagePath": "staticwebassets\\GlassesImage\\glasses.png"
+    },
+    {
+      "Id": "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider\\wwwroot\\GlassesImage\\glassesbluerayban.png",
+      "PackagePath": "staticwebassets\\GlassesImage\\glassesbluerayban.png"
+    },
+    {
       "Id": "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider\\wwwroot\\Vision Vogue-logos_white.png",
       "PackagePath": "staticwebassets\\Vision Vogue-logos_white.png"
     },

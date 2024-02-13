@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace VirtualGlassesProvider.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +50,24 @@ namespace VirtualGlassesProvider.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Glasses",
+                columns: table => new
+                {
+                    glassesID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    glassesBrandName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    color = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Style = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Glasses", x => x.glassesID);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +176,15 @@ namespace VirtualGlassesProvider.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Glasses",
+                columns: new[] { "glassesID", "Description", "Image", "Price", "Style", "color", "glassesBrandName" },
+                values: new object[,]
+                {
+                    { 1, "Black Colour Sqaured shaped Rayban Sunglasses", "GlassesImage/glasses.png", 10.99m, "Square", "Black", "Rayban" },
+                    { 2, "Blue Colour Circular shaped Rayban Sunglasses", "GlassesImage/glassesbluerayban.png", 10.99m, "Circular", "Blue", "Rayban" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -213,6 +242,9 @@ namespace VirtualGlassesProvider.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Glasses");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

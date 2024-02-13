@@ -15,6 +15,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
+    }
+
+    .img-wrapper img{
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
     }
 
     .card img {
@@ -57,8 +64,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="img-wrapper">
-                    <!-- Placeholder for Image, replace with actual image path -->
-                    <img src="path_to_image" alt="@item.glassesBrandName">
+                    <img src="@Url.Content($"~/{item.Image}")" alt="@item.glassesBrandName">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">@item.glassesBrandName</h5>

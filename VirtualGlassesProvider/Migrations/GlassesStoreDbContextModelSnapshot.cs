@@ -236,6 +236,10 @@ namespace VirtualGlassesProvider.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -260,6 +264,7 @@ namespace VirtualGlassesProvider.Migrations
                         {
                             glassesID = 1,
                             Description = "Black Colour Sqaured shaped Rayban Sunglasses",
+                            Image = "GlassesImage/glasses.png",
                             Price = 10.99m,
                             Style = "Square",
                             color = "Black",
@@ -269,6 +274,7 @@ namespace VirtualGlassesProvider.Migrations
                         {
                             glassesID = 2,
                             Description = "Blue Colour Circular shaped Rayban Sunglasses",
+                            Image = "GlassesImage/glassesbluerayban.png",
                             Price = 10.99m,
                             Style = "Circular",
                             color = "Blue",

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+using System.Data;
 using VirtualGlassesProvider.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +18,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set your desired session timeout
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
 //builder.Services.AddDefaultIdentity<User>(options => {
 //    //Register The Account and Validate the email
@@ -28,6 +30,15 @@ builder.Services.AddSession(options =>
 //    .AddEntityFrameworkStores<GameStoreDbContext>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<IEmailSender>(provider =>
+{
+    return new EmailSender(
+        smtpServer: "in-v3.mailjet.com",
+        smtpPort: 587,                  
+        smtpUsername: "55d6922101509219c3e7510e235d5ac3", 
+        smtpPassword: "0ae07aee173a2d7a23d193042fe36397"
+    );
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

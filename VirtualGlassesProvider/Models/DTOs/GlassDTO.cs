@@ -12,5 +12,6 @@
 
         public string color { get; set; }
         public string Style { get; set; }
+        public string Image {  get; set; }
     }
 }
