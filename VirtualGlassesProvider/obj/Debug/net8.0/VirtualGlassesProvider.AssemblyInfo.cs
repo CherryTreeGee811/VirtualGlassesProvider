@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VirtualGlassesProvider")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4c6e6ee9c37827581085705b1eb756f90524a68e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c91782429586ea11543b1e33c5581fe5027849b6")]
 [assembly: System.Reflection.AssemblyProductAttribute("VirtualGlassesProvider")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VirtualGlassesProvider")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
