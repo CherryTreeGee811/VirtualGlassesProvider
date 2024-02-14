@@ -2,23 +2,20 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
-    public class ExternalLoginsModel : PageModel
+    public sealed class ExternalLoginsModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IUserStore<IdentityUser> _userStore;
+
 
         public ExternalLoginsModel(
             UserManager<IdentityUser> userManager,
@@ -30,11 +27,13 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             _userStore = userStore;
         }
 
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public IList<UserLoginInfo> CurrentLogins { get; set; }
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -42,11 +41,13 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public IList<AuthenticationScheme> OtherLogins { get; set; }
 
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public bool ShowRemoveButton { get; set; }
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -54,6 +55,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
+
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -78,6 +80,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
+
         public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -98,6 +101,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             return RedirectToPage();
         }
 
+
         public async Task<IActionResult> OnPostLinkLoginAsync(string provider)
         {
             // Clear the existing external cookie to ensure a clean login process
@@ -108,6 +112,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
             return new ChallengeResult(provider, properties);
         }
+
 
         public async Task<IActionResult> OnGetLinkLoginCallbackAsync()
         {

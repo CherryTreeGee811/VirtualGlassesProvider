@@ -1,29 +1,31 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Net.Mail;
 using System.Net;
-using Mailjet.Client.TransactionalEmails;
 
-public class EmailSender : IEmailSender
+
+public sealed class EmailSender : IEmailSender
 {
-    private readonly string smtpServer;
-    private readonly int smtpPort;
-    private readonly string smtpUsername;
-    private readonly string smtpPassword;
+    private readonly string _smtpServer;
+    private readonly int _smtpPort;
+    private readonly string _smtpUsername;
+    private readonly string _smtpPassword;
+
 
     public EmailSender(string smtpServer, int smtpPort, string smtpUsername, string smtpPassword)
     {
-        this.smtpServer = smtpServer;
-        this.smtpPort = smtpPort;
-        this.smtpUsername = smtpUsername;
-        this.smtpPassword = smtpPassword;
+        _smtpServer = smtpServer;
+        _smtpPort = smtpPort;
+        _smtpUsername = smtpUsername;
+        _smtpPassword = smtpPassword;
     }
+
 
     public async Task SendEmailAsync(string email, string subject, string htmlMessage)
     {
-        using (var client = new SmtpClient(smtpServer))
+        using (var client = new SmtpClient(_smtpServer))
         {
-            client.Port = smtpPort;
-            client.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
+            client.Port = _smtpPort;
+            client.Credentials = new NetworkCredential(_smtpUsername, _smtpPassword);
             client.EnableSsl = true; // Enable SSL if your SMTP server requires it
 
             var message = new MailMessage
@@ -40,6 +42,4 @@ public class EmailSender : IEmailSender
             await client.SendMailAsync(message);
         }
     }
-
-   
 }

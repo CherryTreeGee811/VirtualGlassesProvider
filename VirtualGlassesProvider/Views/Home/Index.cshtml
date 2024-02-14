@@ -1,4 +1,4 @@
-﻿@model List<VirtualGlassesProvider.Models.DTOs.GlassDTO>
+﻿@model List<VirtualGlassesProvider.Models.DTOs.GlassesDTO>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -64,14 +64,14 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="img-wrapper">
-                    <img src="@Url.Content($"~/{item.Image}")" alt="@item.glassesBrandName">
+                    <img src="@Url.Content($"~/{item.Image}")" alt="@item.BrandName">
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">@item.glassesBrandName</h5>
+                    <h5 class="card-title">@item.BrandName</h5>
                     <p class="card-text">@item.Description</p>
                     <p class="card-text">@item.Price.ToString("C")</p>
                     <p class="card-text">Style: @item.Style</p>
-                    <p class="card-text">Color: @item.color</p>
+                    <p class="card-text">Color: @item.Colour</p>
                     <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID">Details</a>
                     <a asp-area="Member" asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID">Add to Cart</a>
                 </div>

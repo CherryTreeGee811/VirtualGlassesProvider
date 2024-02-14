@@ -5,6 +5,12 @@ using System.Configuration;
 using System.Data;
 using VirtualGlassesProvider.Models;
 
+
+//ToDo: Remove scafolded account features if they are being used
+// Remove imports if they are not being used
+// Remove below commented code
+// Will leave for now incase
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -39,6 +45,8 @@ builder.Services.AddTransient<IEmailSender>(provider =>
         smtpPassword: "0ae07aee173a2d7a23d193042fe36397"
     );
 });
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -51,8 +59,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
+
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+
+    // Call the CreateMemberUser method to create the member user.
+    await GlassesStoreDbContext.DeleteTestClient(serviceProvider);
+}
 
 app.UseAuthorization();
 app.MapRazorPages();

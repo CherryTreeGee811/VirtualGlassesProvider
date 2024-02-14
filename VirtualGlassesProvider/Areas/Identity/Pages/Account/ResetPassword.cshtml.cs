@@ -2,26 +2,26 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 
+
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
-    public class ResetPasswordModel : PageModel
+    public sealed class ResetPasswordModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
+
 
         public ResetPasswordModel(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
         }
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -30,11 +30,12 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public class InputModel
+        public sealed class InputModel
         {
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -71,6 +72,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 
         }
 
+
         public IActionResult OnGet(string code = null)
         {
             if (code == null)
@@ -86,6 +88,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
                 return Page();
             }
         }
+
 
         public async Task<IActionResult> OnPostAsync()
         {
