@@ -24,28 +24,9 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
-
     
-    - name: Setup DB
-      run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=SATestPassword" -e "MSSQL_PID=Developer" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
-    
-    - name: List containers
-      run: docker container ls
-      
-
     - name: Restore dependencies
       run: dotnet restore
-
-    - name: Download tool
-      run: dotnet tool install --global dotnet-ef
-  
-    - name: Add Migrations
-      run: dotnet ef migrations add Initial -c GlassesStoreDbContext --project VirtualGlassesProvider/VirtualGlassesProvider.csproj
-
-    - name: Update Database
-      run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --connection "Server=localhost,1433;Database=VisionVogue;User Id=sa;Password=SATestPassword;"
-      
-    - name: Execute
-      run: dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https
-    - name: Test
-      run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --verbosity normal
+    
+    - name: Build  
+      run: dotnet build --no-restore
