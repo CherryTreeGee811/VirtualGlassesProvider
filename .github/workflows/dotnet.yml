@@ -27,9 +27,7 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
     - name: Execute
-      run: dotnet run --project VirtualGlassesProvider\VirtualGlassesProvider.csproj 
+      run: dotnet run --project .\VirtualGlassesProvider\VirtualGlassesProvider.csproj --launch-profile https
     - name: Test
       run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --verbosity normal
