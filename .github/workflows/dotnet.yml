@@ -32,4 +32,4 @@ jobs:
     - name: Check
       run: ls
     - name: Test
-      run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --no-build --verbosity normal
+      run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --verbosity normal
