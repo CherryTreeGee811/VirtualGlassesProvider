@@ -42,7 +42,7 @@ jobs:
       run: dotnet ef migrations add Initial -c GlassesStoreDbContext --project VirtualGlassesProvider/VirtualGlassesProvider.csproj
 
     - name: Update Database
-      run: dotnet ef database update Initial
+      run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj
       
     - name: Execute
       run: dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https
