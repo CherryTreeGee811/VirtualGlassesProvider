@@ -42,10 +42,13 @@ jobs:
       - name: Update Database
         run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --connection "Server=localhost,1433;Database=VisionVogue;User Id=sa;Password=SATestPassword10*;TrustServerCertificate=true;"
       
-      - name: Execute
+  execute:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Code
         run: dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https
-      
-     
+    
   test:
     needs: build
     runs-on: ubuntu-latest
