@@ -45,6 +45,8 @@ jobs:
       - name: Install Firefox
         run: |
           sudo apt install flatpak
+          sudo apt install gnome-software-plugin-flatpak
+          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
           sudo flatpak install flathub org.mozilla.firefox
           
       - name: Execute Code and Test
