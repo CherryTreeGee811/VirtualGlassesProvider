@@ -18,6 +18,7 @@ namespace VirtualGlassesProvider.Models
         }
 
 
+
         #region deleteTestClient
         /// <summary>
         /// Upon program execution TestClient data should be cleared from the database to allow

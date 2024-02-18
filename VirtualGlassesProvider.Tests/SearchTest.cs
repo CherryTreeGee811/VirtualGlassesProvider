@@ -1,5 +1,5 @@
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Chrome;
 
 
 
@@ -16,7 +16,7 @@ namespace VirtualGlassesProvider.Tests
         [SetUp]
         public static void SetUp()
         {
-            s_driver = new FirefoxDriver(new FirefoxOptions { AcceptInsecureCertificates = true });
+            s_driver = new ChromeDriver(new ChromeOptions { AcceptInsecureCertificates = true });
         }
 
 
