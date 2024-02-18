@@ -43,10 +43,10 @@ jobs:
         run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --connection "Server=localhost,1433;Database=VisionVogue;User Id=sa;Password=SATestPassword10*;TrustServerCertificate=true;"
 
       - name: Install Firefox
-        run: sudo snap install firefox
+        run: sudo apt install firefox libdbus-glib-1-2 libatk-bridge2.0-0
       
       - name: Execute Code and Test
         run: |
           dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https &
           sleep 10s
-          dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --verbosity normal
+          dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
