@@ -39,7 +39,7 @@ jobs:
       run: dotnet tool install --global dotnet-ef
   
     - name: Add Migrations
-      run: dotnet ef migrations add Initial --context VirtualGlassesProvider\Models\GlassesStoreDbContext --project VirtualGlassesProvider/VirtualGlassesProvider.csproj
+      run: dotnet ef migrations add Initial --context VirtualGlassesProvider/Models/GlassesStoreDbContext --project VirtualGlassesProvider/VirtualGlassesProvider.csproj
 
     - name: Update Database
       run: dotnet ef database update Initial
