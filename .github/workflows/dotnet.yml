@@ -35,7 +35,10 @@ jobs:
 
     
     - name: Setup DB
-      run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=SATestPassword" -e "MSSQL_PID=Developer" -p 1433:1433  --name sqlpreview --hostname sqlpreview -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+      run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=SATestPassword" -e "MSSQL_PID=Developer" -p 1433:1433  --name sqlpreview -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+
+    - name: Confirm connectivity
+      run: docker exec sqlpreview /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P SATestPassword
 
     - name: Restore dependencies
       run: dotnet restore
