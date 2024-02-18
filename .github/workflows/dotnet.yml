@@ -34,6 +34,10 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
+  
+    - name: Add Migrations
+      run: dotnet ef migrations add Initial --context VirtualGlassesProvider\Models\GlassesStoreDbContext
+      
     - name: Execute
       run: dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https
     - name: Test
