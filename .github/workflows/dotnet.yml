@@ -19,13 +19,13 @@ jobs:
 
     runs-on: ubuntu-latest
     services:
-          mssql:
-            image: mcr.microsoft.com/mssql/server:2019-latest
-            env:
-              SA_PASSWORD: SATestPassword
-              ACCEPT_EULA: 'Y'
-            ports:
-              - 1433:1433
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        env:
+          SA_PASSWORD: MyTestPassword
+          ACCEPT_EULA: 'Y'
+        ports:
+          - 1433:1433
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -42,7 +42,7 @@ jobs:
       run: dotnet ef migrations add Initial -c GlassesStoreDbContext --project VirtualGlassesProvider/VirtualGlassesProvider.csproj
 
     - name: Update Database
-      run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --connection 'Server=localhost,1433;Initial Catalog=VisionVogue;User Id=sa;Password=SATestPassword;'
+      run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --connection 'Server=localhost,1433;Initial Catalog=MyTestDb;User Id=sa;Password=MyTestPassword;'
       
     - name: Execute
       run: dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https
