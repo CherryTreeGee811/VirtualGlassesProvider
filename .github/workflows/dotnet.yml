@@ -27,6 +27,9 @@ jobs:
       
       - name: Disable Snap
         run: |
+          sudo snap remove core20
+          sudo snap remove lxd
+          sudo snap remove snapd
           sudo snap list
           sudo systemctl stop snapd
           sudo systemctl disable snapd.service
@@ -36,6 +39,11 @@ jobs:
           sudo systemctl mask snapd
           sudo apt purge snapd -y
           rm -rf ~/snap/
+          sudo cat <<EOF | sudo tee /etc/apt/preferences.d/nosnap.pref
+          rm -rf ~/snap
+          sudo rm -rf ~/snap
+          sudo rm -rf /var/snap
+          sudo rm -rf /var/lib/snapd
           
       - name: Setup DB
         run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=SATestPassword10*" --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
