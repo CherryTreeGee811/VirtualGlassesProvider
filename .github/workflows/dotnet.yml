@@ -42,17 +42,17 @@ jobs:
       - name: Update Database
         run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --connection "Server=localhost,1433;Database=VisionVogue;User Id=sa;Password=SATestPassword10*;TrustServerCertificate=true;"
 
-      - name: Setup Apache2
-        run: |
-          sudo apt install apache2
-          sudo systemctl start apache2
-
+      - name: Install Apache2
+        run: sudo apt install apache2
+          
       - name: list dir
         run: ls
 
       - name: publish Code
         run: dotnet publish VirtualGlassesProvider/VirtualGlassesProvider.csproj --output var/www/html
 
+      - name: Start Apache2
+        run: sudo systemctl start apache2
       
   test:
     runs-on: ubuntu-latest
