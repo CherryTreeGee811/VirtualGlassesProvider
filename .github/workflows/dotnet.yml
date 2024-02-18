@@ -31,6 +31,9 @@ jobs:
     
     - name: List containers
       run: docker container ls
+      
+    - name: List containers
+      run: ping localhost
 
     - name: Restore dependencies
       run: dotnet restore
