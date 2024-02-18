@@ -27,8 +27,8 @@ jobs:
       
       - name: Disable Snap
         run: |
-          sudo snap remove core20
           sudo snap remove lxd
+          sudo snap remove core20
           sudo snap remove snapd
           sudo snap list
           sudo systemctl stop snapd
