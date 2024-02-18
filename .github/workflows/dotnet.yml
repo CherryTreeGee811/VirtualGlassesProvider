@@ -45,7 +45,7 @@ jobs:
       - name: Install Firefox
         run: |
           sudo apt install flatpak
-          sudo flatpak install firefox
+          sudo flatpak install flathub org.mozilla.firefox
           
       - name: Execute Code and Test
         run: |
