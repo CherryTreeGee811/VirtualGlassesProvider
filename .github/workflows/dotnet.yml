@@ -34,6 +34,9 @@ jobs:
         dotnet-version: 8.0.x
     - name: Restore dependencies
       run: dotnet restore
+
+    - name: Download tool
+      run: dotnet tool install --global dotnet-ef
   
     - name: Add Migrations
       run: dotnet ef migrations add Initial --context VirtualGlassesProvider\Models\GlassesStoreDbContext
