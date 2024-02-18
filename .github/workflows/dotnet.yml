@@ -27,23 +27,29 @@ jobs:
       
       - name: Disable Snap
         run: |
-          sudo snap remove lxd
-          sudo snap remove core20
-          sudo snap remove snapd
-          sudo snap list
+          sudo snap remove --purge lxd
+          sudo snap remove --purge core20
+          sudo snap remove --purge snapd
           sudo systemctl stop snapd
-          sudo systemctl disable snapd.service
-          sudo systemctl disable snapd.socket
-          sudo systemctl disable snapd.seeded.service
           sudo systemctl disable snapd
           sudo systemctl mask snapd
           sudo apt purge snapd -y
-          rm -rf ~/snap/
+          sudo apt-mark hold snapd
           sudo cat <<EOF | sudo tee /etc/apt/preferences.d/nosnap.pref
+          Package: snapd
+          Pin: release a=*
+          Pin-Priority: -10
+          EOF
           rm -rf ~/snap
           sudo rm -rf ~/snap
           sudo rm -rf /var/snap
           sudo rm -rf /var/lib/snapd
+        
+      - name: Install Firefox
+        run: |
+          sudo add-apt-repository ppa:mozillateam/ppa
+          sudo apt update
+          sudo apt install -t 'o=LP-PPA-mozillateam' firefox
           
       - name: Setup DB
         run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=SATestPassword10*" --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
@@ -62,10 +68,6 @@ jobs:
       
       - name: Update Database
         run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --connection "Server=localhost,1433;Database=VisionVogue;User Id=sa;Password=SATestPassword10*;TrustServerCertificate=true;"
-
-      - name: Install Firefox
-        run: |
-          sudo apt install firefox
           
       - name: Execute Code and Test
         run: |
