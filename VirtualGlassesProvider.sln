@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualGlassesProvider", "VirtualGlassesProvider\VirtualGlassesProvider.csproj", "{93B2F478-5F74-439C-834E-B68E8340A7A3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualGlassesProvider.Tests", "VirtualGlassesProvider.Tests\VirtualGlassesProvider.Tests.csproj", "{6C5E8E62-9861-45EC-9F6C-6F6E717CC39B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{93B2F478-5F74-439C-834E-B68E8340A7A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93B2F478-5F74-439C-834E-B68E8340A7A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93B2F478-5F74-439C-834E-B68E8340A7A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C5E8E62-9861-45EC-9F6C-6F6E717CC39B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C5E8E62-9861-45EC-9F6C-6F6E717CC39B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C5E8E62-9861-45EC-9F6C-6F6E717CC39B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C5E8E62-9861-45EC-9F6C-6F6E717CC39B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
