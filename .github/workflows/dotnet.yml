@@ -24,6 +24,13 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
+      
+      - name: Disable Snap
+        run: 
+          sudo systemctl disable snapd.service
+          sudo systemctl disable snapd.socket
+          sudo systemctl disable snapd.seeded.service
+        
       - name: Setup DB
         run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=SATestPassword10*" --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
       
@@ -44,9 +51,6 @@ jobs:
 
       - name: Install Firefox
         run: |
-          sudo systemctl disable snapd.service
-          sudo systemctl disable snapd.socket
-          sudo systemctl disable snapd.seeded.service
           sudo apt install firefox
           
       - name: Execute Code and Test
