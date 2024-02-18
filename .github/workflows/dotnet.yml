@@ -42,16 +42,8 @@ jobs:
       - name: Update Database
         run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --connection "Server=localhost,1433;Database=VisionVogue;User Id=sa;Password=SATestPassword10*;TrustServerCertificate=true;"
       
-      - name: publish Code
-        run: dotnet publish VirtualGlassesProvider/VirtualGlassesProvider.csproj --self-contained --output www/
-
-      - name: list dir
-        run: ls www
-
-      - name: execute
-        run: |
-            cd www
-            ./VirtualGlassesProvider &
+      - name: Execute Code
+        run: dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https &
       
       - name: Test      
         run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --verbosity normal
