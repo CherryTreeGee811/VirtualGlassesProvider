@@ -46,6 +46,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
       - name: Run Code
         run: dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https
     
@@ -53,6 +57,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
       - name: Test      
         run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --verbosity normal
   
