@@ -25,4 +25,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test https://github.com/CherryTreeGee811/VirtualGlassesProvider.Tests/blob/main/VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --no-build --verbosity normal
