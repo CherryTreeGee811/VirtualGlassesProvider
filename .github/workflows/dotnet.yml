@@ -32,9 +32,6 @@ jobs:
     - name: List containers
       run: docker container ls
 
-    - name: Confirm connectivity
-      run: docker exec sqlpreview /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P SATestPassword
-
     - name: Restore dependencies
       run: dotnet restore
 
