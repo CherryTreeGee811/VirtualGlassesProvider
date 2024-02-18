@@ -17,7 +17,7 @@ on:
         required: true
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Setup .NET
@@ -43,10 +43,12 @@ jobs:
         run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --connection "Server=localhost,1433;Database=VisionVogue;User Id=sa;Password=SATestPassword10*;TrustServerCertificate=true;"
 
       - name: Install Firefox
-        run: sudo apt install firefox libdbus-glib-1-2 libatk-bridge2.0-0
-      
+        run: |
+          sudo add-apt-repository ppa:mozillateam/ppa
+          sudo apt install firefox
+          
       - name: Execute Code and Test
         run: |
           dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https &
           sleep 10s
-          dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
+          dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal --no-build
