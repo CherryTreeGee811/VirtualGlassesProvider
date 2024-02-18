@@ -44,8 +44,8 @@ jobs:
 
       - name: Install Firefox
         run: |
-          sudo add-apt-repository ppa:mozillateam/ppa
-          sudo apt install firefox
+          sudo apt install flatpak
+          sudo flatpak install firefox
           
       - name: Execute Code and Test
         run: |
