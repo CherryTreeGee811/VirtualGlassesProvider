@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
-using System.Data;
-using VirtualGlassesProvider.Models;
+using VirtualGlassesProvider.Models.DataAccess;
 
 
 //ToDo: Remove scafolded account features if they are being used
@@ -45,7 +43,6 @@ builder.Services.AddTransient<IEmailSender>(provider =>
         smtpPassword: "0ae07aee173a2d7a23d193042fe36397"
     );
 });
-
 
 var app = builder.Build();
 
