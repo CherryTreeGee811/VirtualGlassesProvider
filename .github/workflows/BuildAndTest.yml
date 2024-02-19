@@ -1,0 +1,50 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: VisionVogue .NET
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'The branch to build'
+        required: true
+jobs:
+  BuildAndTest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 114
+          
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+          
+      - name: Setup DB
+        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{secrets.MSSQL_SA_SECRET}}" --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+      
+      - name: Restore dependencies
+        run: dotnet restore
+      
+      - name: Download .NET tool
+        run: dotnet tool install --global dotnet-ef
+        
+      - name: Add Migrations
+        run: dotnet ef migrations add Initial -c GlassesStoreDbContext --project VirtualGlassesProvider/VirtualGlassesProvider.csproj
+      
+      - name: Update Database
+        run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --connection "Server=localhost,1433;Database=VisionVogue;User Id=sa;Password=${{secrets.MSSQL_SA_SECRET }};TrustServerCertificate=true;"
+          
+      - name: Execute Code and Test
+        run: |
+          dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https &
+          dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal

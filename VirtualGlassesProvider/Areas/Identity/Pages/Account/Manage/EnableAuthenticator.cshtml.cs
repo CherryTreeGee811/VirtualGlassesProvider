@@ -2,27 +2,24 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
-    public class EnableAuthenticatorModel : PageModel
+    public sealed class EnableAuthenticatorModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<EnableAuthenticatorModel> _logger;
         private readonly UrlEncoder _urlEncoder;
-
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
+
 
         public EnableAuthenticatorModel(
             UserManager<IdentityUser> userManager,
@@ -34,17 +31,20 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             _urlEncoder = urlEncoder;
         }
 
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public string SharedKey { get; set; }
 
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         public string AuthenticatorUri { get; set; }
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -53,12 +53,14 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         [TempData]
         public string[] RecoveryCodes { get; set; }
 
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -67,11 +69,12 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public InputModel Input { get; set; }
 
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public class InputModel
+        public sealed class InputModel
         {
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -83,6 +86,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Verification Code")]
             public string Code { get; set; }
         }
+
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -96,6 +100,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 
             return Page();
         }
+
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -142,6 +147,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             }
         }
 
+
         private async Task LoadSharedKeyAndQrCodeUriAsync(IdentityUser user)
         {
             // Load the authenticator key & QR code URI to display on the form
@@ -157,6 +163,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             var email = await _userManager.GetEmailAsync(user);
             AuthenticatorUri = GenerateQrCodeUri(email, unformattedKey);
         }
+
 
         private string FormatKey(string unformattedKey)
         {
@@ -174,6 +181,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 
             return result.ToString().ToLowerInvariant();
         }
+
 
         private string GenerateQrCodeUri(string email, string unformattedKey)
         {
