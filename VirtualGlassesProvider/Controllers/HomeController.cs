@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using VirtualGlassesProvider.Models;
+using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Models.DTOs;
 
 
