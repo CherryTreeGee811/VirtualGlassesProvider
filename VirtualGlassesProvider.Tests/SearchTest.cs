@@ -17,6 +17,7 @@ namespace VirtualGlassesProvider.Tests
         public static void SetUp()
         {
             ChromeOptions options = new ChromeOptions { AcceptInsecureCertificates = true };
+            options.AddArgument("--headless=new");
             options.AddArgument("--remote-debugging-port=40007");
             s_driver = new ChromeDriver(options);
         }
