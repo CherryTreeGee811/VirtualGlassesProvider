@@ -8,7 +8,7 @@ on:
       - main
   pull_request:
     branches:
-      - main
+      - '*'
   workflow_dispatch:
     inputs:
       environment:
@@ -16,13 +16,9 @@ on:
         type: environment
         required: true
 jobs:
-  build:
+  BuildAndTest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: 114
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
