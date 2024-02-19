@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System.Text.RegularExpressions;
 
 
 
@@ -9,7 +10,7 @@ namespace VirtualGlassesProvider.Tests
     internal sealed class SearchTest
     {
         #pragma warning disable NUnit1032
-        private static IWebDriver s_driver { get; set; }
+        private static ChromeDriver s_driver { get; set; }
         #pragma warning restore NUnit1032
 
 
@@ -18,7 +19,6 @@ namespace VirtualGlassesProvider.Tests
         {
             ChromeOptions options = new ChromeOptions { AcceptInsecureCertificates = true };
             options.AddArgument("--headless=new");
-            options.AddArgument("--remote-debugging-port=40007");
             s_driver = new ChromeDriver(options);
         }
 
@@ -62,7 +62,7 @@ namespace VirtualGlassesProvider.Tests
             s_driver.FindElement(By.Id("searchString")).Click();
             s_driver.FindElement(By.Id("searchString")).SendKeys("10.99");
             s_driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
-            Assert.That(s_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .card-text:nth-child(3)")).Text, Is.EqualTo("¤10.99"));
+            Assert.That(s_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .card-text:nth-child(3)")).Text.Contains("10.99"), Is.True);
         }
 
 

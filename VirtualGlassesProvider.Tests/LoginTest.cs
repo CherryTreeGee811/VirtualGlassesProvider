@@ -8,7 +8,7 @@ namespace VirtualGlassesProvider.Tests
     internal sealed class LoginTest
     {
         #pragma warning disable NUnit1032
-        private static IWebDriver s_driver { get; set; }
+        private static ChromeDriver s_driver { get; set; }
         #pragma warning restore NUnit1032
 
         [SetUp]
@@ -16,7 +16,6 @@ namespace VirtualGlassesProvider.Tests
         {
             ChromeOptions options = new ChromeOptions { AcceptInsecureCertificates = true };
             options.AddArgument("--headless=new");
-            options.AddArgument("--remote-debugging-port=40007");
             s_driver = new ChromeDriver(options);
         }
 
