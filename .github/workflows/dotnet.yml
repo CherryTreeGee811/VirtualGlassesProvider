@@ -20,12 +20,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: 114
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
-      - uses: browser-actions/setup-chrome@v1
-      - run: chrome --version
           
       - name: Setup DB
         run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=SATestPassword10*" --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
