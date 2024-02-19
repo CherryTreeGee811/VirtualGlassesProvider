@@ -24,31 +24,8 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
-      
-      - name: Disable Snap
-        run: |
-          sudo snap remove --purge lxd
-          sudo snap remove --purge core20
-          sudo snap remove --purge snapd
-          sudo systemctl stop snapd
-          sudo systemctl disable snapd
-          sudo systemctl mask snapd
-          sudo apt purge snapd -y
-          sudo apt-mark hold snapd
-          sudo cat <<EOF | sudo tee /etc/apt/preferences.d/nosnap.pref
-          Package: snapd
-          Pin: release a=*
-          Pin-Priority: -10
-          EOF
-          rm -rf ~/snap
-          sudo rm -rf ~/snap
-          sudo rm -rf /var/snap
-          sudo rm -rf /var/lib/snapd
-        
-      - name: Install Chrome
-        run: |
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install ./google-chrome-stable_current_amd64.deb
+      - uses: browser-actions/setup-chrome@v1
+      - run: chrome --version
           
       - name: Setup DB
         run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=SATestPassword10*" --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
