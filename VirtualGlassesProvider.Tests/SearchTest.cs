@@ -62,7 +62,7 @@ namespace VirtualGlassesProvider.Tests
             s_driver.FindElement(By.Id("searchString")).Click();
             s_driver.FindElement(By.Id("searchString")).SendKeys("10.99");
             s_driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
-            Assert.That(s_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .card-text:nth-child(3)")).Text, Is.EqualTo("$10.99"));
+            Assert.That(s_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .card-text:nth-child(3)")).Text, Is.EqualTo("¤10.99"));
         }
 
 
