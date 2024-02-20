@@ -5,7 +5,7 @@ using OpenQA.Selenium.Chrome;
 namespace VirtualGlassesProvider.Tests
 {
     [TestFixture, Order(2)]
-    internal sealed class LoginTest
+    internal class LoginTest
     {
         #pragma warning disable NUnit1032
         private static ChromeDriver s_driver { get; set; }

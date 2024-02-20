@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace VirtualGlassesProvider.Tests
 {
     [TestFixture, Order(3)]
-    internal sealed class SearchTest
+    internal class SearchTest
     {
         #pragma warning disable NUnit1032
         private static ChromeDriver s_driver { get; set; }

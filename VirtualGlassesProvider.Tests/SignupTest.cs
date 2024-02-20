@@ -5,7 +5,7 @@ using OpenQA.Selenium.Chrome;
 namespace VirtualGlassesProvider.Tests
 {
     [TestFixture, Order(1)]
-    internal sealed class SignupTest
+    internal class SignupTest
     {
         // FYI the suite is meant to be run cohesively to ensure proper clearing of resources
         // and that the application is harmonious. To run the suite cohesively please select run all tests
