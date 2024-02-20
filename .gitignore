@@ -51,3 +51,6 @@ VirtualGlassesProvider.Tests/obj/Debug/net8.0/*.CoreCompileInputs.cache
 VirtualGlassesProvider.Tests/obj/Debug/net8.0/*.genruntimeconfig.cache
 VirtualGlassesProvider.Tests/obj/Debug/net8.0/*.MvcApplicationPartsAssemblyInfo.cache
 VirtualGlassesProvider.Tests/obj/*.cache
+VirtualGlassesProvider\obj\Debug\net8.0\VirtualGlassesProvider.csproj.FileListAbsolute.txt
+VirtualGlassesProvider\obj\Debug\net8.0\VirtualGlassesProvider.assets.cache
+VirtualGlassesProvider.Tests\obj\Debug\net8.0\VirtualGlassesProvider.Tests.assets.cache
