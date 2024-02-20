@@ -4,10 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using VirtualGlassesProvider.Models.DataAccess;
 
 
-//ToDo: Remove scafolded account features if they are being used
-// Remove imports if they are not being used
-// Remove below commented code
-// Will leave for now incase
+// ToDo: Remove all Identity Framework features that are not being used
+// Remove all imports that are not being used
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,14 +22,6 @@ builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
-//builder.Services.AddDefaultIdentity<User>(options => {
-//    //Register The Account and Validate the email
-//    options.SignIn.RequireConfirmedAccount = true;
-//    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
-//    // The maximum number of failed access attempts before a user is locked out.
-//    options.Lockout.MaxFailedAccessAttempts = 3;
-//}).AddDefaultTokenProviders().AddRoles<IdentityRole>()
-//    .AddEntityFrameworkStores<GameStoreDbContext>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IEmailSender>(provider =>

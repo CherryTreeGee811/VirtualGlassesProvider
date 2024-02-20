@@ -10,6 +10,6 @@ namespace VirtualGlassesProvider.Models
         public int ID { get; set; }
 
 
-        public string Image { get; set; }
+        public byte[] Image { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace VirtualGlassesProvider.Models
+namespace VirtualGlassesProvider.Models.DataAccess
 {
     public class GlassesStoreDbContext : IdentityDbContext
     {
@@ -12,7 +12,7 @@ namespace VirtualGlassesProvider.Models
             base.OnModelCreating(builder);
 
             builder.Entity<Glasses>().HasData(
-               new Glasses { ID = 1, BrandName = "Rayban", Description = "Black Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour="Black", Style="Square", Image= "GlassesImage/glasses.png" },
+               new Glasses { ID = 1, BrandName = "Rayban", Description = "Black Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Black", Style = "Square", Image = "GlassesImage/glasses.png" },
                new Glasses { ID = 2, BrandName = "Rayban", Description = "Blue Colour Circular shaped Rayban Sunglasses", Price = 10.99m, Colour = "Blue", Style = "Circular", Image = "GlassesImage/glassesbluerayban.png" }
             );
         }
@@ -42,8 +42,11 @@ namespace VirtualGlassesProvider.Models
 
 
         public DbSet<Glasses> Glasses { get; set; }
-        
-        
+
+        public DbSet<Profiles> Profiles { get; set; }
+
+        public DbSet<UploadedImages> UploadedImages { get; set; }
+
         public GlassesStoreDbContext(DbContextOptions<GlassesStoreDbContext> options) : base(options)
         { }
     }
