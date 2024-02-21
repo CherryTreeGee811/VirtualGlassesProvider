@@ -58,6 +58,10 @@
               "target": "Package",
               "version": "[4.5.0, )"
             },
+            "OpenCvSharp4": {
+              "target": "Package",
+              "version": "[4.9.0.20240103, )"
+            },
             "Selenium.WebDriver": {
               "target": "Package",
               "version": "[4.17.0, )"

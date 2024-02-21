@@ -56,6 +56,7 @@ using (var scope = app.Services.CreateScope())
     await GlassesStoreDbContext.DeleteTestClient(serviceProvider);
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllerRoute(

@@ -24,3 +24,55 @@ body {
 #profileImageColumn {
     padding-left: 60px;
 }
+
+.detailsImage {
+    max-width: 40%;
+}
+
+aside {
+    float: right;
+    position: relative;
+    padding-top: 3%;
+}
+
+main {
+    float: left;
+    height: 0em;
+}
+
+#formCart {
+    float: left;
+}
+
+#formAR {
+    float: right;
+    position: relative;
+}
+
+#detailsFormsDiv {
+    margin-top: 30%;
+}
+
+#formCart > #addProductToCartBtn {
+    margin-top: 78%; 
+    background: darkblue;
+    border-color: darkblue;
+    padding: 8px;
+    color: white;
+}
+
+#formAR > #generateImageBtn {
+    background: darkblue;
+    border-color: darkblue;
+    padding: 8px;
+    color: white;
+}
+
+#productDisplayImageDetailsDiv {
+    height: 280px;
+    overflow: hidden;
+}
+
+.errorMessage {
+    color: darkred;
+}

@@ -2,7 +2,7 @@
 @model ProfileModel
 @{
     ViewData["Title"] = "Profile";
-    ViewData["ActivePage"] = ManageNavPages.Profile;
+    ViewData["ActivePage"] = ManageNavPages.Profiles;
 }
 
 <h3>@ViewData["Title"]</h3>
@@ -17,7 +17,7 @@
             <br />
             <div class="form-group row">
                 <label asp-for="Input.Image" class="form-label">Upload File</label>
-                <input asp-for="Input.Image" type="file" name="file" class="form-control" />
+                <input asp-for="Input.Image" type="file" name="file" class="form-control" accept="image/jpg, image/jpeg" />
             </div>
             <br /
             <br />
@@ -31,7 +31,7 @@
     <div class="col-md-6" id="profileImageColumn">
         <br />
         <p>Current Image</p>
-        <img id="profileImage" src="data:image/jpg;base64,@ViewData["priorImage"]" width="110px" height="110px" />
+        <img id="profileImage" src="data:image/jpg;base64,@ViewData["priorImage"]" alt="Profile Image" width="110px" height="110px" />
     </div>
 </div>
 @section Scripts {

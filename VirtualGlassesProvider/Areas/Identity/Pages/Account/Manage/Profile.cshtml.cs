@@ -61,7 +61,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         {
             var user = await _userManager.GetUserAsync(User);
 
-            if (user == null)
+            if(user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
@@ -75,9 +75,14 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 _context.Add(profile);
                 await _context.SaveChangesAsync();
             }
-            else
+
+            if(profile.DisplayName != null)
             {
                 Input.DisplayName = profile.DisplayName;
+            }
+
+            if(profile.ImageID != null)
+            {
                 var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
                 ViewData["priorImage"] = Convert.ToBase64String(uploadedImage.Image);
             }
@@ -88,14 +93,14 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync(IFormFile file)
         {
-            if (!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return Page();
             }
 
             var user = await _userManager.GetUserAsync(User);
            
-            if (user == null)
+            if(user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
@@ -104,11 +109,11 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 
             UploadedImages image = null;
 
-            if (file != null)
+            if(file != null)
             {
                 image = FileUploadService.ConvertFormFileToUploadedImageObject(file);
 
-                if (profile.ImageID != null)
+                if(profile.ImageID != null)
                 {
                     _context.UploadedImages.Update(image);
                 }
@@ -119,7 +124,10 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 _context.SaveChanges();
             }
 
-            profile.ImageID = image.ID;
+            if(image != null)
+            {
+                profile.ImageID = image.ID;
+            }
             profile.UserID = user.Id;
             profile.DisplayName = Input.DisplayName;
 
