@@ -29,13 +29,13 @@ body {
     max-width: 40%;
 }
 
-aside {
+#detailsRight {
     float: right;
     position: relative;
     padding-top: 3%;
 }
 
-main {
+#detailsLeft {
     float: left;
     height: 0em;
 }

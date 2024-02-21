@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Details";
 }
-<main>
+<div id="detailsLeft">
     <hr />
         <h1>
             @Html.DisplayFor(model => model.BrandName)
@@ -26,8 +26,8 @@
             <b>@Html.DisplayFor(model => model.Price)</b>
         </p>
         <a asp-action="Index">Back to List</a>
-</main>
-<aside>
+</div>
+<div id="detailsRight">
     <div>
         <h2>
             @Html.DisplayNameFor(model => model.Description)
@@ -72,7 +72,7 @@
             <input type="button" id="generateImageBtn" name="generateImageBtn" value="Try on virtually" aria-label="generate AR image button" />
         </form>  
     </div>
-</aside>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script>
     $(document).ready(function () {

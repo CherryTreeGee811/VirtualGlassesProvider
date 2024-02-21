@@ -134,7 +134,6 @@ namespace VirtualGlassesProvider.Controllers
         [AjaxOnly]
         public async Task<PartialViewResult> GenerateImage(string glasses)
         {
-            Console.Write(glasses);
             var user = await _userManager.GetUserAsync(User);
             string imgB64 = null;
             if (user != null)
@@ -161,9 +160,7 @@ namespace VirtualGlassesProvider.Controllers
 
             if (!PythonEngine.IsInitialized)
             {
-                var appDataPathEnvironment = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                //ToDo: switch DLL path to environment variable
-                Runtime.PythonDLL = appDataPathEnvironment + @"\..\Local\Programs\Python\Python311\python311.dll";
+                Runtime.PythonDLL = Environment.GetEnvironmentVariable("Python_Runtime");
                 PythonEngine.Initialize();
             }
             using (PyModule scope = Py.CreateScope())
@@ -206,7 +203,7 @@ cv2.destroyAllWindows()";
             }
             PythonEngine.Shutdown();
             ViewData["renderedImage"] = "\\images\\render.jpg";
-            ViewData["brandName"] = "Test";
+            ViewData["brandName"] = "Render";
             return PartialView("_RenderPartial");
         }
 
