@@ -46,5 +46,7 @@ jobs:
           
       - name: Execute Code and Test
         run: |
+          mkdir /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin
+          mv /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/Resources/Faces/tim_apple.jpg /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin/Resources/Faces/tim_apple.jpg
           dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https &
           dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
