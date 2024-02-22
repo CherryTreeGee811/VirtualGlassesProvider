@@ -54,5 +54,5 @@ jobs:
       - name: Execute Code and Test
         run: |
           dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https &
-          sleep(2)
+          sleep 2
           dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
