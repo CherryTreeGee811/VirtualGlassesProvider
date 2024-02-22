@@ -47,7 +47,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("Input_DisplayName")).Click();
             _driver.FindElement(By.Id("Input_DisplayName")).SendKeys("Tim Apple");
             var upload_file = _driver.FindElement(By.Id("Input_Image"));
-            var file_path = Path.Join(projectDir, @"..\Resources\Faces\tim_apple.jpg");
+            var file_path = Path.Join(projectDir, @"\..\..\Resources\Faces\tim_apple.jpg");
             var img_path = Path.GetFullPath(file_path).Replace("\\", "/");
             upload_file.SendKeys(img_path);
             _driver.FindElement(By.CssSelector(".btn-primary")).Click();
