@@ -85,11 +85,12 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             {
                 var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
                 ViewData["priorImage"] = Convert.ToBase64String(uploadedImage.Image);
-                @ViewData["imageAlt"] = "Profile Image";
+                ViewData["imageAlt"] = "Profile Image";
             }
             else
             {
-                @ViewData["imageAlt"] = "Blank Profile Image";
+                //ToDo: Add Placeholder Image
+                ViewData["imageAlt"] = "Placeholder Profile Image";
             }
             
             return Page();

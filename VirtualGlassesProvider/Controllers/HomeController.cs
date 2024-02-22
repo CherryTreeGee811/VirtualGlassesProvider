@@ -7,7 +7,6 @@ using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Models.DTOs;
 using Python.Runtime;
 using VirtualGlassesProvider.CustomAttributes;
-using Microsoft.AspNetCore.Authorization;
 
 
 namespace VirtualGlassesProvider.Controllers

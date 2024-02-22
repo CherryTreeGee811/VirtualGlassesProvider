@@ -43,7 +43,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("login-submit")).Click();
             _driver.FindElement(By.Id("manage")).Click();
             var altText = _driver.FindElement(By.CssSelector("#profileImage")).GetAttribute("alt").ToString();
-            Assert.That(altText, Is.EqualTo("Blank Profile Image"));
+            Assert.That(altText, Is.EqualTo("Placeholder Profile Image"));
             _driver.FindElement(By.Id("Input_DisplayName")).Click();
             _driver.FindElement(By.Id("Input_DisplayName")).SendKeys("Tim Apple");
             var upload_file = _driver.FindElement(By.Id("Input_Image"));
