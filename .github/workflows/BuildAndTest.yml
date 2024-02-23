@@ -59,10 +59,10 @@ jobs:
           
       - name: Execute Code and Test
         run: |
-          sudo mkdir /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin
-          sudo mkdir /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin/Resources
-          sudo mkdir /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin/Resources/Faces
-          sudo cp /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/Resources/Faces/tim_apple.jpg /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin/Resources/Faces/tim_apple.jpg
+          mkdir /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin
+          mkdir /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin/Resources
+          mkdir /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin/Resources/Faces
+          cp /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/Resources/Faces/tim_apple.jpg /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin/Resources/Faces/tim_apple.jpg
           dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https &
           sleep 2
           dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
