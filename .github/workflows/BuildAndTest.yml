@@ -29,9 +29,6 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Find Profile Image
-        run: find /home/runner -type f -name tim_apple.jpg
-
       - name: Setup Python
         run: |
           pip3 install opencv-python
