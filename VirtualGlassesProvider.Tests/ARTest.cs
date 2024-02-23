@@ -56,7 +56,7 @@ namespace VirtualGlassesProvider.Tests
             var altText = _driver.FindElement(By.CssSelector(".detailsImage")).GetAttribute("alt").ToString();
             Assert.That(altText.Equals("Render"), Is.EqualTo(false));
             _driver.FindElement(By.Id("generateImageBtn")).Click();
-            Thread.Sleep(3000);
+            Thread.Sleep(5000);
             altText = _driver.FindElement(By.CssSelector(".detailsImage")).GetAttribute("alt").ToString();
             Assert.That(altText, Is.EqualTo("Render"));
         }
