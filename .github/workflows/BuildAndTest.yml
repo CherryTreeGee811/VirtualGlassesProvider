@@ -29,12 +29,16 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
+      - name: Find Profile Image
+        run: find / -type f -name tim_apple.jpg
+
       - name: Setup Python
         run: |
           sudo apt install python3.10 libpython3.10-dev python3-pip -y
           pip3 install opencv-python
           pip3 install numpy
           pip3 install pybase64
+          find / -type f -name libpython*.so
           
       - name: Setup DB
         run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{secrets.MSSQL_SA_SECRET}}" --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
