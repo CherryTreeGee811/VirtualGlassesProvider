@@ -34,7 +34,7 @@ jobs:
 
       - name: Setup Python
         run: |
-          sudo apt install python3.10 libpython3.10-dev python3-pip -y
+          sudo apt install python3.10 libpython3.10-dev
           pip3 install opencv-python
           pip3 install numpy
           pip3 install pybase64
@@ -57,8 +57,10 @@ jobs:
           
       - name: Execute Code and Test
         run: |
-          mkdir /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin
-          cp /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/Resources/Faces/tim_apple.jpg /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin/Resources/Faces/tim_apple.jpg
+          sudo mkdir /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin
+          sudo mkdir /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/Resources
+          sudo mkdir /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin/Resources/Faces
+          sudo cp /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/Resources/Faces/tim_apple.jpg /home/runner/work/VirtualGlassesProvider/VirtualGlassesProvider/VirtualGlassesProvider.Tests/bin/Resources/Faces/tim_apple.jpg
           dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https &
           sleep 2
           dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
