@@ -34,11 +34,13 @@ jobs:
 
       - name: Setup Python
         run: |
-          sudo apt install python3.10 libpython3.10-dev
           pip3 install opencv-python
           pip3 install numpy
           pip3 install pybase64
-          sudo find / -type f -name libpython*.so
+          sudo find /opt/hostedtoolcache/ -type f -name libpython*.so
+          sudo find /usr/share/miniconda/ -type f -name libpython*.so
+          sudo find /usr/lib/google-cloud-sdk/platform/ -type f -name libpython*.so
+          sudo find  /usr/local/lib/android/sdk/ndk/ -type f -name libpython*.so
           
       - name: Setup DB
         run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{secrets.MSSQL_SA_SECRET}}" --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
