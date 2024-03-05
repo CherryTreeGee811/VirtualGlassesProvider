@@ -294,3 +294,4 @@ C:\Users\thavr\Downloads\VirtualGlassesProvider\VirtualGlassesProvider\VirtualGl
 C:\Users\thavr\Downloads\VirtualGlassesProvider\VirtualGlassesProvider\VirtualGlassesProvider\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
 C:\Users\thavr\Downloads\VirtualGlassesProvider\VirtualGlassesProvider\VirtualGlassesProvider\bin\Debug\net8.0\Microsoft.JSInterop.dll
 C:\Users\thavr\Downloads\VirtualGlassesProvider\VirtualGlassesProvider\VirtualGlassesProvider\bin\Debug\net8.0\Mailjet.Client.dll
+C:\Users\thavr\Downloads\VirtualGlassesProvider\VirtualGlassesProvider\VirtualGlassesProvider\bin\Debug\net8.0\Python.Runtime.dll

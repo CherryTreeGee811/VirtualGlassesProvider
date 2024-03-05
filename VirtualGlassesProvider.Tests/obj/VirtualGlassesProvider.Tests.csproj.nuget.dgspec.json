@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\JacobSeed\\source\\repos\\VirtualGlassesProvider\\VirtualGlassesProvider.Tests\\VirtualGlassesProvider.Tests.csproj": {}
+    "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.Tests\\VirtualGlassesProvider.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\JacobSeed\\source\\repos\\VirtualGlassesProvider\\VirtualGlassesProvider.Tests\\VirtualGlassesProvider.Tests.csproj": {
+    "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.Tests\\VirtualGlassesProvider.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JacobSeed\\source\\repos\\VirtualGlassesProvider\\VirtualGlassesProvider.Tests\\VirtualGlassesProvider.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.Tests\\VirtualGlassesProvider.Tests.csproj",
         "projectName": "VirtualGlassesProvider.Tests",
-        "projectPath": "C:\\Users\\JacobSeed\\source\\repos\\VirtualGlassesProvider\\VirtualGlassesProvider.Tests\\VirtualGlassesProvider.Tests.csproj",
-        "packagesPath": "C:\\Users\\JacobSeed\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JacobSeed\\source\\repos\\VirtualGlassesProvider\\VirtualGlassesProvider.Tests\\obj\\",
+        "projectPath": "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.Tests\\VirtualGlassesProvider.Tests.csproj",
+        "packagesPath": "C:\\Users\\thavr\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\thavr\\Downloads\\VirtualGlassesProvider\\VirtualGlassesProvider\\VirtualGlassesProvider.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\JacobSeed\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\thavr\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -85,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

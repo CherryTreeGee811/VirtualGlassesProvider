@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+@using VirtualGlassesProvider.Services;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,9 +10,15 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/VirtualGlassesProvider.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <header>
+        @{
+            // Retrieve cart items from session
+            var cart = Context.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
+            var cartCount = cart.Sum(item => item.Quantity);
+        }
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-black border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a href="@Url.Action("Index", "Home")">
@@ -28,6 +36,16 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="Member" asp-controller="Home" asp-action="Checkout">
+                                <span class="fa fa-shopping-cart text-white">
+                                    @if (cartCount > 0)
+                                    {
+                                        @cartCount
+                                    }
+                                </span>
+                            </a>
                         </li>
                     </ul>
                 </div>

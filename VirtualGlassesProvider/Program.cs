@@ -15,7 +15,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<GlassesStoreDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("GlassesStoreCNN")));
-
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<GlassesStoreDbContext>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -55,7 +58,7 @@ using (var scope = app.Services.CreateScope())
     // Call the CreateMemberUser method to create the member user.
     await GlassesStoreDbContext.DeleteTestClient(serviceProvider);
 }
-
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();

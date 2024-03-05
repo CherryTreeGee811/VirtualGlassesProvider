@@ -8,6 +8,9 @@ using VirtualGlassesProvider.Models.DTOs;
 using Python.Runtime;
 using VirtualGlassesProvider.CustomAttributes;
 using Microsoft.AspNetCore.Authorization;
+using System.Drawing;
+using VirtualGlassesProvider.Services;
+using VirtualGlassesProvider.Models.ViewModels;
 
 
 namespace VirtualGlassesProvider.Controllers
@@ -146,13 +149,13 @@ namespace VirtualGlassesProvider.Controllers
                 }
             }
 
-            if(user == null)
+            if (user == null)
             {
                 ViewData["error"] = "Please login to use this feature";
                 return PartialView("_RenderPartial");
             }
 
-            if(imgB64 == null)
+            if (imgB64 == null)
             {
                 ViewData["error"] = "Please upload a portrait";
                 return PartialView("_RenderPartial");
@@ -207,6 +210,32 @@ cv2.destroyAllWindows()";
             return PartialView("_RenderPartial");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DownloadImage()
+        {
+            var filePath = "./wwwroot/images/render.jpg"; // Path to the generated image
+            if (System.IO.File.Exists(filePath))
+            {
+                var memoryStream = new MemoryStream();
+                using (var stream = new FileStream(filePath, FileMode.Open))
+                {
+                    await stream.CopyToAsync(memoryStream);
+                }
+                memoryStream.Position = 0; // Reset the memory stream position to allow for reading
+
+                var fileName = "ARGeneratedImage.jpg";
+
+                // Return the file with the appropriate MIME type
+                return File(memoryStream, "image/jpeg", fileName);
+            }
+            else
+            {
+                // If the file doesn't exist, you might want to redirect to an error page or return a NotFound result
+                return NotFound("The requested image does not exist.");
+            }
+        }
+
+
 
 
         [AjaxOnly]
@@ -215,6 +244,66 @@ cv2.destroyAllWindows()";
             ViewData["renderedImage"] = $"\\{glasses}";
             ViewData["brandName"] = brandName;
             return PartialView("_RenderPartial");
+        }
+
+        [HttpPost]
+        public ActionResult AddToCart(int id, int qty)
+        {
+            var glass = _context.Glasses.Find(id);
+            var glassesDTO = new GlassesDTO
+            {
+                ID = glass.ID,
+                BrandName = glass.BrandName,
+                Description = glass.Description,
+                Price = glass.Price,
+                Colour = glass.Colour,
+                Style = glass.Style,
+                Image = glass.Image,
+            };
+            if (id == null)
+            {
+                return View();
+            }
+            qty = 1;
+            CartItem cartItem = new CartItem
+            {
+                ID = glassesDTO.ID,
+                BrandName = glassesDTO.BrandName,
+                Price = glassesDTO.Price,
+                Quantity = qty,
+                IsPurchased = false // Initially, the game is not purchased
+            };
+
+            List<CartItem> cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
+            var existingItem = cart.Find(x => x.ID == id);
+
+            if (existingItem != null)
+            {
+                existingItem.Quantity += qty;
+            }
+            else
+            {
+                cart.Add(cartItem);
+            }
+
+            HttpContext.Session.SetObjectAsJson("cart", cart);
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Checkout()
+        {
+            var cartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
+            var grandTotal = cartItems.Sum(item => item.TotalPrice);
+
+            var viewModel = new CheckoutViewModel
+            {
+                CartItems = cartItems,
+                PaymentInfo = new PaymentInfo(), // Initialize empty payment info
+                GrandTotal = grandTotal
+            };
+
+            return View(viewModel);
         }
     }
 }
