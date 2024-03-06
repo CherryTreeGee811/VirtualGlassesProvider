@@ -41,7 +41,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             _driver.FindElement(By.Id("register")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
-            _driver.FindElement(By.Id("Input_Email")).SendKeys("TestClient@Sharklasers.com");
+            _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys("password");
             _driver.FindElement(By.Id("Input_ConfirmPassword")).Click();
@@ -49,7 +49,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("registerSubmit")).Click();
             Assert.That(_driver.FindElement(By.CssSelector(".text-danger li:nth-child(1)")).Text, Is.EqualTo("Passwords must have at least one non alphanumeric character."));
             Assert.That(_driver.FindElement(By.CssSelector(".text-danger li:nth-child(2)")).Text, Is.EqualTo("Passwords must have at least one digit (\'0\'-\'9\')."));
-            Assert.That(_driver.FindElement(By.CssSelector("li:nth-child(3)")).Text, Is.EqualTo("Passwords must have at least one uppercase (\'A\'-\'Z\')."));
+            Assert.That(_driver.FindElement(By.CssSelector("div.text-danger > ul:nth-child(1) > li:nth-child(3)")).Text, Is.EqualTo("Passwords must have at least one uppercase (\'A\'-\'Z\')."));
         }
 
 
@@ -60,13 +60,13 @@ namespace VirtualGlassesProvider.Tests
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             _driver.FindElement(By.Id("register")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
-            _driver.FindElement(By.Id("Input_Email")).SendKeys("TestClient@Sharklasers.com");
+            _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).Click();
-            _driver.FindElement(By.Id("Input_Password")).SendKeys("Test1$");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("Input_ConfirmPassword")).Click();
-            _driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys("Test1$");
+            _driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("registerSubmit")).Click();
-            Assert.That(_driver.FindElement(By.CssSelector("p")).Text, Is.EqualTo("Please check your TestClient@Sharklasers.com email to confirm your account."));
+            Assert.That(_driver.FindElement(By.CssSelector("p")).Text, Is.EqualTo($"Please check your {TestClient.Email} email to confirm your account."));
         }
     }
 }

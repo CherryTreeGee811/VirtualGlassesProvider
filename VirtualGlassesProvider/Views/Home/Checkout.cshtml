@@ -1,0 +1,67 @@
+﻿@model CheckoutViewModel
+<h2>Checkout</h2>
+
+@if (Model.CartItems != null && Model.CartItems.Any())
+{
+
+    <div class="row">
+        @foreach (var item in Model.CartItems)
+        {
+            <div class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">@item.BrandName - @item.Description</h5>
+                    </div>
+                    <div class="card-body d-flex justify-content-between">
+                        <!-- Left side content -->
+                        <div class="content-wrapper">
+                            <p class="card-text">Price: @item.Price</p>
+                            <p class="card-text">Quantity: @item.Quantity</p>
+                            <p class="card-text"><strong>Total: @item.TotalPrice.ToString("C")</strong></p>
+                            <form asp-action="RemoveFromCart" asp-controller="Home" method="post">
+                                <input type="hidden" name="glassId" value="@item.ID" />
+                                <button type="submit" class="btn btn-danger card-item">Remove</button>
+                            </form>
+                        </div>
+                        <!-- Right side image in a small square -->
+                        <div class="img-wrapper" style="max-width: 100px;">
+                            <img src="@Url.Content($"~/{item.Image}")" alt="@item.BrandName" style="max-width: 100%; height: auto;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <hr />
+    <h4>Grand Total: @Model.GrandTotal.ToString("C")</h4>
+    <hr />
+    <form asp-action="Checkout" method="post">
+        <div class="form-group">
+            <label for="CardHolderName">Card Holder Name</label>
+            <input type="text" class="form-control" id="CardHolderName" name="PaymentInfo.CardHolderName" value="@Model.PaymentInfo.CardHolderName" />
+            <span asp-validation-for="PaymentInfo.CardHolderName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="CardNumber">Card Number</label>
+            <input type="text" class="form-control" id="CardNumber" name="PaymentInfo.CardNumber" value="@Model.PaymentInfo.CardNumber" />
+            <span asp-validation-for="PaymentInfo.CardNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="CVV">CVV</label>
+            <input type="password" class="form-control" id="CVV" name="PaymentInfo.CVV" value="@Model.PaymentInfo.CVV" />
+            <span asp-validation-for="PaymentInfo.CVV" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="ExpiryDate">Expiry Date (MM/YY)</label>
+            <input type="text" class="form-control" id="ExpiryDate" name="PaymentInfo.ExpiryDate" value="@Model.PaymentInfo.ExpiryDate" />
+            <span asp-validation-for="PaymentInfo.ExpiryDate" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Checkout</button>
+    </form>
+    <!-- Add any additional checkout options here, like a button to proceed to payment -->
+}
+else
+{
+    <h3>Your cart is empty.</h3>
+}

@@ -13,8 +13,28 @@ namespace VirtualGlassesProvider.Models
         public string? DisplayName { get; set; }
 
 
-        [ForeignKey("IdentityUser")]
+        [ForeignKey("User")]
         public string? UserID { get; set; }
+
+
+        public virtual User? User { get; set; }
+
+
+        [Display(Name = "First Name")]
+        public string? FirstName { get; set; }
+
+
+
+        [Display(Name = "Last Name")]
+        public string? LastName { get; set; }
+
+
+        [Display(Name = "Address")]
+        public string? Address { get; set; }
+
+
+        [Display(Name ="Phone Number")]
+        public string? PhoneNumber { get; set; }
 
 
         [ForeignKey("UploadedImages")]

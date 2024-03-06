@@ -14,7 +14,9 @@
             </div>
         </div>
         <br />
-        <a id="clearImage" href="">Clear Image</a>
+        <a id="clearImage" href="" class="btn btn-primary">Clear Image</a>
+        &nbsp;
+        <a asp-action="DownloadImage" asp-controller="Home" class="btn btn-primary" id="downloadImageLink">Download Image</a>
         <br />
         <br />
         <br />
@@ -48,7 +50,7 @@
             </select>
             <br />
             <br />
-            <input type="submit" id="addProductToCartBtn" name="addProductToCartBtn" value="Add to Cart" aria-label="add to cart button" />
+            <input type="submit" id="addProductToCartBtn" name="addProductToCartBtn" value="Add to Cart" aria-label="add to cart button" class="btn btn-primary" />
         </form>
 
         <form id="formAR">
@@ -69,7 +71,7 @@
             </select>
             <br />
             <br />
-            <input type="button" id="generateImageBtn" name="generateImageBtn" value="Try on virtually" aria-label="generate AR image button" />
+            <input type="button" id="generateImageBtn" name="generateImageBtn" value="Try on virtually" aria-label="generate AR image button" class="btn btn-primary" />
         </form>  
     </div>
 </div>
