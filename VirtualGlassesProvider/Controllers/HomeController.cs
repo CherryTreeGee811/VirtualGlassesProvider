@@ -11,7 +11,6 @@ using VirtualGlassesProvider.Services;
 using VirtualGlassesProvider.Models.ViewModels;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Authorization;
-using VirtualGlassesProvider.Migrations;
 
 
 namespace VirtualGlassesProvider.Controllers
