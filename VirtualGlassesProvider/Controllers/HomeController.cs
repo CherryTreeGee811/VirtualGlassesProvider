@@ -9,6 +9,7 @@ using Python.Runtime;
 using VirtualGlassesProvider.CustomAttributes;
 using VirtualGlassesProvider.Services;
 using VirtualGlassesProvider.Models.ViewModels;
+using System.Runtime.InteropServices;
 
 
 namespace VirtualGlassesProvider.Controllers
@@ -161,7 +162,16 @@ namespace VirtualGlassesProvider.Controllers
 
             if (!PythonEngine.IsInitialized)
             {
-                Runtime.PythonDLL = Environment.GetEnvironmentVariable("Python_Runtime");
+                var runtime = "";
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    runtime = Environment.GetEnvironmentVariable("Python_Runtime");
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    runtime = "/usr/lib/x86_64-linux-gnu/libpython3.10.so.1.0";
+                }
+                Runtime.PythonDLL = runtime;
                 PythonEngine.Initialize();
             }
             using (PyModule scope = Py.CreateScope())
