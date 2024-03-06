@@ -8,21 +8,25 @@
         @foreach (var item in Model.CartItems)
         {
             <div class="col-12 mb-3">
-                <!-- Each card takes full width of the row -->
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">@item.BrandName</h5>
+                        <h5 class="card-title">@item.BrandName - @item.Description</h5>
                     </div>
-                    <div class="card-body">
-                        <p class="card-text">Price: @item.Price</p>
-                        <p class="card-text">Quantity: @item.Quantity</p>
-                        <p class="card-text"><strong>Total: @item.TotalPrice.ToString("C")</strong></p>
-                        <form asp-action="RemoveFromCart" method="post">
-                            <p class="card-text">
-                                <input type="hidden" name="gameId" value="@item.ID" />
+                    <div class="card-body d-flex justify-content-between">
+                        <!-- Left side content -->
+                        <div class="content-wrapper">
+                            <p class="card-text">Price: @item.Price</p>
+                            <p class="card-text">Quantity: @item.Quantity</p>
+                            <p class="card-text"><strong>Total: @item.TotalPrice.ToString("C")</strong></p>
+                            <form asp-action="RemoveFromCart" asp-controller="Home" method="post">
+                                <input type="hidden" name="glassId" value="@item.ID" />
                                 <button type="submit" class="btn btn-danger card-item">Remove</button>
-                            </p>
-                        </form>
+                            </form>
+                        </div>
+                        <!-- Right side image in a small square -->
+                        <div class="img-wrapper" style="max-width: 100px;">
+                            <img src="@Url.Content($"~/{item.Image}")" alt="@item.BrandName" style="max-width: 100%; height: auto;" />
+                        </div>
                     </div>
                 </div>
             </div>

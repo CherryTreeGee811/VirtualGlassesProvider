@@ -3,17 +3,18 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using VirtualGlassesProvider.Models;
 
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
     public sealed class PersonalDataModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
 
         public PersonalDataModel(
-            UserManager<IdentityUser> userManager)
+            UserManager<User> userManager)
         {
             _userManager = userManager;
         }

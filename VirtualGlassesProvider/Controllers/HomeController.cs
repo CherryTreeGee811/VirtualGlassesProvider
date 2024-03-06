@@ -19,10 +19,10 @@ namespace VirtualGlassesProvider.Controllers
     {
         private readonly GlassesStoreDbContext _context;
         private const int PageSize = 10;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
 
-        public HomeController(GlassesStoreDbContext context, UserManager<IdentityUser> userManager)
+        public HomeController(GlassesStoreDbContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -134,7 +134,6 @@ namespace VirtualGlassesProvider.Controllers
         }
 
 
-        [AjaxOnly]
         public async Task<PartialViewResult> GenerateImage(string glasses)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -168,47 +167,56 @@ namespace VirtualGlassesProvider.Controllers
             }
             using (PyModule scope = Py.CreateScope())
             {
-                string code = @"
+                // Injecting variables directly into the code string
+                string code = $@"
 import cv2
 import numpy as np
 import base64
-import io
 
+# Load the face detection model
 face = cv2.CascadeClassifier('./Resources/Detection/haarcascade_frontalface_default.xml')
-img_encode = '" + imgB64 + @"'
-img_decode = base64.b64decode(img_encode)
+
+# Decode the base64 image
+img_decode = base64.b64decode('{imgB64}')
 image = np.frombuffer(img_decode, np.uint8)
 img = cv2.imdecode(image, cv2.IMREAD_COLOR)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 img_gray = face.detectMultiScale(gray, 1.09, 7)
-glasses = cv2.imread('./wwwroot/" + glasses + @"')
-                            
+frame = img.copy()
+# Correctly form the path and load the glasses image
+glasses_path = './wwwroot/{glasses}'
+glasses = cv2.imread(glasses_path, cv2.IMREAD_UNCHANGED)
+
 def put_glasses_on_face(glasses, fc, x, y, w, h):
     face_width = w
     face_height = h
 
     glasses_width = face_width + 1
     glasses_height = int(0.50 * face_height) + 1
-    glasses = cv2.resize(glasses, (glasses_width, glasses_height))
+    glasses_resized = cv2.resize(glasses, (glasses_width, glasses_height))
+    
     for i in range(glasses_height):
         for j in range(glasses_width):
-            for k in range(3):
-                if glasses[i][j][k] < 235:
-                    fc[y + i - int(-0.20 * face_height)][x + j][k] = glasses[i][j][k]
+            if glasses_resized[i, j][3] != 0:  
+                for k in range(3): 
+                    if glasses[i][j][k] < 235:
+                        fc[y + i - int(-0.20 * face_height)][x + j][k] = glasses_resized[i, j][k]
     return fc
-                                                
-for (x, y, w, h) in img_gray:
-    frame = put_glasses_on_face(glasses, img, x, y, w, h)
 
-cv2.imwrite('./wwwroot/images/render.jpg', frame)
-cv2.destroyAllWindows()";
+for (x, y, w, h) in img_gray:
+    frame = put_glasses_on_face(glasses, frame, x, y, w, h)
+
+cv2.imwrite('./wwwroot/images/render_with_glasses.png', frame)
+cv2.destroyAllWindows()
+";
                 scope.Exec(code);
             }
             PythonEngine.Shutdown();
-            ViewData["renderedImage"] = "\\images\\render.jpg";
+            ViewData["renderedImage"] = "\\images\\render_with_glasses.png";
             ViewData["brandName"] = "Render";
             return PartialView("_RenderPartial");
         }
+
 
         [HttpGet]
         public async Task<IActionResult> DownloadImage()
@@ -246,7 +254,7 @@ cv2.destroyAllWindows()";
             return PartialView("_RenderPartial");
         }
 
-        [HttpPost]
+        
         public ActionResult AddToCart(int id, int qty)
         {
             var glass = _context.Glasses.Find(id);
@@ -269,6 +277,8 @@ cv2.destroyAllWindows()";
             {
                 ID = glassesDTO.ID,
                 BrandName = glassesDTO.BrandName,
+                Description = glassesDTO.Description,
+                Image = glassesDTO.Image,
                 Price = glassesDTO.Price,
                 Quantity = qty,
                 IsPurchased = false // Initially, the game is not purchased
@@ -287,7 +297,27 @@ cv2.destroyAllWindows()";
             }
 
             HttpContext.Session.SetObjectAsJson("cart", cart);
-            return View();
+            return RedirectToAction("Index","Home");
+        }
+
+        [HttpPost]
+        public IActionResult RemoveFromCart(int glassId)
+        {
+            var cartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
+
+            var itemToUpdate = cartItems.FirstOrDefault(item => item.ID == glassId);
+            if (itemToUpdate != null)
+            {
+                itemToUpdate.Quantity -= 1;
+                if (itemToUpdate.Quantity <= 0)
+                {
+                    cartItems.Remove(itemToUpdate);
+                }
+
+                HttpContext.Session.SetObjectAsJson("cart", cartItems);
+            }
+
+            return RedirectToAction("Checkout");
         }
 
         [HttpGet]

@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
+using VirtualGlassesProvider.Services;
 
 
 // ToDo: Remove all Identity Framework features that are not being used
@@ -19,7 +21,8 @@ builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<GlassesStoreDbContext>();
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddDefaultTokenProviders().AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<GlassesStoreDbContext>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -36,7 +39,11 @@ builder.Services.AddTransient<IEmailSender>(provider =>
         smtpPassword: "0ae07aee173a2d7a23d193042fe36397"
     );
 });
+// Generate AES Key and IV
+var (key, iv) = AesKeyGenerator.GenerateAesKeyAndIV();
 
+// Register AesEncryptionService with the generated key and IV
+builder.Services.AddSingleton<AesEncryptionService>(new AesEncryptionService(key, iv));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -54,9 +61,9 @@ app.UseRouting();
 using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
-
+    await GlassesStoreDbContext.CreateAdminUser(serviceProvider);
     // Call the CreateMemberUser method to create the member user.
-    await GlassesStoreDbContext.DeleteTestClient(serviceProvider);
+    //await GlassesStoreDbContext.DeleteTestClient(serviceProvider);
 }
 app.UseSession();
 app.UseAuthentication();

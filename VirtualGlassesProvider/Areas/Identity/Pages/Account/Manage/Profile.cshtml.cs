@@ -13,18 +13,17 @@ using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Services;
 
-
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
     public class ProfileModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<VirtualGlassesProvider.Models.User> _userManager;
+        private readonly SignInManager<VirtualGlassesProvider.Models.User> _signInManager;
         private readonly GlassesStoreDbContext _context;
 
         public ProfileModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<VirtualGlassesProvider.Models.User> userManager,
+            SignInManager<VirtualGlassesProvider.Models.User> signInManager,
             GlassesStoreDbContext context)
         {
             _userManager = userManager;
@@ -52,6 +51,18 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 
         public sealed class InputModel
         {
+            [Display(Name = "First Name")]
+            public string? FirstName { get; set; }
+
+            [Display(Name = "Address")]
+            public string? Address { get; set; }
+
+            [Display(Name = "Last Name")]
+            public string? LastName { get; set; }
+
+            [Display(Name = "Phone Number")]
+            public int? PhoneNumber { get; set; }
+
             public string DisplayName { get; set; }
 
             public IFormFile? Image { get; set; }
@@ -81,15 +92,35 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 Input.DisplayName = profile.DisplayName;
             }
 
-            if(profile.ImageID != null)
+            if (profile.FirstName != null)
+            {
+                Input.FirstName = profile.FirstName;
+            }
+
+            if (profile.LastName != null)
+            {
+                Input.LastName = profile.LastName;
+            }
+
+            if (profile.Address != null)
+            {
+                Input.Address = profile.Address;
+            }
+
+            if (profile.PhoneNumber != null)
+            {
+                Input.PhoneNumber = profile.PhoneNumber;
+            }
+
+            if (profile.ImageID != null)
             {
                 var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
                 ViewData["priorImage"] = Convert.ToBase64String(uploadedImage.Image);
-                @ViewData["imageAlt"] = "Profile Image";
+                ViewData["imageAlt"] = "Profile Image";
             }
             else
             {
-                @ViewData["imageAlt"] = "Blank Profile Image";
+                ViewData["imageAlt"] = "Blank Profile Image";
             }
             
             return Page();
@@ -135,7 +166,10 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             }
             profile.UserID = user.Id;
             profile.DisplayName = Input.DisplayName;
-
+            profile.Address = Input.Address;
+            profile.FirstName = Input.FirstName;
+            profile.LastName = Input.LastName;
+            profile.PhoneNumber = Input.PhoneNumber;
             _context.Profiles.Update(profile);
             _context.SaveChanges();
 
