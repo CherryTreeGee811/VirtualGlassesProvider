@@ -44,7 +44,10 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("manage")).Click();
             var altText = _driver.FindElement(By.CssSelector("#profileImage")).GetAttribute("alt").ToString();
             Assert.That(altText, Is.EqualTo("Placeholder Profile Image"));
-            _driver.FindElement(By.Id("Input_DisplayName")).Click();
+            _driver.FindElement(By.Id("Input_FirstName")).SendKeys("Tim");
+            _driver.FindElement(By.Id("Input_LastName")).SendKeys("Apple");
+            _driver.FindElement(By.Id("Input_PhoneNumber")).SendKeys("461-821-5721");
+            _driver.FindElement(By.Id("Input_Address")).SendKeys("123 West St");
             _driver.FindElement(By.Id("Input_DisplayName")).SendKeys("Tim Apple");
             var upload_file = _driver.FindElement(By.Id("Input_Image"));
             var file_path = Path.Join(projectDir, @"Resources\Faces\tim_apple.jpg");

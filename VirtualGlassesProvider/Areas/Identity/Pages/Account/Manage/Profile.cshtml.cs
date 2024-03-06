@@ -54,16 +54,21 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             [Display(Name = "First Name")]
             public string? FirstName { get; set; }
 
+
             [Display(Name = "Address")]
             public string? Address { get; set; }
+
 
             [Display(Name = "Last Name")]
             public string? LastName { get; set; }
 
+
             [Display(Name = "Phone Number")]
-            public int? PhoneNumber { get; set; }
+            public string? PhoneNumber { get; set; }
+
 
             public string DisplayName { get; set; }
+
 
             public IFormFile? Image { get; set; }
         }
@@ -115,12 +120,13 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             if (profile.ImageID != null)
             {
                 var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
-                ViewData["priorImage"] = Convert.ToBase64String(uploadedImage.Image);
+                ViewData["priorImage"] = $"data:image/jpg;base64,{Convert.ToBase64String(uploadedImage.Image)}";
                 ViewData["imageAlt"] = "Profile Image";
             }
             else
             {
-                ViewData["imageAlt"] = "Blank Profile Image";
+                ViewData["priorImage"] = "\\images\\avatar.png";
+                ViewData["imageAlt"] = "Placeholder Profile Image";
             }
             
             return Page();

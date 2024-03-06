@@ -49,7 +49,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("registerSubmit")).Click();
             Assert.That(_driver.FindElement(By.CssSelector(".text-danger li:nth-child(1)")).Text, Is.EqualTo("Passwords must have at least one non alphanumeric character."));
             Assert.That(_driver.FindElement(By.CssSelector(".text-danger li:nth-child(2)")).Text, Is.EqualTo("Passwords must have at least one digit (\'0\'-\'9\')."));
-            Assert.That(_driver.FindElement(By.CssSelector("li:nth-child(3)")).Text, Is.EqualTo("Passwords must have at least one uppercase (\'A\'-\'Z\')."));
+            Assert.That(_driver.FindElement(By.CssSelector("div.text-danger > ul:nth-child(1) > li:nth-child(3)")).Text, Is.EqualTo("Passwords must have at least one uppercase (\'A\'-\'Z\')."));
         }
 
 

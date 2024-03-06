@@ -7,8 +7,6 @@ using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Models.DTOs;
 using Python.Runtime;
 using VirtualGlassesProvider.CustomAttributes;
-using Microsoft.AspNetCore.Authorization;
-using System.Drawing;
 using VirtualGlassesProvider.Services;
 using VirtualGlassesProvider.Models.ViewModels;
 
@@ -134,6 +132,7 @@ namespace VirtualGlassesProvider.Controllers
         }
 
 
+        [AjaxOnly]
         public async Task<PartialViewResult> GenerateImage(string glasses)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -199,20 +198,19 @@ def put_glasses_on_face(glasses, fc, x, y, w, h):
         for j in range(glasses_width):
             if glasses_resized[i, j][3] != 0:  
                 for k in range(3): 
-                    if glasses[i][j][k] < 235:
-                        fc[y + i - int(-0.20 * face_height)][x + j][k] = glasses_resized[i, j][k]
+                    fc[y + i - int(-0.20 * face_height)][x + j][k] = glasses_resized[i, j][k]
     return fc
 
 for (x, y, w, h) in img_gray:
     frame = put_glasses_on_face(glasses, frame, x, y, w, h)
 
-cv2.imwrite('./wwwroot/images/render_with_glasses.png', frame)
+cv2.imwrite('./wwwroot/images/render.jpg', frame)
 cv2.destroyAllWindows()
 ";
                 scope.Exec(code);
             }
             PythonEngine.Shutdown();
-            ViewData["renderedImage"] = "\\images\\render_with_glasses.png";
+            ViewData["renderedImage"] = "\\images\\render.jpg";
             ViewData["brandName"] = "Render";
             return PartialView("_RenderPartial");
         }
@@ -254,7 +252,8 @@ cv2.destroyAllWindows()
             return PartialView("_RenderPartial");
         }
 
-        
+
+        [HttpPost]
         public ActionResult AddToCart(int id, int qty)
         {
             var glass = _context.Glasses.Find(id);
@@ -300,6 +299,7 @@ cv2.destroyAllWindows()
             return RedirectToAction("Index","Home");
         }
 
+
         [HttpPost]
         public IActionResult RemoveFromCart(int glassId)
         {
@@ -319,6 +319,7 @@ cv2.destroyAllWindows()
 
             return RedirectToAction("Checkout");
         }
+
 
         [HttpGet]
         public IActionResult Checkout()
