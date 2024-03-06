@@ -43,12 +43,12 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("login-submit")).Click();
             _driver.FindElement(By.Id("manage")).Click();
             var altText = _driver.FindElement(By.CssSelector("#profileImage")).GetAttribute("alt").ToString();
-            Assert.That(altText, Is.EqualTo("Blank Profile Image"));
+            Assert.That(altText, Is.EqualTo("Placeholder Profile Image"));
             _driver.FindElement(By.Id("Input_DisplayName")).Click();
             _driver.FindElement(By.Id("Input_DisplayName")).SendKeys("Tim Apple");
             var upload_file = _driver.FindElement(By.Id("Input_Image"));
-            var file_path = Path.Join(projectDir, @"..\Resources\Faces\tim_apple.jpg");
-            var img_path = Path.GetFullPath(file_path).Replace("\\", "/");
+            var file_path = Path.Join(projectDir, @"Resources\Faces\tim_apple.jpg");
+            var img_path = Path.GetFullPath(file_path).Replace("\\", "/").Replace("/bin", "").Replace("/Debug", "");
             upload_file.SendKeys(img_path);
             _driver.FindElement(By.CssSelector(".btn-primary")).Click();
             Thread.Sleep(1000);
