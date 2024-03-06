@@ -38,22 +38,22 @@
     <form asp-action="Checkout" method="post">
         <div class="form-group">
             <label for="CardHolderName">Card Holder Name</label>
-            <input type="text" class="form-control" id="CardHolderName" name="PaymentInfo.CardHolderName">
+            <input type="text" class="form-control" id="CardHolderName" name="PaymentInfo.CardHolderName" value="@Model.PaymentInfo.CardHolderName" />
             <span asp-validation-for="PaymentInfo.CardHolderName" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="CardNumber">Card Number</label>
-            <input type="text" class="form-control" id="CardNumber" name="PaymentInfo.CardNumber">
+            <input type="text" class="form-control" id="CardNumber" name="PaymentInfo.CardNumber" value="@Model.PaymentInfo.CardNumber" />
             <span asp-validation-for="PaymentInfo.CardNumber" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="CVV">CVV</label>
-            <input type="password" class="form-control" id="CVV" name="PaymentInfo.CVV">
+            <input type="password" class="form-control" id="CVV" name="PaymentInfo.CVV" value="@Model.PaymentInfo.CVV" />
             <span asp-validation-for="PaymentInfo.CVV" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="ExpiryDate">Expiry Date (MM/YY)</label>
-            <input type="text" class="form-control" id="ExpiryDate" name="PaymentInfo.ExpiryDate">
+            <input type="text" class="form-control" id="ExpiryDate" name="PaymentInfo.ExpiryDate" value="@Model.PaymentInfo.ExpiryDate" />
             <span asp-validation-for="PaymentInfo.ExpiryDate" class="text-danger"></span>
         </div>
 

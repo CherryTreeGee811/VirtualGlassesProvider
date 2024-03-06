@@ -10,6 +10,8 @@ using VirtualGlassesProvider.CustomAttributes;
 using VirtualGlassesProvider.Services;
 using VirtualGlassesProvider.Models.ViewModels;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Authorization;
+using VirtualGlassesProvider.Migrations;
 
 
 namespace VirtualGlassesProvider.Controllers
@@ -19,12 +21,14 @@ namespace VirtualGlassesProvider.Controllers
         private readonly GlassesStoreDbContext _context;
         private const int PageSize = 10;
         private readonly UserManager<User> _userManager;
+        private readonly AesEncryptionService _aesEncryptionService;
 
 
-        public HomeController(GlassesStoreDbContext context, UserManager<User> userManager)
+        public HomeController(GlassesStoreDbContext context, UserManager<User> userManager, AesEncryptionService aesEncryptionService)
         {
             _context = context;
             _userManager = userManager;
+            _aesEncryptionService = aesEncryptionService;
         }
 
 
@@ -263,7 +267,7 @@ cv2.destroyAllWindows()
         }
 
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult AddToCart(int id, int qty)
         {
             var glass = _context.Glasses.Find(id);
@@ -331,19 +335,42 @@ cv2.destroyAllWindows()
         }
 
 
+        [Authorize]
         [HttpGet]
-        public IActionResult Checkout()
+        public async Task<ActionResult> Checkout()
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var paymentinfo = await _context.PaymentInfo.FirstOrDefaultAsync(p => p.UserID == user.Id);
+
             var cartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
             var grandTotal = cartItems.Sum(item => item.TotalPrice);
-
-            var viewModel = new CheckoutViewModel
+            CheckoutViewModel viewModel = null;
+            if(paymentinfo == null)
             {
-                CartItems = cartItems,
-                PaymentInfo = new PaymentInfo(), // Initialize empty payment info
-                GrandTotal = grandTotal
-            };
-
+                viewModel = new CheckoutViewModel
+                {
+                    CartItems = cartItems,
+                    PaymentInfo = new PaymentInfo(), // Initialize empty payment info
+                    GrandTotal = grandTotal
+                };
+            }
+            else
+            {
+                paymentinfo.CardNumber = _aesEncryptionService.Decrypt(paymentinfo.CardNumber);
+                paymentinfo.CVV = _aesEncryptionService.Decrypt(paymentinfo.CVV);
+                viewModel = new CheckoutViewModel
+                {
+                    CartItems = cartItems,
+                    PaymentInfo = paymentinfo, // Initialize existing payment info
+                    GrandTotal = grandTotal
+                };
+            }
             return View(viewModel);
         }
     }
