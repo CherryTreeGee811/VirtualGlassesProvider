@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
-using System.Data;
 using VirtualGlassesProvider.Models;
+using VirtualGlassesProvider.Models.DataAccess;
+using VirtualGlassesProvider.Services;
 
 
-//ToDo: Remove scafolded account features if they are being used
-// Remove imports if they are not being used
-// Remove below commented code
-// Will leave for now incase
+// ToDo: Remove all Identity Framework features that are not being used
+// Remove all imports that are not being used
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,21 +17,17 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<GlassesStoreDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("GlassesStoreCNN")));
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<GlassesStoreDbContext>();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddDefaultTokenProviders().AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<GlassesStoreDbContext>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 });
-//builder.Services.AddDefaultIdentity<User>(options => {
-//    //Register The Account and Validate the email
-//    options.SignIn.RequireConfirmedAccount = true;
-//    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
-//    // The maximum number of failed access attempts before a user is locked out.
-//    options.Lockout.MaxFailedAccessAttempts = 3;
-//}).AddDefaultTokenProviders().AddRoles<IdentityRole>()
-//    .AddEntityFrameworkStores<GameStoreDbContext>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IEmailSender>(provider =>
@@ -45,8 +39,11 @@ builder.Services.AddTransient<IEmailSender>(provider =>
         smtpPassword: "0ae07aee173a2d7a23d193042fe36397"
     );
 });
+// Generate AES Key and IV
+var (key, iv) = AesKeyGenerator.GenerateAesKeyAndIV();
 
-
+// Register AesEncryptionService with the generated key and IV
+builder.Services.AddSingleton<AesEncryptionService>(new AesEncryptionService(key, iv));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -64,11 +61,12 @@ app.UseRouting();
 using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
-
+    await GlassesStoreDbContext.CreateAdminUser(serviceProvider);
     // Call the CreateMemberUser method to create the member user.
     await GlassesStoreDbContext.DeleteTestClient(serviceProvider);
 }
-
+app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllerRoute(

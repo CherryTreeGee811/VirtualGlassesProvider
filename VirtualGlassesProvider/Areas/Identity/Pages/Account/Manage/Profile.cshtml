@@ -1,0 +1,57 @@
+﻿@page
+@model ProfileModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Profiles;
+}
+
+<h3>@ViewData["Title"]</h3>
+@* To Rename to Upload Image *@
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-6">
+        <form id="profile-form" method="post" enctype="multipart/form-data">
+            
+            <div class="form-group row">
+                <label asp-for="Input.FirstName" class="col-sm-4 col-form-label">First Name</label>
+                <input asp-for="Input.FirstName" class="form-control" />
+            </div>
+            <div class="form-group row">
+                <label asp-for="Input.LastName" class="col-sm-4 col-form-label">Last Name</label>
+                <input asp-for="Input.LastName" class="form-control" />
+            </div>
+            <div class="form-group row">
+                <label asp-for="Input.PhoneNumber" class="col-sm-4 col-form-label">Phone Number</label>
+                <input asp-for="Input.PhoneNumber" class="form-control" />
+            </div>
+            <div class="form-group row">
+                <label asp-for="Input.Address" class="col-sm-4 col-form-label">Address</label>
+                <input asp-for="Input.Address" class="form-control" />
+            </div>
+            <div class="form-group row">
+                <label asp-for="Input.DisplayName" class="col-sm-4 col-form-label">Display Name</label>
+                <input asp-for="Input.DisplayName" class="form-control" />
+            </div>
+            <br />
+            <div class="form-group row">
+                <label asp-for="Input.Image" class="form-label">Upload File</label>
+                <input asp-for="Input.Image" type="file" name="file" class="form-control" accept="image/jpg, image/jpeg" />
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6" id="profileImageColumn">
+        <br />
+        <p>Current Image</p>
+        <img id="profileImage" src="@ViewData["priorImage"]" alt="@ViewData["imageAlt"]" width="110px" height="110px" />
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

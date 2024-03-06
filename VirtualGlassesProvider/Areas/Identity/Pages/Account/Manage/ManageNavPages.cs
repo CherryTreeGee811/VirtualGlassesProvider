@@ -3,6 +3,7 @@
 #nullable disable
 
 using Microsoft.AspNetCore.Mvc.Rendering;
+using VirtualGlassesProvider.Models;
 
 
 namespace  VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
@@ -17,7 +18,9 @@ namespace  VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public static string Index => "Index";
+        public static string Profiles => "Profile";
+
+        public static string PaymentInfo => "PaymentInfo";
 
 
         /// <summary>
@@ -73,9 +76,9 @@ namespace  VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
+        public static string ProfilesNavClass(ViewContext viewContext) => PageNavClass(viewContext, Profiles);
 
-
+        public static string PaymentInfoNavClass(ViewContext viewContext) => PageNavClass(viewContext, PaymentInfo);
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.

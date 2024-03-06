@@ -5,7 +5,7 @@ name: VisionVogue .NET
 on:
   push:
     branches:
-      - main
+      - '*'
   pull_request:
     branches:
       - '*'
@@ -28,6 +28,12 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
+
+      - name: Setup Python
+        run: |
+          pip3 install opencv-python
+          pip3 install numpy
+          pip3 install pybase64
           
       - name: Setup DB
         run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{secrets.MSSQL_SA_SECRET}}" --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
@@ -47,4 +53,5 @@ jobs:
       - name: Execute Code and Test
         run: |
           dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https &
+          sleep 2
           dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
