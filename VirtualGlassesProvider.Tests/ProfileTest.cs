@@ -31,21 +31,29 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(1)]
         public void ClientConfiguresProfile()
         {
+            const string initialFirstName = "Tim";
+            const string initialLastName = "Apple";
+            const string initialPhoneNumber = "461-821-5721";
+            const string initialAddress = "123 West St";
+            const string initialDisplayName = "Tim Apple";
             string runningDir = TestContext.CurrentContext.TestDirectory;
             string projectDir = Directory.GetParent(runningDir).Parent.FullName;
             _driver.Navigate().GoToUrl("https://localhost:7044/");
             _driver.Manage().Window.Size = new System.Drawing.Size(1936, 1056);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
-            _driver.FindElement(By.Id("Input_Email")).SendKeys("TestClient@Sharklasers.com");
+            _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).Click();
-            _driver.FindElement(By.Id("Input_Password")).SendKeys("Test1$");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
             _driver.FindElement(By.Id("manage")).Click();
             var altText = _driver.FindElement(By.CssSelector("#profileImage")).GetAttribute("alt").ToString();
             Assert.That(altText, Is.EqualTo("Placeholder Profile Image"));
-            _driver.FindElement(By.Id("Input_DisplayName")).Click();
-            _driver.FindElement(By.Id("Input_DisplayName")).SendKeys("Tim Apple");
+            _driver.FindElement(By.Id("Input_FirstName")).SendKeys(initialFirstName);
+            _driver.FindElement(By.Id("Input_LastName")).SendKeys(initialLastName);
+            _driver.FindElement(By.Id("Input_PhoneNumber")).SendKeys(initialPhoneNumber);
+            _driver.FindElement(By.Id("Input_Address")).SendKeys(initialAddress);
+            _driver.FindElement(By.Id("Input_DisplayName")).SendKeys(initialDisplayName);
             var upload_file = _driver.FindElement(By.Id("Input_Image"));
             var file_path = Path.Join(projectDir, @"Resources\Faces\tim_apple.jpg");
             var img_path = Path.GetFullPath(file_path).Replace("\\", "/").Replace("/bin", "").Replace("/Debug", "");
@@ -53,8 +61,18 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.CssSelector(".btn-primary")).Click();
             Thread.Sleep(1000);
             Assert.That(_driver.FindElement(By.CssSelector(".alert")).Text, Is.EqualTo("Your profile has been updated"));
-            altText = _driver.FindElement(By.CssSelector("#profileImage")).GetAttribute("alt").ToString();
-            Assert.That(altText, Is.EqualTo("Profile Image"));
+            var firstNameSubmitted = _driver.FindElement(By.Id("Input_FirstName")).GetAttribute("value").ToString();
+            var lastNameSubmitted = _driver.FindElement(By.Id("Input_LastName")).GetAttribute("value").ToString();
+            var phoneNumberSubmitted = _driver.FindElement(By.Id("Input_PhoneNumber")).GetAttribute("value").ToString();
+            var addressSubmitted = _driver.FindElement(By.Id("Input_Address")).GetAttribute("value").ToString();
+            var displayNameSubmitted = _driver.FindElement(By.Id("Input_DisplayName")).GetAttribute("value").ToString();
+            var newAltText = _driver.FindElement(By.CssSelector("#profileImage")).GetAttribute("alt").ToString();
+            Assert.That(firstNameSubmitted, Is.EqualTo(initialFirstName));
+            Assert.That(lastNameSubmitted, Is.EqualTo(initialLastName));
+            Assert.That(phoneNumberSubmitted, Is.EqualTo(initialPhoneNumber));
+            Assert.That(addressSubmitted, Is.EqualTo(initialAddress));
+            Assert.That(displayNameSubmitted, Is.EqualTo(initialDisplayName));
+            Assert.That(newAltText, Is.EqualTo("Profile Image"));
         }
     }
 }

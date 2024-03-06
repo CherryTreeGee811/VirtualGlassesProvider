@@ -73,18 +73,16 @@
                     <p class="card-text">Style: @item.Style</p>
                     <p class="card-text">Color: @item.Colour</p>
                     <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID">Details</a>
-                    <a asp-area="Member" asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID">Add to Cart</a>
+                    <a asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID">Add to Cart</a>
                 </div>
             </div>
         </div>
     }
 </div>
 
-<!-- Pagination Placeholder, replace with actual pagination component -->
 <nav aria-label="Page navigation example">
     <ul class="pagination">
         <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <!-- Generate page numbers here based on the total number of items and items per page -->
         <li class="page-item"><a class="page-link" href="#">Next</a></li>
     </ul>
 </nav>
