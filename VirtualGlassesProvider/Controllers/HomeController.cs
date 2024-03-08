@@ -11,6 +11,7 @@ using VirtualGlassesProvider.Services;
 using VirtualGlassesProvider.Models.ViewModels;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 
 namespace VirtualGlassesProvider.Controllers
@@ -227,6 +228,77 @@ cv2.destroyAllWindows()
             ViewData["brandName"] = "Render";
             return PartialView("_RenderPartial");
         }
+        [AjaxOnly]
+        public IActionResult ApplyGlassesFilter(string glasses)
+        {
+            if (!PythonEngine.IsInitialized)
+            {
+                var runtime = "";
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    runtime = Environment.GetEnvironmentVariable("Python_Runtime");
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    runtime = "/usr/lib/x86_64-linux-gnu/libpython3.10.so.1.0";
+                }
+                Runtime.PythonDLL = runtime;
+                PythonEngine.Initialize();
+            }
+            using (PyModule scope = Py.CreateScope())
+            {
+                string code = @"
+import cv2
+import numpy as np
+
+def put_glass(glass, fc, x, y, w, h):
+    face_width = w
+    face_height = h
+
+    hat_width = face_width + 1
+    hat_height = int(0.50 * face_height) + 1
+
+    glass = cv2.resize(glass, (hat_width, hat_height))
+
+    for i in range(hat_height):
+        for j in range(hat_width):
+            for k in range(3):
+                if glass[i][j][k] < 235:
+                    fc[y + i - int(-0.20 * face_height)][x + j][k] = glass[i][j][k]
+    return fc
+
+face = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+glasses_path = './wwwroot/{glasses}'
+glass = cv2.imread(glasses_path)
+
+webcam = cv2.VideoCapture(0)
+while True:
+    size = 4
+    (rval, im) = webcam.read()
+    if not rval:
+        break
+    im = cv2.flip(im, 1, 0)
+    gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+    fl = face.detectMultiScale(gray, 1.19, 7)
+
+    for (x, y, w, h) in fl:
+        im = put_glass(glass, im, x, y, w, h)
+
+    cv2.imshow('Hat & glasses', im)
+    key = cv2.waitKey(30) & 0xff
+    if key == 27:  # The Esc key
+        break
+
+webcam.release()
+cv2.destroyAllWindows()
+";
+                scope.Exec(code);
+            }
+            PythonEngine.Shutdown();
+
+            // Return some response to indicate the operation has completed
+            return Ok("Filter applied successfully.");
+        }
 
 
         [HttpGet]
@@ -371,6 +443,101 @@ cv2.destroyAllWindows()
                 };
             }
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Checkout(CheckoutViewModel viewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var cartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart");
+                if (cartItems != null && cartItems.Any())
+                {
+                    // Create and save the invoice
+                    var invoice = new Invoice
+                    {
+                        UserId = User?.Identity.Name ?? string.Empty, // Or however you get the user ID
+                        InvoiceDate = DateTime.Now,
+                        Bill = cartItems.Sum(item => item.TotalPrice),
+                        PaymentMethod = "Card"
+                    };
+                    _context.Invoices.Add(invoice);
+                    await _context.SaveChangesAsync();
+
+                    // Create and save each order
+                    foreach (var item in cartItems)
+                    {
+
+                        var order = new Order
+                        {
+                            GlassId = item.ID,
+                            BrandName = item.BrandName,
+                            Quantity = item.Quantity,
+                            UnitPrice = item.Price,
+                            TotalPrice = item.TotalPrice,
+                            OrderDate = DateTime.Now,
+                            Status = "Now Processing",
+                            IsPurchased = true,
+                            InvoiceId = invoice.Id // Use the Invoice Id
+                        };
+
+                        _context.Orders.Add(order);
+                    }
+                    await _context.SaveChangesAsync();
+
+                    // Clear the session cart
+                    HttpContext.Session.Remove("cart");
+
+                    var confirmationViewModel = new OrderConfirmationViewModel
+                    {
+                        InvoiceDetails = invoice,
+                        OrderItems = await _context.Orders
+                                       .Where(o => o.InvoiceId == invoice.Id)
+                                       .ToListAsync()
+                    };
+
+                    // Use TempData or a similar mechanism to pass data to the redirection target
+                    TempData["OrderConfirmation"] = JsonConvert.SerializeObject(confirmationViewModel);
+
+
+                    // Redirect to an order confirmation page
+                    return RedirectToAction("OrderConfirmation");
+                }
+            }
+            else
+            {
+                viewModel.CartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
+                viewModel.GrandTotal = viewModel.CartItems.Sum(item => item.TotalPrice);
+            }
+
+            // If model state is not valid, or cart is empty, return to the same view
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public IActionResult OrderConfirmation()
+        {
+            if (TempData["OrderConfirmation"] is string serializedConfirmationViewModel)
+            {
+                var viewModel = JsonConvert.DeserializeObject<OrderConfirmationViewModel>(serializedConfirmationViewModel);
+                return View(viewModel);
+            }
+
+            // Redirect to a different page or show an error if the order details are not available
+            return RedirectToAction("Index"); // or return View("Error");
+        }
+
+        public async Task<IActionResult> OrderDetail()
+        {
+            var userId = User?.Identity.Name ?? string.Empty;
+
+            var userOrders = await _context.Orders
+                                           .Include(o => o.Invoice) // Include the Invoice in the query
+                                           .Where(o => o.Invoice.UserId == userId)
+                                           .ToListAsync();
+
+            return View(userOrders);
         }
     }
 }

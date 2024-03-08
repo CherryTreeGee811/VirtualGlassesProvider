@@ -1,0 +1,31 @@
+﻿@model OrderConfirmationViewModel
+
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">Order Confirmation</h2>
+
+        @if (Model != null)
+        {
+            <h3>Invoice Details</h3>
+            <p style="display: none;">Invoice ID: @Model.InvoiceDetails.Id</p>
+            <p>Invoice Date: @Model.InvoiceDetails.InvoiceDate.ToString("dd MMM yyyy")</p>
+            <p>Total Bill: @Model.InvoiceDetails.Bill.ToString("C")</p>
+            <p>Payment Method: @Model.InvoiceDetails.PaymentMethod</p>
+
+            <h3>Order Items</h3>
+            @foreach (var item in Model.OrderItems)
+            {
+                <div>
+                    <p>Glasses Brand Name: @item.BrandName</p>
+                    <p>Quantity: @item.Quantity</p>
+                    <p>Price per Unit: @item.UnitPrice.ToString("C")</p>
+                    <p>Total Price: @item.TotalPrice.ToString("C")</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p>Order information is not available.</p>
+        }
+    </div>
+</div>
