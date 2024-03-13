@@ -33,6 +33,7 @@ namespace VirtualGlassesProvider.Models.DataAccess
              .OnDelete(DeleteBehavior.Cascade);
         }
 
+
         public static async Task CreateAdminUser(IServiceProvider serviceProvider)
         {
             var userManager =
@@ -62,6 +63,7 @@ namespace VirtualGlassesProvider.Models.DataAccess
                 }
             }
         }
+
 
         #region deleteTestClient
         /// <summary>
@@ -94,7 +96,9 @@ namespace VirtualGlassesProvider.Models.DataAccess
         public DbSet<UploadedImages> UploadedImages { get; set; }
 
         public DbSet<Invoice> Invoices { get; set; }
+
         public DbSet<Order> Orders { get; set; }
+
 
         public GlassesStoreDbContext(DbContextOptions<GlassesStoreDbContext> options) : base(options)
         { }

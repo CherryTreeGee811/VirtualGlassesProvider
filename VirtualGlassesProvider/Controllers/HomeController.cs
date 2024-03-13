@@ -228,6 +228,8 @@ cv2.destroyAllWindows()
             ViewData["brandName"] = "Render";
             return PartialView("_RenderPartial");
         }
+
+
         [AjaxOnly]
         public IActionResult ApplyGlassesFilter(string glasses)
         {
@@ -325,8 +327,6 @@ cv2.destroyAllWindows()
                 return NotFound("The requested image does not exist.");
             }
         }
-
-
 
 
         [AjaxOnly]
@@ -433,8 +433,16 @@ cv2.destroyAllWindows()
             }
             else
             {
-                paymentinfo.CardNumber = _aesEncryptionService.Decrypt(paymentinfo.CardNumber);
-                paymentinfo.CVV = _aesEncryptionService.Decrypt(paymentinfo.CVV);
+                if(!String.IsNullOrEmpty(paymentinfo.CardHolderName))
+                {
+                    paymentinfo.CardNumber = _aesEncryptionService.Decrypt(paymentinfo.CardNumber);
+                }
+
+                if (!String.IsNullOrEmpty(paymentinfo.CVV))
+                {
+                    paymentinfo.CardNumber = _aesEncryptionService.Decrypt(paymentinfo.CVV);
+                }
+
                 viewModel = new CheckoutViewModel
                 {
                     CartItems = cartItems,
