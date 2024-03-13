@@ -440,7 +440,7 @@ cv2.destroyAllWindows()
 
                 if (!String.IsNullOrEmpty(paymentinfo.CVV))
                 {
-                    paymentinfo.CardNumber = _aesEncryptionService.Decrypt(paymentinfo.CVV);
+                    paymentinfo.CVV = _aesEncryptionService.Decrypt(paymentinfo.CVV);
                 }
 
                 viewModel = new CheckoutViewModel
