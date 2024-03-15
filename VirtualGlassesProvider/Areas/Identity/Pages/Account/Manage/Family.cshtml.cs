@@ -1,25 +1,20 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
+using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Services;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
-    public class ProfileModel : PageModel
+    public class FamilyModel : PageModel
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly GlassesStoreDbContext _context;
 
-        public ProfileModel(
+        public FamilyModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             GlassesStoreDbContext context)
@@ -77,14 +72,14 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         {
             var user = await _userManager.GetUserAsync(User);
 
-            if(user == null)
+            if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
             var profile = await _context.Profiles.FirstOrDefaultAsync(p => p.UserID == user.Id);
 
-            if(profile == null)
+            if (profile == null)
             {
                 profile = new Profiles();
                 profile.UserID = user.Id;
@@ -92,7 +87,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 await _context.SaveChangesAsync();
             }
 
-            if(profile.DisplayName != null)
+            if (profile.DisplayName != null)
             {
                 Input.DisplayName = profile.DisplayName;
             }
@@ -128,21 +123,21 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 ViewData["priorImage"] = "\\images\\avatar.png";
                 ViewData["imageAlt"] = "Placeholder Profile Image";
             }
-            
+
             return Page();
         }
 
 
         public async Task<IActionResult> OnPostAsync(IFormFile file)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
 
             var user = await _userManager.GetUserAsync(User);
-           
-            if(user == null)
+
+            if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
@@ -151,11 +146,11 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 
             UploadedImages image = null;
 
-            if(file != null)
+            if (file != null)
             {
                 image = FileUploadService.ConvertFormFileToUploadedImageObject(file);
 
-                if(profile.ImageID != null)
+                if (profile.ImageID != null)
                 {
                     _context.UploadedImages.Update(image);
                 }
@@ -166,7 +161,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 _context.SaveChanges();
             }
 
-            if(image != null)
+            if (image != null)
             {
                 profile.ImageID = image.ID;
             }
@@ -184,4 +179,5 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             return RedirectToPage();
         }
     }
+}
 }
