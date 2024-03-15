@@ -31,18 +31,18 @@ namespace VirtualGlassesProvider.Tests
         public void ClientPlacesOrder()
         {
             _driver.Navigate().GoToUrl("https://localhost:7044/");
-            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 691);
+            _driver.Manage().Window.Size = new System.Drawing.Size(1936, 1056);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
-            _driver.FindElement(By.Id("Input_Email")).SendKeys("TestClient@Sharklasers.com");
+            _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).Click();
-            _driver.FindElement(By.Id("Input_Password")).SendKeys("Test1$");
+            _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
-            _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn-success")).Click();
+            Thread.Sleep(1000);
+            _driver.FindElement(By.CssSelector("body > div > main > div:nth-child(5) > div:nth-child(1) > div > div.card-body > a.btn.btn-success")).Click();
             _driver.FindElement(By.CssSelector(".fa")).Click();
-            _driver.FindElement(By.CssSelector(".btn-primary")).Click();
-            _driver.FindElement(By.Id("login-submit")).Click();
-            Assert.That(_driver.FindElement(By.CssSelector(".card-title")).Text, Is.EqualTo("Order Confirmation"));
+            _driver.FindElement(By.ClassName("btn-primary")).Click();
+            Assert.That(_driver.FindElement(By.CssSelector(".card-title")).Text, Is.EqualTo("ORDER CONFIRMATION"));
         }
     }
 }
