@@ -2,13 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.Drawing;
 using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Services;
@@ -17,13 +15,14 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
     public class ProfileModel : PageModel
     {
-        private readonly UserManager<VirtualGlassesProvider.Models.User> _userManager;
-        private readonly SignInManager<VirtualGlassesProvider.Models.User> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly GlassesStoreDbContext _context;
 
+
         public ProfileModel(
-            UserManager<VirtualGlassesProvider.Models.User> userManager,
-            SignInManager<VirtualGlassesProvider.Models.User> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             GlassesStoreDbContext context)
         {
             _userManager = userManager;
@@ -31,11 +30,6 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             _context = context;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public string Username { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

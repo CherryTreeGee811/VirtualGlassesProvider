@@ -1,5 +1,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
 
 namespace VirtualGlassesProvider.Tests
@@ -36,7 +38,13 @@ namespace VirtualGlassesProvider.Tests
         {
             _driver.Navigate().GoToUrl("https://localhost:7044/");
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
-            _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn-primary")).Click();
+            var product = _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn-primary"));
+            new Actions(_driver)
+            .ScrollToElement(product)
+            .Perform();
+            WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
+            var elem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
+            elem.Click();
             _driver.FindElement(By.Id("generateImageBtn")).Click();
             Thread.Sleep(1000);
             Assert.That(_driver.FindElement(By.CssSelector(".errorMessage")).Text, Is.EqualTo("Please login to use this feature"));
@@ -44,7 +52,7 @@ namespace VirtualGlassesProvider.Tests
 
 
         [Test, Order(2)]
-        public void AuthenticatedUserGeneratesImageSuccessfully()
+        public void AuthenticatedUserGeneratesImageForSelfSuccessfully()
         {
             _driver.Navigate().GoToUrl("https://localhost:7044/");
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
@@ -54,7 +62,13 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
-            _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn-primary")).Click();
+            var product = _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn-primary"));
+            new Actions(_driver)
+            .ScrollToElement(product)
+            .Perform();
+            WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
+            var elem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
+            elem.Click();
             var preRenderAltText = _driver.FindElement(By.ClassName("detailsImage")).GetAttribute("alt").ToString();
             Assert.That(preRenderAltText.Equals("Render"), Is.EqualTo(false));
             _driver.FindElement(By.Id("generateImageBtn")).Click();
