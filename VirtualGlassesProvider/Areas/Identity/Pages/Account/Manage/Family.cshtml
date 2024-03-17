@@ -1,0 +1,66 @@
+﻿@page
+@model FamilyModel
+@{
+}
+
+<a class="btn btn-primary @ManageNavPages.FamilyFormNavClass(ViewContext)" id="family-form" asp-page="./FamilyForm">Add Family</a>
+<table class="table">
+    @if (Model.familyMembers.Count == 0)
+    {
+        <tbody>
+            <tr class="text-center">
+                <td>No Family Added Yet</td>
+            </tr>
+        </tbody>
+
+    } else {
+        <thead>
+            <tr>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Phone Number
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.familyMembers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        <a class="btn btn-dark" asp-page="./FamilyForm" asp-route-id="@item.ID">Edit</a> | <form method="post"><input type="submit" class="btn btn-danger" asp-page-handler="DeleteMember" asp-route-id="@item.ID" value="Delete" /></form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>

@@ -56,9 +56,15 @@
         <form id="formAR">
             <label for="buyFor">Buy For:</label>
             <br />
-            <select id="size" name="buyFor">
+            <select id="buyFor" name="buyFor">
                 <option value="self">Self</option>
-                <!--ToDo: Populate with more options-->
+                @if (ViewBag.Members != null)
+                {
+                    @foreach (var member in ViewBag.Members)
+                    {
+                        <option value="@member.ID">@member.Name</option>
+                    }
+                }
             </select>
             <br />
             <br />
@@ -80,21 +86,20 @@
 <script>
     $(document).ready(function () {
         $("#generateImageBtn").click(function () {
+            let selectionVal = document.getElementById("buyFor").value.toString();
             $.ajax({
                 type: "GET",
                 url: "/Home/GenerateImage/",
-                data: { 'glasses': '@this.Model.Image' },
+                data: { 'glasses': '@this.Model.Image', 'entity': selectionVal },
                 success: function (viewHTML) {
                     $("#imgRender").html(viewHTML);
-                    $("#originalProductImage").hide();
                 },
+                cache: false,
                 error: function (errorData) { onError(errorData); }
             });
         });
 
         $("#clearImage").click(function () {
-            $("#imgRender").hide()
-            $("#originalProductImage").show();
         });
     });
     window.addEventListener('load', function () {
@@ -104,7 +109,6 @@
             data: { 'glasses': '@this.Model.Image', 'brandName': '@this.Model.BrandName' },
             success: function (viewHTML) {
                 $("#imgRender").html(viewHTML);
-                $("#originalProductImage").hide();
             },
             error: function (errorData) { onError(errorData); }
         });

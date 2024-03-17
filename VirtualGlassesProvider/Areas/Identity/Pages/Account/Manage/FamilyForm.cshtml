@@ -1,0 +1,58 @@
+﻿@page
+@model VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage.FamilyFormModel
+@{
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="family-form" method="post" enctype="multipart/form-data">
+            <div class="form-group row">
+                <label asp-for="Input.FirstName" class="col-sm-4 col-form-label">First Name</label>
+                <input asp-for="Input.FirstName" class="form-control" />
+            </div>
+            <div class="form-group row">
+                <label asp-for="Input.LastName" class="col-sm-4 col-form-label">Last Name</label>
+                <input asp-for="Input.LastName" class="form-control" />
+            </div>
+            <br />
+            <div class="form-group row">
+                <label asp-for="Input.Address" class="col-sm-4 col-form-label">Address</label>
+                <input asp-for="Input.Address" class="form-control" />
+            </div>
+            <br />
+            <div class="form-group row">
+                <label asp-for="Input.Email" class="col-sm-4 col-form-label">Email Address</label>
+                <input asp-for="Input.Email" class="form-control" />
+            </div>
+            <br />
+            <div class="form-group row">
+                <label asp-for="Input.Relationship" class="col-sm-4 col-form-label">Relationship</label>
+                <input asp-for="Input.Relationship" class="form-control" />
+            </div>
+
+            <br />
+            <div class="form-group row">
+                <label asp-for="Input.PhoneNumber" class="col-sm-4 col-form-label">Phone Number</label>
+                <input asp-for="Input.PhoneNumber" class="form-control" />
+            </div>
+            <br />
+            <div class="form-group row">
+                <label asp-for="Input.Image" class="form-label">Upload File</label>
+                <input asp-for="Input.Image" type="file" name="file" class="form-control" accept="image/jpg, image/jpeg" />
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div>
+                    <button type="submit" class="btn btn-primary" id="saveFamilyFormBtn">Save</button>
+                    <a asp-page="./Family" class="btn btn-danger" id="exitFamilyFormBtn">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6" id="familyImageColumn">
+        <br />
+        <p>Current Image</p>
+        <img id="memberImage" src="@ViewData["priorImage"]" alt="@ViewData["imageAlt"]" width="110px" height="110px" />
+    </div>
+</div>
