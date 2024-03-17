@@ -1,6 +1,8 @@
 ﻿@page
 @model FamilyModel
 @{
+    ViewData["Title"] = "Family";
+    ViewData["ActivePage"] = ManageNavPages.Family;
 }
 
 <a class="btn btn-primary @ManageNavPages.FamilyFormNavClass(ViewContext)" id="family-form" asp-page="./FamilyForm">Add Family</a>
