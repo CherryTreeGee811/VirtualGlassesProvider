@@ -8,11 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Areas\Identity\Pages\Account\Manage\Family.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Areas\Identity\Pages\Account\Manage\Family.cshtml" />
     <None Include="wwwroot\images\avatar.png" />
   </ItemGroup>
 
@@ -30,14 +25,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
     <PackageReference Include="pythonnet" Version="3.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Areas\Identity\Pages\Account\Manage\Family.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\Family.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VirtualGlassesProvider.Models
 {
-    public class FamilyMembers
+    public class FamilyMember
     {
         [Key]
         public int ID { get; set; }
@@ -25,6 +25,10 @@ namespace VirtualGlassesProvider.Models
         public string? LastName { get; set; }
 
 
+        [Display(Name = "Address")]
+        public string? Address { get; set; }
+
+
         [Display(Name = "Email")]
         public string? Email { get; set; }
 
@@ -33,8 +37,8 @@ namespace VirtualGlassesProvider.Models
         public string? Relationship { get; set; }
 
 
-        [Display(Name = "Order")]
-        public string? Order { get; set; }
+        /*[Display(Name = "Order")]
+        public string? Order { get; set; }*/
 
 
         [Display(Name = "Phone Number")]

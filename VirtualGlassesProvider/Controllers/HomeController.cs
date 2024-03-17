@@ -120,8 +120,23 @@ namespace VirtualGlassesProvider.Controllers
 
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var family = await _context.FamilyMembers
+                   .Where(u => u.UserID == user.Id)
+                   .Select(f => new FamilyARViewModel
+                   {
+                       ID = f.ID,
+                       Name = $"{f.FirstName} {f.LastName}"
+                   }).ToListAsync();
+                if(family != null)
+                {
+                    ViewBag.Members = family;
+                }
+            }
             var glasses = _context.Glasses.Find(id);
             var glassesDTO = new GlassesDTO
             {
@@ -133,22 +148,40 @@ namespace VirtualGlassesProvider.Controllers
                 Style = glasses.Style,
                 Image = glasses.Image
             };
+           
             return View(glassesDTO);
         }
 
 
         [AjaxOnly]
-        public async Task<PartialViewResult> GenerateImage(string glasses)
+        public async Task<PartialViewResult> GenerateImage(string glasses, string? entity)
         {
             var user = await _userManager.GetUserAsync(User);
             string imgB64 = null;
+            Console.WriteLine(entity);
             if (user != null)
             {
-                var profile = await _context.Profiles.FirstOrDefaultAsync(p => p.UserID == user.Id);
-                if (profile.ImageID != null)
+                if (entity.Equals("self"))
                 {
-                    var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
-                    imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                    var profile = await _context.Profiles.FirstOrDefaultAsync(p => p.UserID == user.Id);
+                    if (profile.ImageID != null)
+                    {
+                        var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
+                        imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                    }
+                }
+                else if(!String.IsNullOrEmpty(entity))
+                {
+                    bool parseSuccessfull = int.TryParse(entity, out int familyID);
+                    if(parseSuccessfull)
+                    {
+                        var familyMember = await _context.FamilyMembers.Where(u => u.UserID == user.Id).Where(f => f.ID == familyID).FirstAsync();
+                        if(familyMember.ImageID != null)
+                        {
+                            var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == familyMember.ImageID);
+                            imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                        }
+                    }
                 }
             }
 
@@ -218,88 +251,16 @@ def put_glasses_on_face(glasses, fc, x, y, w, h):
 for (x, y, w, h) in img_gray:
     frame = put_glasses_on_face(glasses, frame, x, y, w, h)
 
+cv2.imwrite('./wwwroot/images/render{entity}.jpg', frame)
 cv2.imwrite('./wwwroot/images/render.jpg', frame)
 cv2.destroyAllWindows()
 ";
                 scope.Exec(code);
             }
             PythonEngine.Shutdown();
-            ViewData["renderedImage"] = "\\images\\render.jpg";
+            ViewData["renderedImage"] = $"\\images\\render{entity}.jpg";
             ViewData["brandName"] = "Render";
             return PartialView("_RenderPartial");
-        }
-
-
-        [AjaxOnly]
-        public IActionResult ApplyGlassesFilter(string glasses)
-        {
-            if (!PythonEngine.IsInitialized)
-            {
-                var runtime = "";
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    runtime = Environment.GetEnvironmentVariable("Python_Runtime");
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    runtime = "/usr/lib/x86_64-linux-gnu/libpython3.10.so.1.0";
-                }
-                Runtime.PythonDLL = runtime;
-                PythonEngine.Initialize();
-            }
-            using (PyModule scope = Py.CreateScope())
-            {
-                string code = @"
-import cv2
-import numpy as np
-
-def put_glass(glass, fc, x, y, w, h):
-    face_width = w
-    face_height = h
-
-    hat_width = face_width + 1
-    hat_height = int(0.50 * face_height) + 1
-
-    glass = cv2.resize(glass, (hat_width, hat_height))
-
-    for i in range(hat_height):
-        for j in range(hat_width):
-            for k in range(3):
-                if glass[i][j][k] < 235:
-                    fc[y + i - int(-0.20 * face_height)][x + j][k] = glass[i][j][k]
-    return fc
-
-face = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-glasses_path = './wwwroot/{glasses}'
-glass = cv2.imread(glasses_path)
-
-webcam = cv2.VideoCapture(0)
-while True:
-    size = 4
-    (rval, im) = webcam.read()
-    if not rval:
-        break
-    im = cv2.flip(im, 1, 0)
-    gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-    fl = face.detectMultiScale(gray, 1.19, 7)
-
-    for (x, y, w, h) in fl:
-        im = put_glass(glass, im, x, y, w, h)
-
-    cv2.imshow('Hat & glasses', im)
-    key = cv2.waitKey(30) & 0xff
-    if key == 27:  # The Esc key
-        break
-
-webcam.release()
-cv2.destroyAllWindows()
-";
-                scope.Exec(code);
-            }
-            PythonEngine.Shutdown();
-
-            // Return some response to indicate the operation has completed
-            return Ok("Filter applied successfully.");
         }
 
 
@@ -453,6 +414,7 @@ cv2.destroyAllWindows()
             return View(viewModel);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Checkout(CheckoutViewModel viewModel)
         {
@@ -522,6 +484,7 @@ cv2.destroyAllWindows()
             // If model state is not valid, or cart is empty, return to the same view
             return View(viewModel);
         }
+
 
         [HttpGet]
         public IActionResult OrderConfirmation()

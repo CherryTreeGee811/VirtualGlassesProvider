@@ -1,58 +1,66 @@
 ﻿@page
-@model VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage.FamilyModel
+@model FamilyModel
 @{
-    ViewData["Title"] = "Family";
-    ViewData["ActivePage"] = ManageNavPages.Family;
 }
 
+<a class="btn btn-primary @ManageNavPages.FamilyFormNavClass(ViewContext)" id="family-form" asp-page="./FamilyForm">Add Family</a>
+<table class="table">
+    @if (Model.familyMembers.Count == 0)
+    {
+        <tbody>
+            <tr class="text-center">
+                <td>No Family Added Yet</td>
+            </tr>
+        </tbody>
 
-<h3>@ViewData["Title"]</h3>
-@* To Rename to Upload Image *@
-<partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post" enctype="multipart/form-data">
+    } else {
+        <thead>
+            <tr>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Phone Number
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
 
-            <div class="form-group row">
-                <label asp-for="Input.FirstName" class="col-sm-4 col-form-label">First Name</label>
-                <input asp-for="Input.FirstName" class="form-control" />
-            </div>
-            <div class="form-group row">
-                <label asp-for="Input.LastName" class="col-sm-4 col-form-label">Last Name</label>
-                <input asp-for="Input.LastName" class="form-control" />
-            </div>
-            <div class="form-group row">
-                <label asp-for="Input.PhoneNumber" class="col-sm-4 col-form-label">Phone Number</label>
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-            </div>
-            <div class="form-group row">
-                <label asp-for="Input.Address" class="col-sm-4 col-form-label">Address</label>
-                <input asp-for="Input.Address" class="form-control" />
-            </div>
-            <div class="form-group row">
-                <label asp-for="Input.DisplayName" class="col-sm-4 col-form-label">Display Name</label>
-                <input asp-for="Input.DisplayName" class="form-control" />
-            </div>
-            <br />
-            <div class="form-group row">
-                <label asp-for="Input.Image" class="form-label">Upload File</label>
-                <input asp-for="Input.Image" type="file" name="file" class="form-control" accept="image/jpg, image/jpeg" />
-            </div>
-            <br />
-            <br />
-            <div class="row">
-                <div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="col-md-6" id="profileImageColumn">
-        <br />
-        <p>Current Image</p>
-        <img id="profileImage" src="@ViewData["priorImage"]" alt="@ViewData["imageAlt"]" width="110px" height="110px" />
-    </div>
-</div>
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+        <tbody>
+            @foreach (var item in Model.familyMembers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        <a class="btn btn-dark" asp-page="./FamilyForm" asp-route-id="@item.ID">Edit</a> | <form method="post"><input type="submit" class="btn btn-danger" asp-page-handler="DeleteMember" asp-route-id="@item.ID" value="Delete" /></form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>

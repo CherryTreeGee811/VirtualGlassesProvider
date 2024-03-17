@@ -23,13 +23,20 @@ namespace VirtualGlassesProvider.Models.DataAccess
                     new Glasses { ID = 7, BrandName = "Rayban", Description = "Grape Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Grape", Style = "Square", Image = "GlassesImage/glasses-grape.png" },
                      new Glasses { ID = 8, BrandName = "Rayban", Description = "Violin Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Violin", Style = "Square", Image = "GlassesImage/glasses-violin.png" }
             );
+
             builder.Entity<Profiles>()
               .HasOne(u => u.User)
               .WithOne(p => p.Profiles)
               .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<PaymentInfo>()
              .HasOne(u => u.User)
              .WithOne(p => p.PaymentInfo)
+             .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<FamilyMember>()
+             .HasOne(u => u.User)
+             .WithMany(p => p.FamilyMembers)
              .OnDelete(DeleteBehavior.Cascade);
         }
 
@@ -98,6 +105,8 @@ namespace VirtualGlassesProvider.Models.DataAccess
         public DbSet<Invoice> Invoices { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+
+        public DbSet<FamilyMember> FamilyMembers { get; set; }
 
 
         public GlassesStoreDbContext(DbContextOptions<GlassesStoreDbContext> options) : base(options)
