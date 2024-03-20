@@ -132,10 +132,18 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync(IFormFile file, int? id)
         {
-            if (!ModelState.IsValid)
+            if(id == null)
             {
-                return RedirectToPage();
+                // New Record if null
+                if(!ModelState.IsValid)
+                {
+                    return RedirectToPage("./Family");
+                }
             }
+
+            // ToDo: Add more checks
+            // ToDo: Send status messages to family page
+
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null)
