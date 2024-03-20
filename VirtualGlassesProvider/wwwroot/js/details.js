@@ -1,62 +1,67 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
-    const productImageElement = document.getElementById('productImage');
-    const errorMessageElement = document.getElementById("errorMessage");
-    const detailsImage = document.getElementById('detailsImage');
-    const originalPortraitElement = document.getElementById('originalPortrait');
+﻿let productImageElement = document.getElementById('productImage');
+let errorMessageElement = document.getElementById("errorMessage");
+let detailsImage = document.getElementById('detailsImage');
+let originalPortraitElement = document.getElementById('originalPortrait');
+let hasPathSet = false;
 
-    $("#generateImageBtn").click(function () {
-        const selectionVal = document.getElementById("buyFor").value.toString();
-        $.ajax({
-            type: "GET",
-            url: "/Home/GetPortrait/",
-            data: { 'entity': selectionVal },
-            success: function (response) {
-                if (response == "Please login to use this feature" || response == "Please upload a portrait") {
-                    reRenderPartialView("", "", response);
-                }
-                else {
-                    originalPortraitElement.src = response;
-                    renderCascade();
-                }
-            },
-            error: function () {
-                reRenderPartialView("", "", "Error Retrieving Data, Please Try Again")
-            },
-            cache: false
-        });
+$("#generateImageBtn").click(function () {
+    let selectionVal = document.getElementById("buyFor").value.toString();
+    $.ajax({
+        type: "GET",
+        url: "/Home/GetPortrait/",
+        data: { 'entity': selectionVal },
+        success: function (response) {
+            if (response == "Please login to use this feature" || response == "Please upload a portrait") {
+                reRenderPartialView("", "", response);
+            }
+            else {
+                originalPortraitElement.src = response;
+                renderCascade();
+            }
+        },
+        error: function () {
+            reRenderPartialView("", "", "Error Retrieving Data, Please Try Again")
+        },
+        cache: false
+    });
 
-        function renderCascade() {
-            let faceCascade = new cv.CascadeClassifier();
-            let pathToCascade = '\\detection\\haarcascade_frontalface_default.xml';
+    function renderCascade() {
+        let faceCascade = new cv.CascadeClassifier();
+        let pathToCascade = '\\detection\\haarcascade_frontalface_default.xml';
+        if (!hasPathSet) {
             let utils = new Utils('errorMessage');
             utils.createFileFromUrl(pathToCascade, pathToCascade, () => {
                 loadCascade();
+                hasPathSet = true
             });
-            function loadCascade() {
-                faceCascade.load(pathToCascade);
-                renderAR(faceCascade);
-            }
         }
-    });
-
+        else {
+            loadCascade();
+        }
+        
+        function loadCascade() {
+            faceCascade.load(pathToCascade);
+            renderAR(faceCascade);
+        }
+    }
 
     function renderAR(faceCascade) {
         let img = cv.imread(originalPortraitElement);
-        const gray = new cv.Mat();
+        let gray = new cv.Mat();
         cv.cvtColor(img, gray, cv.COLOR_BGR2GRAY, 0);
-        const faces = new cv.RectVector();
+        let faces = new cv.RectVector();
         let msize = new cv.Size(0, 0);
         faceCascade.detectMultiScale(gray, faces, 1.09, 7, 0, msize, msize);
-        const glasses = cv.imread(productImageElement);
+        let glasses = cv.imread(productImageElement);
         let frame = img;
 
         function putGlassesOnFace(glasses, fc, x, y, w, h) {
-            const faceWidth = w;
-            const faceHeight = h;
+            let faceWidth = w;
+            let faceHeight = h;
 
-            const glassesWidth = faceWidth + 1;
-            const glassesHeight = Math.floor(0.50 * faceHeight) + 1;
-            const glassesResized = new cv.Mat();
+            let glassesWidth = faceWidth + 1;
+            let glassesHeight = Math.floor(0.50 * faceHeight) + 1;
+            let glassesResized = new cv.Mat();
             cv.resize(glasses, glassesResized, new cv.Size(glassesWidth, glassesHeight));
 
             for (let i = 0; i < glassesHeight; ++i) {
@@ -75,9 +80,9 @@
             const rect = faces.get(i);
             frame = putGlassesOnFace(glasses, frame, rect.x, rect.y, rect.width, rect.height);
         }
-        const canvas = document.getElementById('canvasOutput');
+        let canvas = document.getElementById('canvasOutput');
         cv.imshow("canvasOutput", frame);
-        const arImgSrc = canvas.toDataURL("image/jpeg");
+        let arImgSrc = canvas.toDataURL("image/jpeg");
         faceCascade.delete();
         gray.delete();
         faces.delete();
@@ -85,27 +90,27 @@
         glasses.delete();
         reRenderPartialView(arImgSrc, "Render", "");
     }
+});
 
 
-    document.getElementById("downloadImageLink").addEventListener("click", function () {
-        var link = document.createElement('a');
-        link.download = 'ARGeneratedImage.jpg';
-        link.href = document.getElementById('canvasOutput').toDataURL()
-        link.click();
-    });
+document.getElementById("downloadImageLink").addEventListener("click", function () {
+    var link = document.createElement('a');
+    link.download = 'ARGeneratedImage.jpg';
+    link.href = document.getElementById('canvasOutput').toDataURL()
+    link.click();
+});
 
 
-    function reRenderPartialView(img, alt, error) {
-        detailsImage.src = img;
-        detailsImage.alt = alt;
-        errorMessageElement.textContent = error; 
-    }
+function reRenderPartialView(img, alt, error) {
+    detailsImage.src = img;
+    detailsImage.alt = alt;
+    errorMessageElement.textContent = error; 
+}
 
 
-    document.getElementById("clearImage").addEventListener("click", function() {
-        const glassesBrandNameValElement = document.getElementById("glassesBrandNameVal");
-        detailsImage.src = productImageElement.src;
-        detailsImage.alt = glassesBrandNameValElement.textContent;
-        errorMessageElement.textContent = "";
-    });
+document.getElementById("clearImage").addEventListener("click", function() {
+    const glassesBrandNameValElement = document.getElementById("glassesBrandNameVal");
+    detailsImage.src = productImageElement.src;
+    detailsImage.alt = glassesBrandNameValElement.textContent;
+    errorMessageElement.textContent = "";
 });
