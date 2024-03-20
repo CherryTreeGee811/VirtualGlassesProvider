@@ -11,7 +11,7 @@ namespace VirtualGlassesProvider.Tests
     {
         #pragma warning disable NUnit1032
         private ChromeDriver _driver { get; set; }
-#pragma warning restore NUnit1032
+        #pragma warning restore NUnit1032
         private string _downloadPath = Path.GetTempPath();
 
 
@@ -22,7 +22,7 @@ namespace VirtualGlassesProvider.Tests
             options.AddUserProfilePreference("download.default_directory", _downloadPath);
             options.AddUserProfilePreference("download.prompt_for_download", false);
             options.AddUserProfilePreference("disable-popup-blocking", "true");
-            //options.AddArgument("--headless=new");
+            options.AddArgument("--headless=new");
             _driver = new ChromeDriver(options);
         }
 
