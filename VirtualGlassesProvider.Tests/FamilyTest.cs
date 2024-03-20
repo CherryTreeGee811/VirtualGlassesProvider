@@ -11,7 +11,7 @@ namespace VirtualGlassesProvider.Tests
     {
         #pragma warning disable NUnit1032
         private ChromeDriver _driver { get; set; }
-#pragma warning restore NUnit1032
+        #pragma warning restore NUnit1032
         private string _downloadPath = Path.GetTempPath();
 
 
@@ -187,7 +187,7 @@ namespace VirtualGlassesProvider.Tests
         public void ClientGeneratesARImageForFamilyMember()
         {
             _driver.Navigate().GoToUrl("https://localhost:7044/");
-            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 691);
+            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 1000);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
