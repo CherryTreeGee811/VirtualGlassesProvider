@@ -69,11 +69,12 @@ namespace VirtualGlassesProvider.Tests
             WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
             var elem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
             elem.Click();
-            var preRenderAltText = _driver.FindElement(By.ClassName("detailsImage")).GetAttribute("alt").ToString();
+            var preRenderAltText = _driver.FindElement(By.Id("detailsImage")).GetAttribute("alt").ToString();
             Assert.That(preRenderAltText.Equals("Render"), Is.EqualTo(false));
+            Thread.Sleep(5000);
             _driver.FindElement(By.Id("generateImageBtn")).Click();
             Thread.Sleep(5000);
-            var renderAltText = _driver.FindElement(By.ClassName("detailsImage")).GetAttribute("alt").ToString();
+            var renderAltText = _driver.FindElement(By.Id("detailsImage")).GetAttribute("alt").ToString();
             Assert.That(renderAltText, Is.EqualTo("Render"));
             _driver.FindElement(By.Id("downloadImageLink")).Click();
             Thread.Sleep(5000);

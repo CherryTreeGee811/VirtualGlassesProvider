@@ -22,7 +22,7 @@ namespace VirtualGlassesProvider.Tests
             options.AddUserProfilePreference("download.default_directory", _downloadPath);
             options.AddUserProfilePreference("download.prompt_for_download", false);
             options.AddUserProfilePreference("disable-popup-blocking", "true");
-            options.AddArgument("--headless=new");
+            //options.AddArgument("--headless=new");
             _driver = new ChromeDriver(options);
         }
 
@@ -187,7 +187,7 @@ namespace VirtualGlassesProvider.Tests
         public void ClientGeneratesARImageForFamilyMember()
         {
             _driver.Navigate().GoToUrl("https://localhost:7044/");
-            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 691);
+            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 1000);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);

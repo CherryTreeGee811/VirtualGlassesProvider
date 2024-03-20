@@ -9,13 +9,11 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\detection\haarcascade_frontalface_default.xml" />
-    <Content Remove="wwwroot\images\tim_apple.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\detection\haarcascade_frontalface_default.xml" />
     <None Include="wwwroot\images\avatar.png" />
-    <None Include="wwwroot\images\tim_apple.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +29,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
-    <PackageReference Include="pythonnet" Version="3.0.3" />
   </ItemGroup>
 
 </Project>

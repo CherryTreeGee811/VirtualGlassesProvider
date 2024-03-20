@@ -11,11 +11,10 @@
         </h1>
         <div id="productDisplayImageDetailsDiv">
             <div id="imgRender">
+                <img class="detailsImage" id="detailsImage" src="/@Html.DisplayFor(model => model.Image)" alt="@Html.DisplayFor(model => model.BrandName)" />
+                <p class="errorMessage" id="errorMessage"></p>
             </div>
         </div>
-        <img id="productImage" src="~/@Html.DisplayFor(model => model.Image)" hidden />
-        <p id="glassesImageVal" hidden>/@Html.DisplayFor(model => model.Image)</p>
-        <p id="glassesBrandNameVal" hidden>@Html.DisplayFor(model => model.BrandName)</p>
         <br />
         <a id="clearImage" class="btn btn-primary">Clear Image</a>
         &nbsp;
@@ -84,6 +83,8 @@
             <canvas id="canvasOutput" hidden></canvas>
             <img id="originalPortrait" src="" hidden />
             <img id="localRender" src="" hidden />
+            <img id="productImage" src="~/@Html.DisplayFor(model => model.Image)" hidden />
+            <p id="glassesBrandNameVal" hidden>@Html.DisplayFor(model => model.BrandName)</p>
         </form>
     </div>
 </div>
