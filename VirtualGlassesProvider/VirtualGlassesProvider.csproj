@@ -8,7 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\detection\haarcascade_frontalface_default.xml" />
+    <Content Remove="wwwroot\images\tim_apple.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\detection\haarcascade_frontalface_default.xml" />
     <None Include="wwwroot\images\avatar.png" />
+    <None Include="wwwroot\images\tim_apple.jpg" />
   </ItemGroup>
 
   <ItemGroup>

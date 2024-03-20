@@ -264,6 +264,53 @@ cv2.destroyAllWindows()
         }
 
 
+        [AjaxOnly]
+        public async Task<string> GetPortrait(string? entity)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            string imgB64 = null;
+            Console.WriteLine(entity);
+            if (user != null)
+            {
+                if (entity.Equals("self"))
+                {
+                    var profile = await _context.Profiles.FirstOrDefaultAsync(p => p.UserID == user.Id);
+                    if (profile.ImageID != null)
+                    {
+                        var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
+                        imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                    }
+                }
+                else if (!String.IsNullOrEmpty(entity))
+                {
+                    bool parseSuccessfull = int.TryParse(entity, out int familyID);
+                    if (parseSuccessfull)
+                    {
+                        var familyMember = await _context.FamilyMembers.Where(u => u.UserID == user.Id).Where(f => f.ID == familyID).FirstAsync();
+                        if (familyMember.ImageID != null)
+                        {
+                            var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == familyMember.ImageID);
+                            imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                        }
+                    }
+                }
+            }
+
+            if (user == null)
+            {
+                return "Please login to use this feature";
+            }
+
+            if (imgB64 == null)
+            {
+                return "Please upload a portrait";
+            }
+
+
+            return "data:image/jpg;base64," + imgB64;
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> DownloadImage()
         {
@@ -291,10 +338,11 @@ cv2.destroyAllWindows()
 
 
         [AjaxOnly]
-        public PartialViewResult RenderDefault(string glasses, string brandName)
+        public PartialViewResult RenderDefault(string glasses, string brandName, string? error)
         {
-            ViewData["renderedImage"] = $"\\{glasses}";
+            ViewData["renderedImage"] = glasses;
             ViewData["brandName"] = brandName;
+            ViewData["error"] = error;
             return PartialView("_RenderPartial");
         }
 
