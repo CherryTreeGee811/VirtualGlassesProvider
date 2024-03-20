@@ -162,7 +162,7 @@ namespace VirtualGlassesProvider.Controllers
                 if (entity.Equals("self"))
                 {
                     var profile = await _context.Profiles.FirstOrDefaultAsync(p => p.UserID == user.Id);
-                    if (profile.ImageID != null)
+                    if (profile != null || profile.ImageID != null)
                     {
                         var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
                         imgB64 = Convert.ToBase64String(uploadedImage.Image);
