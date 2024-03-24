@@ -4,6 +4,29 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
+
+@if (User.IsInRole("Admin"))
+{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Panel</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Manage</li>
+        </ol>
+    </nav>
+
+}
+
+else
+{
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-area="Member" asp-controller="Home" asp-action="Index">Member Panel</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Manage</li>
+        </ol>
+    </nav>
+}
 <ul class="nav nav-pills flex-column">
     <li class="nav-item"><a class="nav-link @ManageNavPages.ProfilesNavClass(ViewContext)" id="profile" asp-page="./Profile">Profile</a></li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.PaymentInfoNavClass(ViewContext)" id="paymentInfo" asp-page="./PaymentInfo">Payment Info</a></li>

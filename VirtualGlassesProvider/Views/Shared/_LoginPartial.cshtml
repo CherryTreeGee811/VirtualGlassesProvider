@@ -6,10 +6,28 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+        <li class="nav-item">
+            @* <a id="manage" class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Profile" title="Manage">Hello @UserManager.GetUserName(User)!</a> *@
+
+            <div class="btn-group">
+                <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg xmlns="~/person-fill.svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                    </svg>
+                    <span>@UserManager.GetUserName(User)</span>
+
+                </button>
+                <ul class="dropdown-menu dropdown-menu-light">
+                    <li><a id="manage" asp-area="Identity" asp-page="/Account/Manage/Profile" class="nav-link text-dark">Profile</a></li>
+                    <li><a id="manage" asp-area="Identity" asp-page="/Account/Manage/Email" class="nav-link text-dark">Email</a></li>
+                    <li><a id="manage" asp-area="Identity" asp-page="/Account/Manage/ChangePassword" class="nav-link text-dark">Change Password</a></li>
+                    <li><a id="manage" asp-controller="Home" asp-action="OrderDetail" class="nav-link text-dark">My Orders</a></li>
+                </ul>
+            </div>
+
+        </li>
     <li class="nav-item">
-        <a id="manage" class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Profile" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>
-    <li class="nav-item">
+
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button id="logout" type="submit" class="nav-link btn btn-link text-white border-0">Logout</button>
         </form>

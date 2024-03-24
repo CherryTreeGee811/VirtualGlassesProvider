@@ -228,77 +228,77 @@ cv2.destroyAllWindows()
             ViewData["brandName"] = "Render";
             return PartialView("_RenderPartial");
         }
-        [AjaxOnly]
-        public IActionResult ApplyGlassesFilter(string glasses)
-        {
-            if (!PythonEngine.IsInitialized)
-            {
-                var runtime = "";
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    runtime = Environment.GetEnvironmentVariable("Python_Runtime");
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    runtime = "/usr/lib/x86_64-linux-gnu/libpython3.10.so.1.0";
-                }
-                Runtime.PythonDLL = runtime;
-                PythonEngine.Initialize();
-            }
-            using (PyModule scope = Py.CreateScope())
-            {
-                string code = @"
-import cv2
-import numpy as np
+//        [AjaxOnly]
+//        public IActionResult ApplyGlassesFilter(string glasses)
+//        {
+//            if (!PythonEngine.IsInitialized)
+//            {
+//                var runtime = "";
+//                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+//                {
+//                    runtime = Environment.GetEnvironmentVariable("Python_Runtime");
+//                }
+//                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+//                {
+//                    runtime = "/usr/lib/x86_64-linux-gnu/libpython3.10.so.1.0";
+//                }
+//                Runtime.PythonDLL = runtime;
+//                PythonEngine.Initialize();
+//            }
+//            using (PyModule scope = Py.CreateScope())
+//            {
+//                string code = @"
+//import cv2
+//import numpy as np
 
-def put_glass(glass, fc, x, y, w, h):
-    face_width = w
-    face_height = h
+//def put_glass(glass, fc, x, y, w, h):
+//    face_width = w
+//    face_height = h
 
-    hat_width = face_width + 1
-    hat_height = int(0.50 * face_height) + 1
+//    hat_width = face_width + 1
+//    hat_height = int(0.50 * face_height) + 1
 
-    glass = cv2.resize(glass, (hat_width, hat_height))
+//    glass = cv2.resize(glass, (hat_width, hat_height))
 
-    for i in range(hat_height):
-        for j in range(hat_width):
-            for k in range(3):
-                if glass[i][j][k] < 235:
-                    fc[y + i - int(-0.20 * face_height)][x + j][k] = glass[i][j][k]
-    return fc
+//    for i in range(hat_height):
+//        for j in range(hat_width):
+//            for k in range(3):
+//                if glass[i][j][k] < 235:
+//                    fc[y + i - int(-0.20 * face_height)][x + j][k] = glass[i][j][k]
+//    return fc
 
-face = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-glasses_path = './wwwroot/{glasses}'
-glass = cv2.imread(glasses_path)
+//face = cv2.CascadeClassifier('./Resources/Detection/haarcascade_frontalface_default.xml')
+//glasses_path = './wwwroot/{glasses}'
+//glass = cv2.imread(glasses_path)
 
-webcam = cv2.VideoCapture(0)
-while True:
-    size = 4
-    (rval, im) = webcam.read()
-    if not rval:
-        break
-    im = cv2.flip(im, 1, 0)
-    gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-    fl = face.detectMultiScale(gray, 1.19, 7)
+//webcam = cv2.VideoCapture(0)
+//while True:
+//    size = 4
+//    (rval, im) = webcam.read()
+//    if not rval:
+//        break
+//    im = cv2.flip(im, 1, 0)
+//    gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
+//    fl = face.detectMultiScale(gray, 1.19, 7)
 
-    for (x, y, w, h) in fl:
-        im = put_glass(glass, im, x, y, w, h)
+//    for (x, y, w, h) in fl:
+//        im = put_glass(glass, im, x, y, w, h)
 
-    cv2.imshow('Hat & glasses', im)
-    key = cv2.waitKey(30) & 0xff
-    if key == 27:  # The Esc key
-        break
+//    cv2.imshow('Hat & glasses', im)
+//    key = cv2.waitKey(30) & 0xff
+//    if key == 27:  
+//        break
 
-webcam.release()
-cv2.destroyAllWindows()
-";
-                scope.Exec(code);
-            }
-            PythonEngine.Shutdown();
+//webcam.release()
+//cv2.destroyAllWindows()
+//";
+//                scope.Exec(code);
+//            }
+//            //PythonEngine.Shutdown();
 
-            // Return some response to indicate the operation has completed
-            return Ok("Filter applied successfully.");
-        }
+//            // Return some response to indicate the operation has completed
+//            return Ok("Filter applied successfully.");
+//        }
 
 
         [HttpGet]
@@ -538,6 +538,92 @@ cv2.destroyAllWindows()
                                            .ToListAsync();
 
             return View(userOrders);
+        }
+
+        public async Task<IActionResult> WishList()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            WishLists wishList = await _context.WishLists.Include(w => w.WishListItems).Where(w => w.User.Id == user.Id).FirstOrDefaultAsync();
+
+            if (wishList == null)
+            {
+                wishList = new WishLists { User = user };
+                _context.WishLists.Add(wishList);
+                _context.SaveChanges();
+            }
+
+            if (wishList.WishListItems == null)
+            {
+                wishList.WishListItems = new List<WishListItems>();
+            }
+
+            if (wishList.WishListItems.Count > 0)
+            {
+
+                List<Glasses> glasses = new List<Glasses>();
+                foreach (Glasses glass in _context.Glasses)
+                {
+                    Glasses glasses1 = new Glasses()
+                    {
+                        ID = glass.ID,
+                        BrandName = glass.BrandName,
+                        Description = glass.Description,
+                        Price = glass.Price,
+                        Colour = glass.Colour,
+                        Style = glass.Style,
+                        Image = glass.Image,
+                        
+                    };
+
+                    glasses.Add(glasses1);
+                }
+
+
+
+                foreach (var glass in glasses)
+                {
+                    WishListItems item = wishList.WishListItems.SingleOrDefault(wi => wi.GlassesID == glass.ID); ;
+                    if (item != null)
+                    {
+                        wishList.WishListItems.Remove(item);
+                        item.Glasses = glass;
+                        wishList.WishListItems.Add(item);
+                    }
+                }
+
+
+
+            }
+            else
+            {
+                wishList.WishListItems = new List<WishListItems>();
+            }
+
+            ViewBag.UserName = user.UserName;
+
+            return View(wishList);
+        }
+    
+        public async Task<IActionResult> AddToWishList(int ID)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            WishLists wishList = await _context.WishLists.Include(w => w.WishListItems).Where(w => w.User.Id == user.Id).FirstOrDefaultAsync();
+
+            if (wishList == null)
+            {
+                wishList = new WishLists { User = user };
+                _context.WishLists.Add(wishList);
+                await _context.SaveChangesAsync();
+            }
+
+            WishListItems item = new WishListItems { GlassesID = ID, WishLists = wishList };
+
+            _context.WishListItems.Add(item);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

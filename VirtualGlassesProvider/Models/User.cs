@@ -11,6 +11,7 @@ namespace VirtualGlassesProvider.Models
 
         public PaymentInfo? PaymentInfo { get; set; }
         public Profiles? Profiles { get; set; }
+        public WishLists? WishLists { get; set; }
 
     }
 }

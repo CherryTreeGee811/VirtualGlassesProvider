@@ -71,14 +71,27 @@
             </select>
             <br />
             <br />
-            <input type="button" id="generateImageBtn" name="generateImageBtn" value="Try on virtually" aria-label="generate AR image button" class="btn btn-primary" />
-
+            <input type="button" id="generateImageBtn" name="generateImageBtn" value="Try on virtually" aria-label="generate AR image button" class="btn btn-dark" />
+            &nbsp; &nbsp;
+            <input type="button" id="ApplyGlassesFilterBtn" name="ApplyGlassesFilterBtn" value="Live Try On!" aria-label="generate live try on button" class="btn btn-dark" />
+            @* <a asp-action="ApplyGlassesFilter" asp-controller="Home" class="btn btn-primary">Live Try On!</a> *@
         </form>  
+        
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script>
-    $(document).ready(function () {
+    // $(document).ready(function () {
+    //     $("#generateImageBtn").click(function () {
+    //         $.ajax({
+    //             type: "GET",
+    //             url: "/Home/ApplyGlassesFilter/",
+    //             data: { 'glasses': '@this.Model.Image' },
+    //             success: function (viewHTML) {
+    //             },
+    //             error: function (errorData) { onError(errorData); }
+    //         });
+    //     });
         $("#generateImageBtn").click(function () {
             $.ajax({
                 type: "GET",
