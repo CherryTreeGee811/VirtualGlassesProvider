@@ -37,7 +37,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(1)]
         public void ClientCancelsAddingFamily()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 691);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
@@ -71,7 +71,7 @@ namespace VirtualGlassesProvider.Tests
             var memberPhone = "222-222-2222";
             string runningDir = TestContext.CurrentContext.TestDirectory;
             string projectDir = Directory.GetParent(runningDir).Parent.FullName;
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 691);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
@@ -128,7 +128,7 @@ namespace VirtualGlassesProvider.Tests
             var memberPhone = "432-233-231";
             string runningDir = TestContext.CurrentContext.TestDirectory;
             string projectDir = Directory.GetParent(runningDir).Parent.FullName;
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             _driver.FindElement(By.Id("register")).Click();
             _driver.FindElement(By.Id("login")).Click();
@@ -186,7 +186,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(4)]
         public void ClientGeneratesARImageForFamilyMember()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 1000);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
@@ -228,7 +228,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(5)]
         public void ClientDeletesFamilyMember()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();

@@ -38,7 +38,7 @@ namespace VirtualGlassesProvider.Tests
             const string initialDisplayName = "Tim Apple";
             string runningDir = TestContext.CurrentContext.TestDirectory;
             string projectDir = Directory.GetParent(runningDir).Parent.FullName;
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1936, 1056);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
