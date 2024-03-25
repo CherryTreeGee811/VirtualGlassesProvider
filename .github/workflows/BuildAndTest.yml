@@ -28,24 +28,39 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
+
+      - name: Create Bridge
+        shell: bash
+        run: docker network create visionvogue-net
           
       - name: Setup DB
-        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{secrets.MSSQL_SA_SECRET}}" --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
-      
+        shell: bash
+        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{secrets.MSSQL_SA_SECRET}}" --network visionvogue-net --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+        
       - name: Restore dependencies
+        shell: bash
         run: dotnet restore
       
       - name: Download .NET tool
+        shell: bash
         run: dotnet tool install --global dotnet-ef
         
       - name: Add Migrations
+        shell: bash
         run: dotnet ef migrations add Initial -c GlassesStoreDbContext --project VirtualGlassesProvider/VirtualGlassesProvider.csproj
       
       - name: Update Database
+        shell: bash
         run: dotnet ef database update Initial --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --connection "Server=localhost,1433;Database=VisionVogue;User Id=sa;Password=${{secrets.MSSQL_SA_SECRET }};TrustServerCertificate=true;"
-          
-      - name: Execute Code and Test
-        run: |
-          dotnet run --project VirtualGlassesProvider/VirtualGlassesProvider.csproj --launch-profile https &
-          sleep 2
-          dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
+
+      - name: Build App Container
+        shell: bash
+        run: docker build --rm -t vision-vogue/application:latest .
+
+      - name: Run App Container
+        shell: bash
+        run: docker run --rm -dit --name visionvogue-app --hostname localhost --network visionvogue-net -p 5000:5000 -p 5001:5001 -e ASPNETCORE_HTTP_PORT=https://+5001 -e ASPNETCORE_URLS=http://+:5000 vision-vogue/application
+        
+      - name: Automated Tests
+        shell: bash
+        run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
