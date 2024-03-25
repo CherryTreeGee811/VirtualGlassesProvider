@@ -5,11 +5,9 @@ using System.Diagnostics;
 using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Models.DTOs;
-using Python.Runtime;
 using VirtualGlassesProvider.CustomAttributes;
 using VirtualGlassesProvider.Services;
 using VirtualGlassesProvider.Models.ViewModels;
-using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 
@@ -120,8 +118,23 @@ namespace VirtualGlassesProvider.Controllers
 
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var family = await _context.FamilyMembers
+                   .Where(u => u.UserID == user.Id)
+                   .Select(f => new FamilyARViewModel
+                   {
+                       ID = f.ID,
+                       Name = $"{f.FirstName} {f.LastName}"
+                   }).ToListAsync();
+                if(family != null)
+                {
+                    ViewBag.Members = family;
+                }
+            }
             var glasses = _context.Glasses.Find(id);
             var glassesDTO = new GlassesDTO
             {
@@ -133,208 +146,54 @@ namespace VirtualGlassesProvider.Controllers
                 Style = glasses.Style,
                 Image = glasses.Image
             };
+           
             return View(glassesDTO);
         }
 
 
         [AjaxOnly]
-        public async Task<PartialViewResult> GenerateImage(string glasses)
+        public async Task<string> GetPortrait(string? entity)
         {
             var user = await _userManager.GetUserAsync(User);
             string imgB64 = null;
+            Console.WriteLine(entity);
             if (user != null)
             {
-                var profile = await _context.Profiles.FirstOrDefaultAsync(p => p.UserID == user.Id);
-                if (profile.ImageID != null)
+                if (entity.Equals("self"))
                 {
-                    var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
-                    imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                    var profile = await _context.Profiles.FirstOrDefaultAsync(p => p.UserID == user.Id);
+                    if (profile != null || profile.ImageID != null)
+                    {
+                        var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
+                        imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                    }
+                }
+                else if (!String.IsNullOrEmpty(entity))
+                {
+                    bool parseSuccessfull = int.TryParse(entity, out int familyID);
+                    if (parseSuccessfull)
+                    {
+                        var familyMember = await _context.FamilyMembers.Where(u => u.UserID == user.Id).Where(f => f.ID == familyID).FirstAsync();
+                        if (familyMember.ImageID != null)
+                        {
+                            var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == familyMember.ImageID);
+                            imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                        }
+                    }
                 }
             }
 
             if (user == null)
             {
-                ViewData["error"] = "Please login to use this feature";
-                return PartialView("_RenderPartial");
+                return "Please login to use this feature";
             }
 
             if (imgB64 == null)
             {
-                ViewData["error"] = "Please upload a portrait";
-                return PartialView("_RenderPartial");
+                return "Please upload a portrait";
             }
 
-            if (!PythonEngine.IsInitialized)
-            {
-                var runtime = "";
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    runtime = Environment.GetEnvironmentVariable("Python_Runtime");
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    runtime = "/usr/lib/x86_64-linux-gnu/libpython3.10.so.1.0";
-                }
-                Runtime.PythonDLL = runtime;
-                PythonEngine.Initialize();
-            }
-            using (PyModule scope = Py.CreateScope())
-            {
-                // Injecting variables directly into the code string
-                string code = $@"
-import cv2
-import numpy as np
-import base64
-
-# Load the face detection model
-face = cv2.CascadeClassifier('./Resources/Detection/haarcascade_frontalface_default.xml')
-
-# Decode the base64 image
-img_decode = base64.b64decode('{imgB64}')
-image = np.frombuffer(img_decode, np.uint8)
-img = cv2.imdecode(image, cv2.IMREAD_COLOR)
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-img_gray = face.detectMultiScale(gray, 1.09, 7)
-frame = img.copy()
-# Correctly form the path and load the glasses image
-glasses_path = './wwwroot/{glasses}'
-glasses = cv2.imread(glasses_path, cv2.IMREAD_UNCHANGED)
-
-def put_glasses_on_face(glasses, fc, x, y, w, h):
-    face_width = w
-    face_height = h
-
-    glasses_width = face_width + 1
-    glasses_height = int(0.50 * face_height) + 1
-    glasses_resized = cv2.resize(glasses, (glasses_width, glasses_height))
-    
-    for i in range(glasses_height):
-        for j in range(glasses_width):
-            if glasses_resized[i, j][3] != 0:  
-                for k in range(3): 
-                    fc[y + i - int(-0.20 * face_height)][x + j][k] = glasses_resized[i, j][k]
-    return fc
-
-for (x, y, w, h) in img_gray:
-    frame = put_glasses_on_face(glasses, frame, x, y, w, h)
-
-cv2.imwrite('./wwwroot/images/render.jpg', frame)
-cv2.destroyAllWindows()
-";
-                scope.Exec(code);
-            }
-            PythonEngine.Shutdown();
-            ViewData["renderedImage"] = "\\images\\render.jpg";
-            ViewData["brandName"] = "Render";
-            return PartialView("_RenderPartial");
-        }
-//        [AjaxOnly]
-//        public IActionResult ApplyGlassesFilter(string glasses)
-//        {
-//            if (!PythonEngine.IsInitialized)
-//            {
-//                var runtime = "";
-//                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-//                {
-//                    runtime = Environment.GetEnvironmentVariable("Python_Runtime");
-//                }
-//                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-//                {
-//                    runtime = "/usr/lib/x86_64-linux-gnu/libpython3.10.so.1.0";
-//                }
-//                Runtime.PythonDLL = runtime;
-//                PythonEngine.Initialize();
-//            }
-//            using (PyModule scope = Py.CreateScope())
-//            {
-//                string code = @"
-//import cv2
-//import numpy as np
-
-//def put_glass(glass, fc, x, y, w, h):
-//    face_width = w
-//    face_height = h
-
-//    hat_width = face_width + 1
-//    hat_height = int(0.50 * face_height) + 1
-
-//    glass = cv2.resize(glass, (hat_width, hat_height))
-
-//    for i in range(hat_height):
-//        for j in range(hat_width):
-//            for k in range(3):
-//                if glass[i][j][k] < 235:
-//                    fc[y + i - int(-0.20 * face_height)][x + j][k] = glass[i][j][k]
-//    return fc
-
-//face = cv2.CascadeClassifier('./Resources/Detection/haarcascade_frontalface_default.xml')
-//glasses_path = './wwwroot/{glasses}'
-//glass = cv2.imread(glasses_path)
-
-//webcam = cv2.VideoCapture(0)
-//while True:
-//    size = 4
-//    (rval, im) = webcam.read()
-//    if not rval:
-//        break
-//    im = cv2.flip(im, 1, 0)
-//    gray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-//    fl = face.detectMultiScale(gray, 1.19, 7)
-
-//    for (x, y, w, h) in fl:
-//        im = put_glass(glass, im, x, y, w, h)
-
-//    cv2.imshow('Hat & glasses', im)
-//    key = cv2.waitKey(30) & 0xff
-//    if key == 27:  
-//        break
-
-//webcam.release()
-//cv2.destroyAllWindows()
-//";
-//                scope.Exec(code);
-//            }
-//            //PythonEngine.Shutdown();
-
-//            // Return some response to indicate the operation has completed
-//            return Ok("Filter applied successfully.");
-//        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> DownloadImage()
-        {
-            var filePath = "./wwwroot/images/render.jpg"; // Path to the generated image
-            if (System.IO.File.Exists(filePath))
-            {
-                var memoryStream = new MemoryStream();
-                using (var stream = new FileStream(filePath, FileMode.Open))
-                {
-                    await stream.CopyToAsync(memoryStream);
-                }
-                memoryStream.Position = 0; // Reset the memory stream position to allow for reading
-
-                var fileName = "ARGeneratedImage.jpg";
-
-                // Return the file with the appropriate MIME type
-                return File(memoryStream, "image/jpeg", fileName);
-            }
-            else
-            {
-                // If the file doesn't exist, you might want to redirect to an error page or return a NotFound result
-                return NotFound("The requested image does not exist.");
-            }
-        }
-
-
-
-
-        [AjaxOnly]
-        public PartialViewResult RenderDefault(string glasses, string brandName)
-        {
-            ViewData["renderedImage"] = $"\\{glasses}";
-            ViewData["brandName"] = brandName;
-            return PartialView("_RenderPartial");
+            return "data:image/jpg;base64," + imgB64;
         }
 
 
@@ -433,8 +292,16 @@ cv2.destroyAllWindows()
             }
             else
             {
-                paymentinfo.CardNumber = _aesEncryptionService.Decrypt(paymentinfo.CardNumber);
-                paymentinfo.CVV = _aesEncryptionService.Decrypt(paymentinfo.CVV);
+                if(!String.IsNullOrEmpty(paymentinfo.CardHolderName))
+                {
+                    paymentinfo.CardNumber = _aesEncryptionService.Decrypt(paymentinfo.CardNumber);
+                }
+
+                if (!String.IsNullOrEmpty(paymentinfo.CVV))
+                {
+                    paymentinfo.CVV = _aesEncryptionService.Decrypt(paymentinfo.CVV);
+                }
+
                 viewModel = new CheckoutViewModel
                 {
                     CartItems = cartItems,
@@ -444,6 +311,7 @@ cv2.destroyAllWindows()
             }
             return View(viewModel);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Checkout(CheckoutViewModel viewModel)
@@ -514,6 +382,7 @@ cv2.destroyAllWindows()
             // If model state is not valid, or cart is empty, return to the same view
             return View(viewModel);
         }
+
 
         [HttpGet]
         public IActionResult OrderConfirmation()

@@ -3,10 +3,36 @@
     ViewData["Title"] = "Home Page";
 }
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+    }
     .card {
-        margin: 1em;
-        box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
-        border: none;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+        background-color: #fff;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-body {
+        padding: 20px;
+        height: 300px; 
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        margin-bottom: 15px;
     }
 
     .img-wrapper {
@@ -38,6 +64,27 @@
         .pagination li {
             margin: 0 5px;
         }
+
+    .price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #007bff;
+        margin-bottom: 15px;
+    }
+
+    .label-text {
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+
 </style>
 <div class="text-center">
     <h1 class="display-4">Welcome To Vision Vogue!</h1>
@@ -69,9 +116,9 @@
                 <div class="card-body">
                     <h5 class="card-title">@item.BrandName</h5>
                     <p class="card-text">@item.Description</p>
-                    <p class="card-text">@item.Price.ToString("C")</p>
-                    <p class="card-text">Style: @item.Style</p>
-                    <p class="card-text">Color: @item.Colour</p>
+                    <p class="price">@item.Price.ToString("C")</p>
+                    <p class="label-text">Style: <span class="font-weight-bold">@item.Style</span></p>
+                    <p class="label-text">Color: <span class="font-weight-bold">@item.Colour</span></p>
                     <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID">Details</a>
                     <a asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID">Add to Cart</a>
                     <a asp-controller="Home" asp-action="AddToWishList" asp-route-id="@item.ID" class="btn btn-success">Add to Wish List</a>

@@ -21,7 +21,7 @@ body {
   margin-bottom: 60px;
 }
 
-#profileImageColumn {
+#profileImageColumn, #familyImageColumn {
     padding-left: 60px;
 }
 
