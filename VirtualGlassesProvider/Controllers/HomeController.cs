@@ -193,7 +193,6 @@ namespace VirtualGlassesProvider.Controllers
                 return "Please upload a portrait";
             }
 
-
             return "data:image/jpg;base64," + imgB64;
         }
 
@@ -408,6 +407,92 @@ namespace VirtualGlassesProvider.Controllers
                                            .ToListAsync();
 
             return View(userOrders);
+        }
+
+        public async Task<IActionResult> WishList()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            WishLists wishList = await _context.WishLists.Include(w => w.WishListItems).Where(w => w.User.Id == user.Id).FirstOrDefaultAsync();
+
+            if (wishList == null)
+            {
+                wishList = new WishLists { User = user };
+                _context.WishLists.Add(wishList);
+                _context.SaveChanges();
+            }
+
+            if (wishList.WishListItems == null)
+            {
+                wishList.WishListItems = new List<WishListItems>();
+            }
+
+            if (wishList.WishListItems.Count > 0)
+            {
+
+                List<Glasses> glasses = new List<Glasses>();
+                foreach (Glasses glass in _context.Glasses)
+                {
+                    Glasses glasses1 = new Glasses()
+                    {
+                        ID = glass.ID,
+                        BrandName = glass.BrandName,
+                        Description = glass.Description,
+                        Price = glass.Price,
+                        Colour = glass.Colour,
+                        Style = glass.Style,
+                        Image = glass.Image,
+                        
+                    };
+
+                    glasses.Add(glasses1);
+                }
+
+
+
+                foreach (var glass in glasses)
+                {
+                    WishListItems item = wishList.WishListItems.SingleOrDefault(wi => wi.GlassesID == glass.ID); ;
+                    if (item != null)
+                    {
+                        wishList.WishListItems.Remove(item);
+                        item.Glasses = glass;
+                        wishList.WishListItems.Add(item);
+                    }
+                }
+
+
+
+            }
+            else
+            {
+                wishList.WishListItems = new List<WishListItems>();
+            }
+
+            ViewBag.UserName = user.UserName;
+
+            return View(wishList);
+        }
+    
+        public async Task<IActionResult> AddToWishList(int ID)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            WishLists wishList = await _context.WishLists.Include(w => w.WishListItems).Where(w => w.User.Id == user.Id).FirstOrDefaultAsync();
+
+            if (wishList == null)
+            {
+                wishList = new WishLists { User = user };
+                _context.WishLists.Add(wishList);
+                await _context.SaveChangesAsync();
+            }
+
+            WishListItems item = new WishListItems { GlassesID = ID, WishLists = wishList };
+
+            _context.WishListItems.Add(item);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

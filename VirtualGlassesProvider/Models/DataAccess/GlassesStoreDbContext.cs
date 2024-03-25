@@ -33,6 +33,16 @@ namespace VirtualGlassesProvider.Models.DataAccess
              .HasOne(u => u.User)
              .WithOne(p => p.PaymentInfo)
              .OnDelete(DeleteBehavior.Cascade);
+             
+            builder.Entity<WishLists>()
+               .HasOne(u => u.User)
+               .WithOne(w => w.WishLists)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<WishListItems>()
+                .HasOne(wi => wi.WishLists)
+                .WithMany(w => w.WishListItems)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<FamilyMember>()
              .HasOne(u => u.User)
@@ -105,6 +115,8 @@ namespace VirtualGlassesProvider.Models.DataAccess
         public DbSet<Invoice> Invoices { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+        public DbSet<WishLists> WishLists { get; set; }
+        public DbSet<WishListItems> WishListItems { get; set; }
 
         public DbSet<FamilyMember> FamilyMembers { get; set; }
 
