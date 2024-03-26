@@ -70,4 +70,6 @@ jobs:
         shell: bash
         run: |
           docker login -u cherrytreegee811 -p ${{ secrets.DOCKER_CRED }}
+          docker commit sqlpreview cherrytreegee811/vision-vogue-database
+          docker push cherrytreegee811/vision-vogue-database:latest
           docker push cherrytreegee811/vision-vogue:latest
