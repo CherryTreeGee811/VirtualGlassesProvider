@@ -64,7 +64,7 @@ else{
                     <div class="card-body">
                         <h5 class="card-title">@item.BrandName</h5>
                         <p class="card-text">@item.Description</p>
-                        <p class="card-text">@item.Price.ToString("C").Replace("$", "&#36;")</p>
+                        <p class="card-text">@item.Price&#36;@item.TotalPrice.ToString("F")</p>
                         <p class="card-text">Style: @item.Style</p>
                         <p class="card-text">Colour: @item.Colour</p>
                         <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID">Details</a>

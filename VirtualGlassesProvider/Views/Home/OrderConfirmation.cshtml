@@ -9,7 +9,7 @@
             <h3>Invoice Details</h3>
             <p style="display: none;">Invoice ID: @Model.InvoiceDetails.Id</p>
             <p>Invoice Date: @Model.InvoiceDetails.InvoiceDate.ToString("dd MMM yyyy")</p>
-            <p>Total Bill: @Model.InvoiceDetails.Bill.ToString("C").Replace("$", "&#36;")</p>
+            <p>Total Bill: @Model.InvoiceDetails.Bill&#36;@item.TotalPrice.ToString("F")</p>
             <p>Payment Method: @Model.InvoiceDetails.PaymentMethod</p>
 
             <h3>Order Items</h3>
@@ -18,8 +18,8 @@
                 <div>
                     <p>Glasses Brand Name: @item.BrandName</p>
                     <p>Quantity: @item.Quantity</p>
-                    <p>Price per Unit: @item.UnitPrice.ToString("C").Replace("$", "&#36;")</p>
-                    <p>Total Price: @item.TotalPrice.ToString("C").Replace("$", "&#36;")</p>
+                    <p>Price per Unit: @item.UnitPrice&#36;@item.TotalPrice.ToString("F")</p>
+                    <p>Total Price: &#36;@item.TotalPrice.ToString("F")</p>
                 </div>
             }
         }
