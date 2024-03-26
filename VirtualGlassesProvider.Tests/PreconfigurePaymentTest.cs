@@ -68,8 +68,8 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
-            _driver.FindElement(By.Id("manage")).Click();
-            _driver.FindElement(By.Id("paymentInfo")).Click();
+            _driver.FindElement(By.Id("accountDashboard")).Click();
+            _driver.FindElement(By.Id("managePaymentInfo")).Click();
             _driver.FindElement(By.Id("Input_CardHolderName")).SendKeys(cardHolderName);
             _driver.FindElement(By.Id("Input_CardNumber")).SendKeys(cardNumber);
             _driver.FindElement(By.Id("Input_CVV")).SendKeys(cvv);

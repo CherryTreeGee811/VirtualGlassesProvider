@@ -53,7 +53,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
-            Assert.That(_driver.FindElement(By.LinkText($"HELLO {TestClient.Email.ToUpper()}!")) != null);
+            Assert.That(_driver.FindElement(By.Id("accountDashboard")).Text == TestClient.Email.ToUpper());
         }
     }
 }

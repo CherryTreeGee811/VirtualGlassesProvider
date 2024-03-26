@@ -45,8 +45,8 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
-            _driver.FindElement(By.Id("manage")).Click();
-            _driver.FindElement(By.Id("family")).Click();
+            _driver.FindElement(By.Id("accountDashboard")).Click();
+            _driver.FindElement(By.Id("manageFamily")).Click();
             Assert.That(_driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
             _driver.FindElement(By.Id("family-form")).Click();
             var cancelBtn = _driver.FindElement(By.Id("exitFamilyFormBtn"));
@@ -79,8 +79,8 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
-            _driver.FindElement(By.Id("manage")).Click();
-            _driver.FindElement(By.Id("family")).Click();
+            _driver.FindElement(By.Id("accountDashboard")).Click();
+            _driver.FindElement(By.Id("manageFamily")).Click();
             Assert.That(_driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
             _driver.FindElement(By.Id("family-form")).Click();
             var altText = _driver.FindElement(By.Id("memberImage")).GetAttribute("alt").ToString();
@@ -137,8 +137,8 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
-            _driver.FindElement(By.Id("manage")).Click();
-            _driver.FindElement(By.Id("family")).Click();
+            _driver.FindElement(By.Id("accountDashboard")).Click();
+            _driver.FindElement(By.Id("manageFamily")).Click();
             var editBtn = _driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr:nth-child(1) > td:nth-child(6) > a"));
             new Actions(_driver)
             .ScrollToElement(editBtn)
@@ -236,8 +236,8 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
-            _driver.FindElement(By.Id("manage")).Click();
-            _driver.FindElement(By.Id("family")).Click();
+            _driver.FindElement(By.Id("accountDashboard")).Click();
+            _driver.FindElement(By.Id("manageFamily")).Click();
             var deleteBtn =_driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr:nth-child(1) > td:nth-child(6) > form > input.btn.btn-danger"));
             new Actions(_driver)
            .ScrollToElement(deleteBtn)

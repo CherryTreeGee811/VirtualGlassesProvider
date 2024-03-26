@@ -14,6 +14,7 @@ namespace VirtualGlassesProvider.Models
 
 
         public Profiles? Profiles { get; set; }
+        public WishLists? WishLists { get; set; }
 
 
         public ICollection<FamilyMember>? FamilyMembers { get; set; }

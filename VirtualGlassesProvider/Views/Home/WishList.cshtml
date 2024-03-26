@@ -1,0 +1,30 @@
+﻿@model WishLists
+@{
+    ViewData["Title"] = $"{ViewBag.UserName}'s Wish List";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (Model.WishListItems.Count == 0)
+{
+    <p class="center">There are no glasses on your wish list</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Glass Title</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+
+        @foreach (var glass in Model.WishListItems)
+        {
+            <tr>
+                <td><a asp-controller="Home" asp-action="Details" asp-route-id="@glass.Glasses.ID">@glass.Glasses.BrandName @glass.Glasses.Description</a></td>
+                <td>$@glass.Glasses.Price</td>
+                <td><a asp-controller="Home" asp-action="RemoveFromWishList" asp-route-id="@glass.Glasses.ID" asp-route-page="WishList" class="btn btn-danger">Remove from Wish List</a></td>
+            </tr>
+        }
+    </table>
+}
