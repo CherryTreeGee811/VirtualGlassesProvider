@@ -55,7 +55,7 @@ jobs:
 
       - name: Build App Container
         shell: bash
-        run: docker build --rm -t vision-vogue/application:latest .
+        run: docker build --rm -t cherrytreegee811/vision-vogue:latest .
 
       - name: Run App Container
         shell: bash
