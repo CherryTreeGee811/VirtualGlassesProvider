@@ -408,7 +408,7 @@ namespace VirtualGlassesProvider.Controllers
 
             return View(userOrders);
         }
-
+        [Authorize]
         public async Task<IActionResult> WishList()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -493,6 +493,26 @@ namespace VirtualGlassesProvider.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+        public async Task<IActionResult> RemoveFromWishList(int ID, string page)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            WishLists wishList = await _context.WishLists.Include(w => w.WishListItems).Where(w => w.User == user).FirstOrDefaultAsync();
+
+            WishListItems item = wishList.WishListItems.SingleOrDefault(wi => wi.GlassesID == ID);
+
+            _context.WishListItems.Remove(item);
+            _context.SaveChanges();
+
+            if (page.Equals("Index"))
+            {
+                return RedirectToAction("Index", "Home", new { id = ID });
+            }
+            else
+            {
+                return RedirectToAction("WishList");
+            }
         }
     }
 }

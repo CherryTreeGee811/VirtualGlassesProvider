@@ -22,7 +22,8 @@
 
     .card-body {
         padding: 20px;
-        height: 300px; 
+        height: 350px;
+        width: auto;
     }
 
     .card-title {
@@ -121,6 +122,7 @@
                     <p class="label-text">Color: <span class="font-weight-bold">@item.Colour</span></p>
                     <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID">Details</a>
                     <a asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID">Add to Cart</a>
+                    <p></p>
                     <a asp-controller="Home" asp-action="AddToWishList" asp-route-id="@item.ID" class="btn btn-success">Add to Wish List</a>
                 </div>
             </div>
