@@ -35,7 +35,7 @@ jobs:
           
       - name: Setup DB
         shell: bash
-        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{secrets.MSSQL_SA_SECRET}}" --network visionvogue-net --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{ secrets.MSSQL_SA_SECRET }}" --network visionvogue-net --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
         
       - name: Restore dependencies
         shell: bash
@@ -59,8 +59,15 @@ jobs:
 
       - name: Run App Container
         shell: bash
-        run: docker run --rm -dit --name visionvogue-app --hostname localhost --network visionvogue-net -p 5000:5000 -p 5001:5001 -e ASPNETCORE_HTTP_PORT=https://+5001 -e ASPNETCORE_URLS=http://+:5000 vision-vogue/application
+        run: docker run --rm -dit --name visionvogue-app --hostname localhost --network visionvogue-net -p 5000:5000 -p 5001:5001 -e ASPNETCORE_HTTP_PORT=https://+5001 -e ASPNETCORE_URLS=http://+:5000 cherrytreegee811/vision-vogue
         
       - name: Automated Tests
         shell: bash
         run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
+        
+      - name: Push to Docker
+        if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/docker-test' }}
+        shell: bash
+        run: |
+          docker login -u cherrytreegee811 -p ${{ secrets.DOCKER_CRED }}
+          docker push cherrytreegee811/vision-vogue:latest
