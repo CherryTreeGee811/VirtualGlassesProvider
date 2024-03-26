@@ -116,7 +116,7 @@
                 <div class="card-body">
                     <h5 class="card-title">@item.BrandName</h5>
                     <p class="card-text">@item.Description</p>
-                    <p class="price">@item.Price.ToString("C")</p>
+                    <p class="price">@item.Price.ToString("C").Replace("$", "&#36;")</p>
                     <p class="label-text">Style: <span class="font-weight-bold">@item.Style</span></p>
                     <p class="label-text">Color: <span class="font-weight-bold">@item.Colour</span></p>
                     <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID">Details</a>
