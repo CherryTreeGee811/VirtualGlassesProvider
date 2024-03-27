@@ -12,7 +12,6 @@ services:
         environment:
             ASPNETCORE_HTTP_PORT: https://+5001
             ASPNETCORE_URLS: http://+:5000
-        command: sh -c "sleep 30"
         depends_on:
             - database
 
