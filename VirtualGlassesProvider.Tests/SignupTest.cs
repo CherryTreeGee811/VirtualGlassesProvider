@@ -22,7 +22,7 @@ namespace VirtualGlassesProvider.Tests
         public void SetUp()
         {
             ChromeOptions options = new ChromeOptions { AcceptInsecureCertificates = true };
-            options.AddArgument("--headless=new");
+            //options.AddArgument("--headless=new");
             _driver = new ChromeDriver(options);
         }
 
@@ -60,7 +60,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("registerSubmit")).Click();
-            Assert.That(_driver.FindElement(By.CssSelector("p")).Text, Is.EqualTo($"Please check your {TestClient.Email} email to confirm your account."));
+            Assert.That(_driver.FindElement(By.CssSelector("body > div > main > p")).Text, Is.EqualTo($"Please check your {TestClient.Email} email to confirm your account."));
         }
     }
 }
