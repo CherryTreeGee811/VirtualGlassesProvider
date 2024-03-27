@@ -66,7 +66,7 @@ jobs:
         run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
         
       - name: Push to Docker
-        if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/docker-test' }}
+        if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/docker-test' || github.ref == 'refs/heads/beforemain2' }}
         shell: bash
         run: |
           docker login -u cherrytreegee811 -p ${{ secrets.DOCKER_CRED }}
