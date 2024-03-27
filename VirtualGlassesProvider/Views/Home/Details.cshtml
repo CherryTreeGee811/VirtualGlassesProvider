@@ -2,6 +2,16 @@
 @{
     ViewData["Title"] = "Details";
 }
+
+@{
+    var addedToCartMessage = TempData["AddedToCartMessage"] as string;
+}
+@if (!string.IsNullOrEmpty(addedToCartMessage))
+{
+    <div id="addedToCartMessage" class="alert alert-success" role="alert">
+        @addedToCartMessage
+    </div>
+}
 <div id="detailsLeft">
     <hr />
         <h1>
@@ -31,6 +41,7 @@
         </p>
         <a asp-action="Index">Back to List</a>
 </div>
+
 <div id="detailsRight">
     <div>
         <h2>
@@ -41,7 +52,7 @@
         </p>
         </div>
     <div id="detailsFormsDiv">
-        <form id="formCart">
+        <form id="formCart" action="@Url.Action("AddToCart", "Home")" method="get">
             <label for="size">Size:</label>
             <br />
             <select id="size" name="size">
@@ -52,6 +63,9 @@
             </select>
             <br />
             <br />
+            <input type="hidden" name="id" value="@Model.ID" />
+            <input type="hidden" name="qty" value="1" />
+            <input type="hidden" name="source" value="details" />
             <input type="submit" id="addProductToCartBtn" name="addProductToCartBtn" value="Add to Cart" aria-label="add to cart button" class="btn btn-primary" />
         </form>
 
@@ -94,3 +108,15 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="~/js/details.js" asp-append-version="true"></script>
+
+<script>
+    setTimeout(function () {
+        var addedToCartMessageElement = document.getElementById('addedToCartMessage');
+        if (addedToCartMessageElement) {
+            addedToCartMessageElement.remove();
+        }
+    }, 2000);
+</script>
+
+
+
