@@ -31,7 +31,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(1)]
         public void ClientSearchesByBrandName()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             _driver.FindElement(By.Id("searchString")).Click();
             _driver.FindElement(By.Id("searchString")).SendKeys("Rayban");
@@ -43,7 +43,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(2)]
         public void ClientSearchesByColour()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             _driver.FindElement(By.Id("searchString")).Click();
             _driver.FindElement(By.Id("searchString")).SendKeys("Blue");
@@ -55,7 +55,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(3)]
         public void ClientSearchesByPrice()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 691);
             _driver.FindElement(By.Id("searchString")).Click();
             _driver.FindElement(By.Id("searchString")).SendKeys("10.99");
@@ -67,7 +67,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(4)]
         public void ClientSearchesByStyle()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 691);
             _driver.FindElement(By.Id("searchString")).Click();
             _driver.FindElement(By.Id("searchString")).SendKeys("Square");
@@ -79,7 +79,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(5)]
         public void ClientFailsToFindSearchResults()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 691);
             _driver.FindElement(By.Id("searchString")).Click();
             _driver.FindElement(By.Id("searchString")).SendKeys("!~~");

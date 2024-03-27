@@ -32,7 +32,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(1)]
         public void ClientDoesNotPreconfigurePayment()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1936, 1056);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
@@ -60,7 +60,7 @@ namespace VirtualGlassesProvider.Tests
             const string cardNumber = "4256284623339010";
             const string cvv = "155";
             const string expiryDate = "07/27";
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1936, 1056);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();

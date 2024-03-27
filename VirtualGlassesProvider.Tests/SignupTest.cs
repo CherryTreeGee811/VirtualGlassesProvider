@@ -37,7 +37,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(1)]
         public void ClientFailsToProvideAValidPasswordOnSignUp()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             _driver.FindElement(By.Id("register")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
@@ -56,7 +56,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(2)]
         public void ClientSignsUpSuccessfully()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             _driver.FindElement(By.Id("register")).Click();
             _driver.FindElement(By.Id("Input_Email")).Click();
