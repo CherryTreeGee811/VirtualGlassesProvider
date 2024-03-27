@@ -12,6 +12,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="age_gender_model-weights_manifest.json" />
+    <_ContentIncludedByDefault Remove="face_expression_model-weights_manifest.json" />
+    <_ContentIncludedByDefault Remove="face_landmark_68_model-weights_manifest.json" />
+    <_ContentIncludedByDefault Remove="face_landmark_68_tiny_model-weights_manifest.json" />
+    <_ContentIncludedByDefault Remove="face_recognition_model-weights_manifest.json" />
+    <_ContentIncludedByDefault Remove="mtcnn_model-weights_manifest.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="modalfile\age_gender_model-shard1" />
+    <Content Include="modalfile\face_expression_model-shard1" />
+    <Content Include="modalfile\face_landmark_68_model-shard1" />
+    <Content Include="modalfile\face_landmark_68_tiny_model-shard1" />
+    <Content Include="modalfile\face_recognition_model-shard1" />
+    <Content Include="modalfile\face_recognition_model-shard2" />
+    <Content Include="modalfile\mtcnn_model-shard1" />
+    <Content Include="modalfile\ssd_mobilenetv1_model-shard1" />
+    <Content Include="modalfile\ssd_mobilenetv1_model-shard2" />
+    <Content Include="modalfile\tiny_face_detector_model-shard1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\detection\haarcascade_frontalface_default.xml" />
     <None Include="wwwroot\images\avatar.png" />
   </ItemGroup>
@@ -29,6 +51,17 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="ssd_mobilenetv1_model-weights_manifest.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="tiny_face_detector_model-weights_manifest.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

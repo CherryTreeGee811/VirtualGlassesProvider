@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Services;
@@ -56,6 +57,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+            Path.Combine(Directory.GetCurrentDirectory(), "modalfile")),
+    RequestPath = "/modalfile"
+});
 app.UseRouting();
 
 using (var scope = app.Services.CreateScope())
