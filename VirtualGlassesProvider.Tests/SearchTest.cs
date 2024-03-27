@@ -33,7 +33,6 @@ namespace VirtualGlassesProvider.Tests
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
-            _driver.FindElement(By.Id("searchString")).Click();
             _driver.FindElement(By.Id("searchString")).SendKeys("Rayban");
             _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
             Assert.That(_driver.FindElement(By.CssSelector("html body div.container main.pb-3 div.row div.col-md-4 div.card div.card-body h5.card-title")).Text, Is.EqualTo("RAYBAN"));
@@ -45,7 +44,6 @@ namespace VirtualGlassesProvider.Tests
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
-            _driver.FindElement(By.Id("searchString")).Click();
             _driver.FindElement(By.Id("searchString")).SendKeys("Blue");
             _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
             Assert.That(_driver.FindElement(By.CssSelector(".card-text:nth-child(5)")).Text, Is.EqualTo("Colour: Blue"));
@@ -57,7 +55,6 @@ namespace VirtualGlassesProvider.Tests
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 691);
-            _driver.FindElement(By.Id("searchString")).Click();
             _driver.FindElement(By.Id("searchString")).SendKeys("10.99");
             _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
             Assert.That(_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .card-text:nth-child(3)")).Text.Contains("10.99"), Is.True);
@@ -69,7 +66,6 @@ namespace VirtualGlassesProvider.Tests
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 691);
-            _driver.FindElement(By.Id("searchString")).Click();
             _driver.FindElement(By.Id("searchString")).SendKeys("Square");
             _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
             Assert.That(_driver.FindElement(By.CssSelector(".card-text:nth-child(4)")).Text, Is.EqualTo("Style: Square"));
@@ -81,7 +77,6 @@ namespace VirtualGlassesProvider.Tests
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 691);
-            _driver.FindElement(By.Id("searchString")).Click();
             _driver.FindElement(By.Id("searchString")).SendKeys("!~~");
             _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
             Assert.That(_driver.FindElement(By.CssSelector("h1")).Text, Is.EqualTo("NO RESULTS FOUND :("));
