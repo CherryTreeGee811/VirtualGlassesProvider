@@ -2,6 +2,10 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+@{
+    var addedToCartMessage = TempData["AddedToCartMessage"] as string;
+    var addedToWishlistMessage = TempData["AddedToWishlistMessage"] as string;
+}
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -90,6 +94,21 @@
 <div class="text-center">
     <h1 class="display-4">Welcome To Vision Vogue!</h1>
 </div>
+
+@if (!string.IsNullOrEmpty(addedToCartMessage))
+{
+    <div id="addedToCartMessage" class="alert alert-success" role="alert">
+        @addedToCartMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(addedToWishlistMessage))
+{
+    <div id="addedToWishlistMessage" class="alert alert-success" role="alert">
+        @addedToWishlistMessage
+    </div>
+}
+
 <div class="row">
     <div class="col-md-8 offset-md-2">
         <form asp-action="Search" class="form-inline mt-4 mb-4">
@@ -129,6 +148,22 @@
         </div>
     }
 </div>
+
+<script>
+    setTimeout(function () {
+        var addedToCartMessageElement = document.getElementById('addedToCartMessage');
+        if (addedToCartMessageElement) {
+            addedToCartMessageElement.remove();
+        }
+    }, 2000);
+
+    setTimeout(function () {
+        var addedToWishlistMessageElement = document.getElementById('addedToWishlistMessage');
+        if (addedToWishlistMessageElement) {
+            addedToWishlistMessageElement.remove();
+        }
+    }, 2000);
+</script>
 
 <nav aria-label="Page navigation example">
     <ul class="pagination">
