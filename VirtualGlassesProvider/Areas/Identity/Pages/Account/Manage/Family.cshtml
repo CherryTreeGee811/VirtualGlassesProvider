@@ -5,6 +5,26 @@
     ViewData["ActivePage"] = ManageNavPages.Family;
 }
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .label-text {
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+</style>
+
 <a class="btn btn-primary @ManageNavPages.FamilyFormNavClass(ViewContext)" id="family-form" asp-page="./FamilyForm">Add Family</a>
 <table class="table">
     @if (Model.familyMembers.Count == 0)
