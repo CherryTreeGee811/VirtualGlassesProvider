@@ -64,6 +64,10 @@ jobs:
       - name: Automated Tests
         shell: bash
         run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
+
+      - name: Delete Test Data
+        shell: bash
+        run: docker exec -it sqlpreview /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${{ secrets.MSSQL_SA_SECRET }} -q "DELETE FROM VisionVogue.dbo.ASPNetUsers WHERE NormalizedUserName <> 'ADMIN';"
         
       - name: Push to Docker
         if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/docker-test' || github.ref == 'refs/heads/beforemain2' }}
