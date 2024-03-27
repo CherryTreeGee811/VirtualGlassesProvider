@@ -32,12 +32,10 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(1)]
         public void ClientDoesNotPreconfigurePayment()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1936, 1056);
             _driver.FindElement(By.Id("login")).Click();
-            _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
-            _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
             _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn-success")).Click();
@@ -60,12 +58,10 @@ namespace VirtualGlassesProvider.Tests
             const string cardNumber = "4256284623339010";
             const string cvv = "155";
             const string expiryDate = "07/27";
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1936, 1056);
             _driver.FindElement(By.Id("login")).Click();
-            _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
-            _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
             _driver.FindElement(By.Id("accountDashboard")).Click();
