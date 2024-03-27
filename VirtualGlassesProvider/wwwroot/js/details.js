@@ -25,6 +25,8 @@ $("#generateImageBtn").click(function () {
         cache: false
     });
 
+
+
     function renderCascade() {
         let faceCascade = new cv.CascadeClassifier();
         let pathToCascade = '\\detection\\haarcascade_frontalface_default.xml';
