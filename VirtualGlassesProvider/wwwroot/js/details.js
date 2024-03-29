@@ -16,7 +16,9 @@ $("#generateImageBtn").click(function () {
             }
             else {
                 originalPortraitElement.src = response;
-                renderCascade();
+                originalPortraitElement.onload = () => {
+                    renderCascade();
+                }
             }
         },
         error: function () {
