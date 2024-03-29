@@ -157,7 +157,6 @@ namespace VirtualGlassesProvider.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             string imgB64 = null;
-            Console.WriteLine(entity);
             if (user != null)
             {
                 if (entity.Equals("self"))
@@ -198,6 +197,7 @@ namespace VirtualGlassesProvider.Controllers
         }
 
 
+        [Authorize]
         [HttpGet]
         public ActionResult AddToCart(int id, int qty, string source)
         {
@@ -255,6 +255,7 @@ namespace VirtualGlassesProvider.Controllers
         }
 
 
+        [Authorize]
         [HttpPost]
         public IActionResult RemoveFromCart(int glassId)
         {
@@ -324,6 +325,7 @@ namespace VirtualGlassesProvider.Controllers
         }
 
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Checkout(CheckoutViewModel viewModel)
         {
@@ -395,6 +397,7 @@ namespace VirtualGlassesProvider.Controllers
         }
 
 
+        [Authorize]
         [HttpGet]
         public IActionResult OrderConfirmation()
         {
@@ -408,6 +411,8 @@ namespace VirtualGlassesProvider.Controllers
             return RedirectToAction("Index"); // or return View("Error");
         }
 
+
+        [Authorize]
         public async Task<IActionResult> OrderDetail()
         {
             var userId = User?.Identity.Name ?? string.Empty;
@@ -419,6 +424,8 @@ namespace VirtualGlassesProvider.Controllers
 
             return View(userOrders);
         }
+
+
         [Authorize]
         public async Task<IActionResult> WishList()
         {
@@ -485,6 +492,8 @@ namespace VirtualGlassesProvider.Controllers
             return View(wishList);
         }
 
+
+        [Authorize]
         public async Task<IActionResult> AddToWishList(int ID)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -520,6 +529,8 @@ namespace VirtualGlassesProvider.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        [Authorize]
         public async Task<IActionResult> RemoveFromWishList(int ID, string page)
         {
             var user = await _userManager.GetUserAsync(User);

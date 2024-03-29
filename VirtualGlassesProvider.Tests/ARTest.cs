@@ -36,7 +36,7 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(1)]
         public void UnauthenticatedUserClicksGenerateImage()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             var product = _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn-primary"));
             new Actions(_driver)
@@ -54,12 +54,10 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(2)]
         public void AuthenticatedUserGeneratesImageForSelfSuccessfully()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             _driver.FindElement(By.Id("login")).Click();
-            _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
-            _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
             var product = _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn-primary"));

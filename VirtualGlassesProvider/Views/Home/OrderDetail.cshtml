@@ -2,29 +2,51 @@
 
 <h2>My Orders</h2>
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .label-text {
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+</style>
 @if (Model != null && Model.Any())
 {
     <div class="row">
         @foreach (var order in Model)
         {
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        Glasses Name: @order.BrandName
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="img-wrapper">
+                        @* <img src="@Url.Content($"~/{item.Image}")" alt="@item.BrandName" /> *@
                     </div>
                     <div class="card-body">
-                        <p class="card-text">Quantity: @order.Quantity</p>                        
-                        <p class="card-text">Status: @order.Status</p>
-                        <p class="card-text">Price per Unit: @order.UnitPrice.ToString("C")</p>
-                        <p class="card-text">Total Price: @order.TotalPrice.ToString("C")</p>
-                        <p class="card-text">Order Date: @order.OrderDate.ToString("d")</p>
-                    </div>
-                    <div class="card-footer">
-                        Invoice Date: @order.Invoice?.InvoiceDate.ToString("d")
+                        <h5 class="card-title">@order.BrandName</h5>
+                        <p class="label-text">Quantity: @order.Quantity</p>
+                        <p class="label-text">Price: &#36;@order.UnitPrice</p>
+                        <p class="label-text">Status: @order.Status</p>
+                        <p class="label-text">Price per Unit: @order.UnitPrice.ToString("C")</p>
+                        <p class="label-text">Total Price: @order.TotalPrice.ToString("C")</p>
+                        <p class="label-text">Order Date: @order.OrderDate.ToString("d")</p>
+                        <div class="card-footer">
+                            Invoice Date: @order.Invoice?.InvoiceDate.ToString("d")
+                        </div>
                     </div>
                 </div>
             </div>
         }
+
     </div>
 }
 else

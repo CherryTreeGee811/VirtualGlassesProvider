@@ -37,14 +37,11 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(1)]
         public void ClientFailsToProvideAValidPasswordOnSignUp()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             _driver.FindElement(By.Id("register")).Click();
-            _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
-            _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys("password");
-            _driver.FindElement(By.Id("Input_ConfirmPassword")).Click();
             _driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys("password");
             _driver.FindElement(By.Id("registerSubmit")).Click();
             Assert.That(_driver.FindElement(By.CssSelector(".text-danger li:nth-child(1)")).Text, Is.EqualTo("Passwords must have at least one non alphanumeric character."));
@@ -56,17 +53,14 @@ namespace VirtualGlassesProvider.Tests
         [Test, Order(2)]
         public void ClientSignsUpSuccessfully()
         {
-            _driver.Navigate().GoToUrl("https://localhost:7044/");
+            _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
             _driver.FindElement(By.Id("register")).Click();
-            _driver.FindElement(By.Id("Input_Email")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
-            _driver.FindElement(By.Id("Input_Password")).Click();
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            _driver.FindElement(By.Id("Input_ConfirmPassword")).Click();
             _driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("registerSubmit")).Click();
-            Assert.That(_driver.FindElement(By.CssSelector("p")).Text, Is.EqualTo($"Please check your {TestClient.Email} email to confirm your account."));
+            Assert.That(_driver.FindElement(By.CssSelector("body > div > main > p")).Text, Is.EqualTo($"Please check your {TestClient.Email} email to confirm your account."));
         }
     }
 }

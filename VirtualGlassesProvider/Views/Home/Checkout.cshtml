@@ -1,6 +1,26 @@
 ﻿@model CheckoutViewModel
 <h2>Checkout</h2>
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    .label-text {
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+</style>
+
 @if (Model.CartItems != null && Model.CartItems.Any())
 {
 
@@ -17,7 +37,7 @@
                         <div class="content-wrapper">
                             <p class="card-text">Price: @item.Price</p>
                             <p class="card-text">Quantity: @item.Quantity</p>
-                            <p class="card-text"><strong>Total: @item.TotalPrice.ToString("C")</strong></p>
+                            <p class="card-text"><strong>Total: &#36;@item.TotalPrice.ToString("F")</strong></p>
                             <form asp-action="RemoveFromCart" asp-controller="Home" method="post">
                                 <input type="hidden" name="glassId" value="@item.ID" />
                                 <button type="submit" class="btn btn-danger card-item">Remove</button>
@@ -33,7 +53,7 @@
         }
     </div>
     <hr />
-    <h4>Grand Total: @Model.GrandTotal.ToString("C")</h4>
+    <h4>Grand Total: &#36;@Model.GrandTotal.ToString("F")</h4>
     <hr />
     <form asp-action="Checkout" method="post">
         <div class="form-group">
