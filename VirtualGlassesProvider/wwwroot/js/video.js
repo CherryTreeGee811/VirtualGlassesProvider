@@ -1,10 +1,4 @@
-﻿/*document.addEventListener("DOMContentLoaded", function () {
-$("#ApplyGlassesFilterBtn").click(function () {
-
-        });
-    });*/
-
-const video = document.getElementById("video");
+﻿const video = document.getElementById("video");
 const button = document.getElementById("ApplyGlassesFilterBtn"); 
 let model;
 let canvas = document.getElementById("canvas");
@@ -64,16 +58,6 @@ const detectFaces = async () => {
 
         // Draw the glasses image on the canvas
         ctx.drawImage(glassesImg, glassesX, glassesY, glassesWidth, glassesHeight);
-        /*const leftEye = pred.landmarks[4]; // Index 0 for the left eye
-        const rightEye = pred.landmarks[5];
-        const glassesWidth = rightEye[0] - leftEye[0];
-        const glassesHeight = glassesWidth * (glassesImg.naturalHeight / glassesImg.naturalWidth); // Maintain aspect ratio
-        const glassesX = leftEye[0];
-        const glassesY = leftEye[1] - (glassesHeight / 2); // Adjust based on your glasses image
-
-        // Draw the glasses image on the canvas
-        ctx.drawImage(glassesImg, glassesX, glassesY, glassesWidth, glassesHeight);*/
-        
     });
 };
 $("#ApplyGlassesFilterBtn").click(function () {
