@@ -13,6 +13,7 @@
     </div>
 }
 
+
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -32,6 +33,7 @@
         transition: all 0.3s ease;
     }
 </style>
+
 
 <div id="detailsLeft">
     <hr />
@@ -62,7 +64,6 @@
         </p>
         <a asp-action="Index">Back to List</a>
 </div>
-
 <div id="detailsRight">
     <div>
         <h2>
@@ -73,6 +74,7 @@
         </p>
         </div>
     <div id="detailsFormsDiv">
+        
         <form id="formAR">
             <label for="buyFor">Buy For:</label>
             <br />
@@ -92,17 +94,27 @@
             &nbsp; &nbsp;
             <input type="button" id="generateImageBtn" name="generateImageBtn" value="Try on virtually" aria-label="generate AR image button" class="btn btn-dark" />
             &nbsp; &nbsp;
-            <canvas id="canvasOutput" hidden></canvas>
+            <input type="button" id="ApplyGlassesFilterBtn" name="ApplyGlassesFilterBtn" value="Live Try On!" aria-label="generate live try on button" class="btn btn-dark" />
+            <canvas id="canvasOutput" hidden ></canvas>
             <img id="originalPortrait" src="" hidden />
             <img id="productImage" src="~/@Html.DisplayFor(model => model.Image)" hidden />
             <p id="glassesBrandNameVal" hidden>@Html.DisplayFor(model => model.BrandName)</p>
         </form>  
-        
     </div>
-    
+</div>
+<br /><br />
+<div id="detailsBottom">
+    <video id="video" autoplay>
+    </video>
+    <canvas id="canvas" width="640" height="480"></canvas>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@@tensorflow/tfjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/@@tensorflow-models/blazeface"></script>
+<script src="~/js/face-api.min.js" asp-append-version="true"></script>
 <script src="~/js/details.js" asp-append-version="true"></script>
+<script src="~/js/video.js" asp-append-version="true"></script>
+
 <script>
     setTimeout(function () {
         var addedToCartMessageElement = document.getElementById('addedToCartMessage');

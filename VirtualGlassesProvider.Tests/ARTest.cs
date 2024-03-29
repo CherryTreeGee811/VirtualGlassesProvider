@@ -65,8 +65,8 @@ namespace VirtualGlassesProvider.Tests
             .ScrollToElement(product)
             .Perform();
             WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
-            var elem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
-            elem.Click();
+            var productElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
+            productElement.Click();
             var preRenderAltText = _driver.FindElement(By.Id("detailsImage")).GetAttribute("alt").ToString();
             Assert.That(preRenderAltText.Equals("Render"), Is.EqualTo(false));
             Thread.Sleep(5000);
@@ -74,7 +74,12 @@ namespace VirtualGlassesProvider.Tests
             Thread.Sleep(5000);
             var renderAltText = _driver.FindElement(By.Id("detailsImage")).GetAttribute("alt").ToString();
             Assert.That(renderAltText, Is.EqualTo("Render"));
-            _driver.FindElement(By.Id("downloadImageLink")).Click();
+            var downloadImage = _driver.FindElement(By.Id("downloadImageLink"));
+            new Actions(_driver)
+            .ScrollToElement(downloadImage)
+            .Perform();
+            var downloadImageElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(downloadImage));
+            downloadImageElement.Click();
             Thread.Sleep(5000);
             var fileName = $"ARGeneratedImage.jpg";
             var file = Directory.GetFiles(_downloadPath, fileName, SearchOption.TopDirectoryOnly);

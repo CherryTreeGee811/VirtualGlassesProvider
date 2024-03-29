@@ -207,7 +207,12 @@ namespace VirtualGlassesProvider.Tests
             Thread.Sleep(5000);
             var renderAltText = _driver.FindElement(By.ClassName("detailsImage")).GetAttribute("alt").ToString();
             Assert.That(renderAltText, Is.EqualTo("Render"));
-            _driver.FindElement(By.Id("downloadImageLink")).Click();
+            var downloadImage = _driver.FindElement(By.Id("downloadImageLink"));
+            new Actions(_driver)
+            .ScrollToElement(downloadImage)
+            .Perform();
+            var downloadImageElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(downloadImage));
+            downloadImageElement.Click();
             Thread.Sleep(5000);
             var fileName = $"ARGeneratedImage.jpg";
             var file = Directory.GetFiles(_downloadPath, fileName, SearchOption.TopDirectoryOnly);
