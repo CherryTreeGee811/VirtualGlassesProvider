@@ -89,6 +89,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.CssSelector(".btn-dark:nth-child(6)")).Click();
             Assert.That(_driver.FindElement(By.Id("addedToCartMessage")).Text, Is.EqualTo("Glasses successfully added to cart!"));
             Assert.That(_driver.FindElement(By.ClassName("fa")).Text, Is.EqualTo("2"));
+            _driver.FindElement(By.CssSelector(".flex-grow-1 > .nav-item:nth-child(1) > .nav-link")).Click();
             product1Button = _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
             new Actions(_driver)
             .ScrollToElement(product1Button)
