@@ -90,7 +90,7 @@
             </select>
             <br />
             <br />
-            <a asp-action="AddToCart" asp-controller="Home" class="btn btn-dark" asp-route-id="@Model.ID">Add to Cart</a>
+            <a asp-action="AddToCart" asp-controller="Home" class="btn btn-dark" asp-route-id="@Model.ID" asp-route-source="details">Add to Cart</a>
             &nbsp; &nbsp;
             <input type="button" id="generateImageBtn" name="generateImageBtn" value="Try on virtually" aria-label="generate AR image button" class="btn btn-dark" />
             &nbsp; &nbsp;
