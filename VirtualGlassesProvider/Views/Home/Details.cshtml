@@ -100,19 +100,13 @@
             <img id="productImage" src="~/@Html.DisplayFor(model => model.Image)" hidden />
             <p id="glassesBrandNameVal" hidden>@Html.DisplayFor(model => model.BrandName)</p>
         </form>  
-        
     </div>
-    
 </div>
 <br /><br />
-<div>
-    <video id="video" autoplay style="
-            display: none;
-            width: 640px;
-            height: 480px;
-            ">
+<div id="detailsBottom">
+    <video id="video" autoplay>
     </video>
-    <canvas id="canvas"width="640px" height="480px" style="padding-top: 700px;"></canvas>
+    <canvas id="canvas" width="640" height="480"></canvas>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@@tensorflow/tfjs"></script>

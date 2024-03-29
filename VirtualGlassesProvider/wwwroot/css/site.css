@@ -76,3 +76,13 @@ body {
 .errorMessage {
     color: darkred;
 }
+
+#detailsBottom {
+    margin-top: 600px;
+}
+
+#video {
+    display: none;
+    width: 640px;
+    height: 480px;
+}
