@@ -10,6 +10,7 @@ using VirtualGlassesProvider.Services;
 using VirtualGlassesProvider.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
+using Elfie.Serialization;
 
 
 namespace VirtualGlassesProvider.Controllers
@@ -198,7 +199,7 @@ namespace VirtualGlassesProvider.Controllers
 
 
         [HttpGet]
-        public ActionResult AddToCart(int id, int qty)
+        public ActionResult AddToCart(int id, int qty, string source)
         {
             var glass = _context.Glasses.Find(id);
             var glassesDTO = new GlassesDTO
@@ -239,8 +240,18 @@ namespace VirtualGlassesProvider.Controllers
                 cart.Add(cartItem);
             }
 
+            TempData["AddedToCartMessage"] = "Glasses successfully added to cart!";
+
             HttpContext.Session.SetObjectAsJson("cart", cart);
-            return RedirectToAction("Index","Home");
+            if (source == "details")
+            {
+                return RedirectToAction("Details", "Home", new { id = id });
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
         }
 
 
@@ -473,27 +484,42 @@ namespace VirtualGlassesProvider.Controllers
 
             return View(wishList);
         }
-    
+
         public async Task<IActionResult> AddToWishList(int ID)
         {
             var user = await _userManager.GetUserAsync(User);
 
-            WishLists wishList = await _context.WishLists.Include(w => w.WishListItems).Where(w => w.User.Id == user.Id).FirstOrDefaultAsync();
+            var isInWishlist = await _context.WishListItems
+                .AnyAsync(wli => wli.WishLists.User.Id == user.Id && wli.GlassesID == ID);
 
-            if (wishList == null)
+            if (!isInWishlist)
             {
-                wishList = new WishLists { User = user };
-                _context.WishLists.Add(wishList);
+                WishLists wishList = await _context.WishLists
+                    .Include(w => w.WishListItems)
+                    .FirstOrDefaultAsync(w => w.User.Id == user.Id);
+
+                if (wishList == null)
+                {
+                    wishList = new WishLists { User = user };
+                    _context.WishLists.Add(wishList);
+                    await _context.SaveChangesAsync();
+                }
+
+                WishListItems item = new WishListItems { GlassesID = ID, WishLists = wishList };
+
+                _context.WishListItems.Add(item);
                 await _context.SaveChangesAsync();
+
+                TempData["AddedToWishlistMessage"] = "Glasses successfully added to wishlist!";
             }
-
-            WishListItems item = new WishListItems { GlassesID = ID, WishLists = wishList };
-
-            _context.WishListItems.Add(item);
-            await _context.SaveChangesAsync();
+            else
+            {
+                TempData["AddedToWishlistMessage"] = "Glasses are already in the wishlist!";
+            }
 
             return RedirectToAction("Index", "Home");
         }
+
         public async Task<IActionResult> RemoveFromWishList(int ID, string page)
         {
             var user = await _userManager.GetUserAsync(User);

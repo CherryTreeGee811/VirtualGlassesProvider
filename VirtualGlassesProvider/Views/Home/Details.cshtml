@@ -2,6 +2,16 @@
 @{
     ViewData["Title"] = "Details";
 }
+
+@{
+    var addedToCartMessage = TempData["AddedToCartMessage"] as string;
+}
+@if (!string.IsNullOrEmpty(addedToCartMessage))
+{
+    <div id="addedToCartMessage" class="alert alert-success" role="alert">
+        @addedToCartMessage
+    </div>
+}
 <div id="detailsLeft">
     <hr />
         <h1>
@@ -31,6 +41,7 @@
         </p>
         <a asp-action="Index">Back to List</a>
 </div>
+
 <div id="detailsRight">
     <div>
         <h2>
@@ -41,7 +52,6 @@
         </p>
         </div>
     <div id="detailsFormsDiv">
-        
         <form id="formAR">
             <label for="buyFor">Buy For:</label>
             <br />
@@ -61,9 +71,13 @@
             &nbsp; &nbsp;
             <input type="button" id="generateImageBtn" name="generateImageBtn" value="Try on virtually" aria-label="generate AR image button" class="btn btn-dark" />
             &nbsp; &nbsp;
+<<<<<<< HEAD
             <input type="button" id="ApplyGlassesFilterBtn" name="ApplyGlassesFilterBtn" value="Live Try On!" aria-label="generate live try on button" class="btn btn-dark" />
             @* <a asp-action="ApplyGlassesFilter" asp-controller="Home" class="btn btn-primary">Live Try On!</a> *@
             <canvas id="canvasOutput" hidden ></canvas>
+=======
+            <canvas id="canvasOutput" hidden></canvas>
+>>>>>>> 9f3396a3d4da7c4504bd0e4f743ee458d4a2d8a0
             <img id="originalPortrait" src="" hidden />
             <img id="productImage" src="~/@Html.DisplayFor(model => model.Image)" hidden />
             <p id="glassesBrandNameVal" hidden>@Html.DisplayFor(model => model.BrandName)</p>
@@ -87,7 +101,18 @@
 <script src="https://cdn.jsdelivr.net/npm/@@tensorflow-models/blazeface"></script>
 <script src="~/js/face-api.min.js" asp-append-version="true"></script>
 <script src="~/js/details.js" asp-append-version="true"></script>
+<<<<<<< HEAD
 <script src="~/js/video.js" asp-append-version="true"></script>
 
 
 
+=======
+<script>
+    setTimeout(function () {
+        var addedToCartMessageElement = document.getElementById('addedToCartMessage');
+        if (addedToCartMessageElement) {
+            addedToCartMessageElement.remove();
+        }
+    }, 2000);
+</script>
+>>>>>>> 9f3396a3d4da7c4504bd0e4f743ee458d4a2d8a0

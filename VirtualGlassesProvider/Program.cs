@@ -70,7 +70,7 @@ using (var scope = app.Services.CreateScope())
     var serviceProvider = scope.ServiceProvider;
     await GlassesStoreDbContext.CreateAdminUser(serviceProvider);
     // Call the CreateMemberUser method to create the member user.
-    //await GlassesStoreDbContext.DeleteTestClient(serviceProvider);
+    await GlassesStoreDbContext.DeleteTestClient(serviceProvider);
 }
 app.UseSession();
 app.UseAuthentication();
