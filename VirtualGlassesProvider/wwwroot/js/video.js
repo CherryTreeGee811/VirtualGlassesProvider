@@ -6,6 +6,7 @@ let ctx = canvas.getContext("2d");
 let rendering = false;
 let stream = null;
 let detectFacesIntervalId = null;
+
 function startWebcam() {
     navigator.mediaDevices
         .getUserMedia({
@@ -38,27 +39,30 @@ function stopWebcam() {
 
 const detectFaces = async () => {
     const prediction = await model.estimateFaces(video, false);
-    const glassesImg = document.getElementById("productImage");
-    ctx.drawImage(video, 0, 0, 640, 480);
-    prediction.forEach(pred => {
-        const nose = pred.landmarks[2]; // For vertical positioning adjustment
-        const leftEar = pred.landmarks[4]; // Using ears for width calculation
-        const rightEar = pred.landmarks[5];
+    const glassesImg = new Image();
+    glassesImg.src = originalProductImage;
+    glassesImg.onload = function () {
+        ctx.drawImage(video, 0, 0, 640, 480);
+        prediction.forEach(pred => {
+            const nose = pred.landmarks[2]; // For vertical positioning adjustment
+            const leftEar = pred.landmarks[4]; // Using ears for width calculation
+            const rightEar = pred.landmarks[5];
 
-        // Calculate glasses width based on ear positions for a wider fit
-        const glassesWidth = rightEar[0] - leftEar[0];
-        // Maintain aspect ratio of the glasses image
-        const glassesHeight = glassesWidth * (glassesImg.naturalHeight / glassesImg.naturalWidth);
+            // Calculate glasses width based on ear positions for a wider fit
+            const glassesWidth = rightEar[0] - leftEar[0];
+            // Maintain aspect ratio of the glasses image
+            const glassesHeight = glassesWidth * (glassesImg.naturalHeight / glassesImg.naturalWidth);
 
-        // Adjust X position to start from the left ear
-        const glassesX = leftEar[0];
-        // Adjust Y position to be slightly above the nose, taking into account the glasses height
-        // This is an arbitrary adjustment to position the glasses more naturally
-        const glassesY = nose[1] - (glassesHeight * 1); // You may need to tweak this multiplier
+            // Adjust X position to start from the left ear
+            const glassesX = leftEar[0];
+            // Adjust Y position to be slightly above the nose, taking into account the glasses height
+            // This is an arbitrary adjustment to position the glasses more naturally
+            const glassesY = nose[1] - (glassesHeight * 1); // You may need to tweak this multiplier
 
-        // Draw the glasses image on the canvas
-        ctx.drawImage(glassesImg, glassesX, glassesY, glassesWidth, glassesHeight);
-    });
+            // Draw the glasses image on the canvas
+            ctx.drawImage(glassesImg, glassesX, glassesY, glassesWidth, glassesHeight);
+        });
+    }
 };
 $("#ApplyGlassesFilterBtn").click(function () {
     if (!rendering) {
