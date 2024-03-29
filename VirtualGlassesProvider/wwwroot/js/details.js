@@ -1,8 +1,10 @@
-﻿let productImageElement = document.getElementById('productImage');
-let errorMessageElement = document.getElementById("errorMessage");
-let detailsImage = document.getElementById('detailsImage');
-let originalPortraitElement = document.getElementById('originalPortrait');
-let hasPathSet = false;
+﻿const errorMessageElement = document.getElementById("errorMessage");
+const detailsImage = document.getElementById('detailsImage');
+const originalProductImage = detailsImage.src;
+const originalProductAltText = detailsImage.alt;
+let profileMat;
+let productMat;
+let faceCascade;
 
 $("#generateImageBtn").click(function () {
     let selectionVal = document.getElementById("buyFor").value.toString();
@@ -15,56 +17,61 @@ $("#generateImageBtn").click(function () {
                 reRenderPartialView("", "", response);
             }
             else {
-                originalPortraitElement.src = response;
-                originalPortraitElement.onload = () => {
-                    renderCascade();
+                const img = new Image();
+                img.src = response;
+                img.onload = function () {
+                    profileMat = cv.imread(img);
+                    if (productMat == undefined) {
+                        img.src = originalProductImage;
+                        img.onload = function () {
+                            productMat = cv.imread(img);
+                        }
+                    }
+                    img.remove();
+                    if (faceCascade == undefined) {
+                        renderCascade();
+                    }
+                    else {
+                        renderAR();
+                    }
                 }
             }
         },
         error: function () {
             reRenderPartialView("", "", "Error Retrieving Data, Please Try Again")
         },
-        cache: false
+        cache: true
     });
 
+
     function renderCascade() {
-        let faceCascade = new cv.CascadeClassifier();
-        let pathToCascade = '\\detection\\haarcascade_frontalface_default.xml';
-        if (!hasPathSet) {
-            let utils = new Utils('errorMessage');
-            utils.createFileFromUrl(pathToCascade, pathToCascade, () => {
-                loadCascade();
-                hasPathSet = true
-            });
-        }
-        else {
+        faceCascade = new cv.CascadeClassifier();
+        const pathToCascade = '\\detection\\haarcascade_frontalface_default.xml';
+        const utils = new Utils('errorMessage');
+        utils.createFileFromUrl(pathToCascade, pathToCascade, () => {
             loadCascade();
-        }
-        
+        });
         function loadCascade() {
             faceCascade.load(pathToCascade);
-            renderAR(faceCascade);
+            renderAR();
         }
     }
 
-    function renderAR(faceCascade) {
-        let img = cv.imread(originalPortraitElement);
+    function renderAR() {
         let gray = new cv.Mat();
-        cv.cvtColor(img, gray, cv.COLOR_BGR2GRAY, 0);
+        cv.cvtColor(profileMat, gray, cv.COLOR_BGR2GRAY, 0);
         let faces = new cv.RectVector();
         let msize = new cv.Size(0, 0);
         faceCascade.detectMultiScale(gray, faces, 1.09, 7, 0, msize, msize);
-        let glasses = cv.imread(productImageElement);
-        let frame = img;
 
-        function putGlassesOnFace(glasses, fc, x, y, w, h) {
-            let faceWidth = w;
-            let faceHeight = h;
+        function putGlassesOnFace(productMat, fc, x, y, w, h) {
+            const faceWidth = w;
+            const faceHeight = h;
 
-            let glassesWidth = faceWidth + 1;
-            let glassesHeight = Math.floor(0.50 * faceHeight) + 1;
-            let glassesResized = new cv.Mat();
-            cv.resize(glasses, glassesResized, new cv.Size(glassesWidth, glassesHeight));
+            const glassesWidth = faceWidth + 1;
+            const glassesHeight = Math.floor(0.50 * faceHeight) + 1;
+            const glassesResized = new cv.Mat();
+            cv.resize(productMat, glassesResized, new cv.Size(glassesWidth, glassesHeight));
 
             for (let i = 0; i < glassesHeight; ++i) {
                 for (let j = 0; j < glassesWidth; ++j) {
@@ -80,23 +87,21 @@ $("#generateImageBtn").click(function () {
 
         for (let i = 0; i < faces.size(); ++i) {
             const rect = faces.get(i);
-            frame = putGlassesOnFace(glasses, frame, rect.x, rect.y, rect.width, rect.height);
+            profileMat = putGlassesOnFace(productMat, profileMat, rect.x, rect.y, rect.width, rect.height);
         }
-        let canvas = document.getElementById('canvasOutput');
-        cv.imshow("canvasOutput", frame);
-        let arImgSrc = canvas.toDataURL("image/jpeg");
-        faceCascade.delete();
+        const imgCanvas = document.getElementById('canvasOutput');
+        cv.imshow("canvasOutput", profileMat);
+        const arImgSrc = imgCanvas.toDataURL("image/jpeg");
         gray.delete();
         faces.delete();
-        frame.delete();
-        glasses.delete();
+        profileMat.delete();
         reRenderPartialView(arImgSrc, "Render", "");
     }
 });
 
 
 document.getElementById("downloadImageLink").addEventListener("click", function () {
-    var link = document.createElement('a');
+    const link = document.createElement('a');
     link.download = 'ARGeneratedImage.jpg';
     link.href = document.getElementById('canvasOutput').toDataURL()
     link.click();
@@ -110,9 +115,8 @@ function reRenderPartialView(img, alt, error) {
 }
 
 
-document.getElementById("clearImage").addEventListener("click", function() {
-    const glassesBrandNameValElement = document.getElementById("glassesBrandNameVal");
-    detailsImage.src = productImageElement.src;
-    detailsImage.alt = glassesBrandNameValElement.textContent;
+document.getElementById("clearImage").addEventListener("click", function () {
+    detailsImage.src = originalProductImage;
+    detailsImage.alt = originalProductAltText;
     errorMessageElement.textContent = "";
 });

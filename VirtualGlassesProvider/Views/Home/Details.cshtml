@@ -95,10 +95,7 @@
             <input type="button" id="generateImageBtn" name="generateImageBtn" value="Try on virtually" aria-label="generate AR image button" class="btn btn-dark" />
             &nbsp; &nbsp;
             <input type="button" id="ApplyGlassesFilterBtn" name="ApplyGlassesFilterBtn" value="Live Try On!" aria-label="generate live try on button" class="btn btn-dark" />
-            <canvas id="canvasOutput" hidden ></canvas>
-            <img id="originalPortrait" src="" hidden />
-            <img id="productImage" src="~/@Html.DisplayFor(model => model.Image)" hidden />
-            <p id="glassesBrandNameVal" hidden>@Html.DisplayFor(model => model.BrandName)</p>
+            <canvas id="canvasOutput" hidden></canvas>
         </form>  
     </div>
 </div>
@@ -111,7 +108,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@@tensorflow/tfjs"></script>
 <script src="https://cdn.jsdelivr.net/npm/@@tensorflow-models/blazeface"></script>
-<script src="~/js/face-api.min.js" asp-append-version="true"></script>
 <script src="~/js/details.js" asp-append-version="true"></script>
 <script src="~/js/video.js" asp-append-version="true"></script>
 
