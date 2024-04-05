@@ -12,10 +12,10 @@ services:
         environment:
             ASPNETCORE_HTTP_PORT: https://+5001
             ASPNETCORE_URLS: http://+:5000
-        command: sh -c "sleep 10s"
         depends_on:
             - database
-
+         restart: on-failure:3
+         
     database:
         image: cherrytreegee811/vision-vogue-database
         container_name: sqlpreview
