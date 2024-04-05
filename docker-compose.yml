@@ -14,7 +14,7 @@ services:
             ASPNETCORE_URLS: http://+:5000
         depends_on:
             - database
-         restart: on-failure:3
+        restart: on-failure:3
          
     database:
         image: cherrytreegee811/vision-vogue-database
