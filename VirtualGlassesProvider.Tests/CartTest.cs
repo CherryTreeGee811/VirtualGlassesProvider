@@ -57,12 +57,12 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
-            ClientAddItemsToCart();
+            ClientAddsItemsToCart();
             ClientRemovesItemsFromCart();
         }
 
 
-        private void ClientAddItemsToCart()
+        private void ClientAddsItemsToCart()
         {
             _driver.FindElement(By.ClassName("fa")).Click();
             Assert.That(_driver.FindElement(By.CssSelector("h3")).Text, Is.EqualTo("YOUR CART IS EMPTY."));
