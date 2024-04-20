@@ -90,3 +90,23 @@ body {
 #jsError {
     font-size: large;
 }
+
+#visionVogueLogo {
+    background-size: contain;
+    position: absolute;
+    top: 6px;
+    width: 120px;
+}
+
+#itemCheckoutPageImage {
+    max-width: 100%;
+    height: auto;
+}
+
+#itemCheckoutPageImageWrapper {
+    max-width: 100px;
+}
+
+#twoFactorAuthForgetBrowserForm {
+    display: inline-block;
+}

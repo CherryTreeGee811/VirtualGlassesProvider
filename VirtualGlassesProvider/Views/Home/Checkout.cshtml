@@ -42,8 +42,8 @@
                             </form>
                         </div>
                         <!-- Right side image in a small square -->
-                        <div class="img-wrapper" style="max-width: 100px;">
-                            <img src="@Url.Content($"~/{item.Image}")" alt="@item.BrandName" style="max-width: 100%; height: auto;" />
+                        <div id="itemCheckoutPageImageWrapper" class="img-wrapper">
+                            <img id="itemCheckoutPageImage" src="@Url.Content($"~/{item.Image}")" alt="@item.BrandName" />
                         </div>
                     </div>
                 </div>

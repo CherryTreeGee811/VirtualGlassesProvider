@@ -1,16 +1,22 @@
 ﻿
 @using VirtualGlassesProvider.Services;
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-US" dir="ltr" >
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - VirtualGlassesProvider</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/VirtualGlassesProvider.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/site.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" type="text/css" crossorigin="anonymous" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" />
+    <meta http-equiv="content-security-policy" content="
+                default-src 'none';
+                connect-src https://localhost https://www.visionvogue.online http://www.visionvogue.online ws: wss: data: https://tfhub.dev https://www.kaggle.com https://storage.googleapis.com;
+                script-src 'self' 'unsafe-eval' https://ajax.googleapis.com https://cdn.jsdelivr.net;
+                style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+                img-src 'self';" />
 </head>
 <body>
     <header>
@@ -22,7 +28,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-black border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a href="@Url.Action("Index", "Home")">
-                    <img src="~/Vision Vogue-logos_white.png" title="Vision Vogue" style="background-size:contain;position:absolute; top:6px; width: 120px;" />
+                    <img src="~/Vision Vogue-logos_white.png" title="Vision Vogue" id="visionVogueLogo" />
                 </a>
                 <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">Vision Vogue</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -71,11 +77,11 @@
             &copy; 2024 - VirtualGlassesProvider - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/opencv.js" asp-append-version="true"></script>
-    <script src="~/js/utils.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="~/js/site.js" type="text/javascript"></script>
+    <script src="~/js/opencv.js" type="text/javascript"></script>
+    <script src="~/js/utils.js" type="text/javascript"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

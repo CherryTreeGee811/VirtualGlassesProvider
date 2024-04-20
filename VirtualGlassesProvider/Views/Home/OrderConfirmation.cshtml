@@ -23,7 +23,7 @@
         @if (Model != null)
         {
             <h3>Invoice Details</h3>
-            <p style="display: none;">Invoice ID: @Model.InvoiceDetails.Id</p>
+            <p hidden>Invoice ID: @Model.InvoiceDetails.Id</p>
             <p>Invoice Date: @Model.InvoiceDetails.InvoiceDate.ToString("dd MMM yyyy")</p>
             <p>Total Bill: &#36;@Model.InvoiceDetails.Bill.ToString("F")</p>
             <p>Payment Method: @Model.InvoiceDetails.PaymentMethod</p>
