@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = $"{ViewBag.UserName}'s Wish List";
 }
-
 <h1>@ViewData["Title"]</h1>
 
 @if (Model.WishListItems.Count == 0)
@@ -28,3 +27,4 @@ else
         }
     </table>
 }
+<link rel="stylesheet" href="~/css/greybackground.css" type="text/css" />
