@@ -47,7 +47,6 @@ namespace VirtualGlassesProvider.Tests
             var productElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
             productElem.Click();
             _driver.FindElement(By.ClassName("fa")).Click();
-            _driver.FindElement(By.ClassName("btn-primary")).Click();
             var checkout = _driver.FindElement(By.ClassName("btn-primary"));
             new Actions(_driver)
             .ScrollToElement(checkout)
