@@ -1,5 +1,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
 
 namespace VirtualGlassesProvider.Tests
@@ -73,8 +75,14 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.ClassName("btn-primary")).Click();
             Assert.That(_driver.FindElement(By.ClassName("alert")).Text, Is.EqualTo("Your Payment Info has been updated"));
             _driver.FindElement(By.CssSelector("body > header > nav > div > div > ul > li:nth-child(1) > a")).Click();
-            _driver.FindElement(By.CssSelector("body > div > main > div:nth-child(5) > div:nth-child(1) > div > div.card-body > a.btn.btn-success")).Click();
-            _driver.FindElement(By.CssSelector(".fa")).Click();
+            var product = _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
+            new Actions(_driver)
+            .ScrollToElement(product)
+            .Perform();
+            WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
+            var productElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
+            productElem.Click();
+            _driver.FindElement(By.ClassName(".fa")).Click();
             var preconfiguredCardHolderName = _driver.FindElement(By.Id("CardHolderName")).GetAttribute("value").ToString();
             var preconfiguredCardNumber = _driver.FindElement(By.Id("CardNumber")).GetAttribute("value").ToString();
             var preconfiguredCvv = _driver.FindElement(By.Id("CVV")).GetAttribute("value").ToString();
