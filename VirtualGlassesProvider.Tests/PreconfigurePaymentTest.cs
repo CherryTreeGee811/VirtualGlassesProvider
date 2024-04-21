@@ -18,7 +18,7 @@ namespace VirtualGlassesProvider.Tests
         public void SetUp()
         {
             ChromeOptions options = new ChromeOptions { AcceptInsecureCertificates = true };
-            //options.AddArgument("--headless=new");
+            options.AddArgument("--headless=new");
             options.AddUserProfilePreference("autofill.credit_card_enabled", false);
             _driver = new ChromeDriver(options);
         }
