@@ -64,7 +64,7 @@ const detectFaces = async () => {
         });
     }
 };
-$("#ApplyGlassesFilterBtn").click(function () {
+document.getElementById("ApplyGlassesFilterBtn").addEventListener("click", function () {
     if (!rendering) {
         rendering = true;
         document.getElementById("canvas").style.display = "";

@@ -6,9 +6,9 @@ let profileMat;
 let productMat;
 let faceCascade;
 
-$("#generateImageBtn").click(function () {
+document.getElementById("generateImageBtn").addEventListener("click", function () {
     let selectionVal = document.getElementById("buyFor").value.toString();
-    $.ajax({
+    /*$.ajax({
         type: "GET",
         url: "/Home/GetPortrait/",
         data: { 'entity': selectionVal },
@@ -41,7 +41,41 @@ $("#generateImageBtn").click(function () {
             reRenderPartialView("", "", "Error Retrieving Data, Please Try Again")
         },
         cache: true
-    });
+    });*/
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/Home/GetPortrait/?entity=" + selectionVal, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                var response = xhr.responseText;
+                if (response === "Please login to use this feature" || response === "Please upload a portrait") {
+                    reRenderPartialView("", "", response);
+                } else {
+                    var img = new Image();
+                    img.src = response;
+                    img.onload = function () {
+                        profileMat = cv.imread(img);
+                        if (productMat === undefined) {
+                            img.src = originalProductImage;
+                            img.onload = function () {
+                                productMat = cv.imread(img);
+                            };
+                        }
+                        img.remove();
+                        if (faceCascade === undefined) {
+                            renderCascade();
+                        } else {
+                            renderAR();
+                        }
+                    };
+                }
+            } else {
+                reRenderPartialView("", "", "Error Retrieving Data, Please Try Again");
+            }
+        }
+    };
+    xhr.send();
 
 
     function renderCascade() {
