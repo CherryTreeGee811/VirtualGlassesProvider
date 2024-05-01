@@ -29,8 +29,12 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         public List<FamilyMember> familyMembers { get; set; }
 
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGet(bool? error)
         {
+            if(error == true)
+            {
+                ViewData["ErrorMessage"] = "Did not save family member, due to invalid information";
+            }
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null)
