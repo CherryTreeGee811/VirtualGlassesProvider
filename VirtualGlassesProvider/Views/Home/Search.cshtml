@@ -2,58 +2,7 @@
 @{
     ViewData["Title"] = "Search Page";
 }
-<style>
-    body {
-        font-family: Arial, sans-serif;
-    }
 
-    .label-text {
-        font-weight: bold;
-        color: #555;
-        margin-bottom: 5px;
-    }
-
-    .btn {
-        padding: 10px 20px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-    }
-    .card {
-        margin: 1em;
-        box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
-        border: none;
-    }
-
-    .img-wrapper {
-        max-width: 100%;
-        height: 13em;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-    }
-
-    .img-wrapper img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: cover;
-    }
-
-    .card img {
-        max-height: 100%;
-    }
-
-    .pagination {
-        justify-content: center;
-        display: flex;
-        list-style: none;
-        padding: 0;
-    }
-
-    .pagination li {
-        margin: 0 5px;
-    }
-</style>
 @if (Model.ToList().Count == 0)
 {
     <div class="row">
@@ -79,11 +28,13 @@ else{
                     <div class="card-body">
                         <h5 class="card-title">@item.BrandName</h5>
                         <p class="card-text">@item.Description</p>
-                        <p class="card-text">&#36;@item.Price.ToString("F")</p>
-                        <p class="card-text">Style: @item.Style</p>
-                        <p class="card-text">Colour: @item.Colour</p>
+                        <p class="price">&#36;@item.Price.ToString("F")</p>
+                        <p class="label-text">Style: @item.Style</p>
+                        <p class="label-text">Colour: @item.Colour</p>
                         <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID">Details</a>
                         <a asp-area="Member" asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID">Add to Cart</a>
+                        <p></p>
+                        <a asp-controller="Home" asp-action="AddToWishList" asp-route-id="@item.ID" class="btn btn-success">Add to Wish List</a>
                     </div>
                 </div>
             </div>
