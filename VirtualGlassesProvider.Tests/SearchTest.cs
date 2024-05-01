@@ -46,7 +46,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("Blue");
             _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
-            Assert.That(_driver.FindElement(By.CssSelector(".card-text:nth-child(5)")).Text, Is.EqualTo("Colour: Blue"));
+            Assert.That(_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .label-text:nth-child(5)")).Text, Is.EqualTo("Colour: Blue"));
         }
 
 
@@ -57,7 +57,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("10.99");
             _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
-            Assert.That(_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .card-text:nth-child(3)")).Text.Contains("10.99"), Is.True);
+            Assert.That(_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .price")).Text.Contains("$10.99"), Is.True);
         }
 
 
@@ -67,7 +67,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("Square");
-            _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
+            _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .label-text:nth-child(4)")).Click();
             Assert.That(_driver.FindElement(By.CssSelector(".card-text:nth-child(4)")).Text, Is.EqualTo("Style: Square"));
         }
 
