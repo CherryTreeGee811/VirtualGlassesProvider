@@ -35,7 +35,7 @@ namespace VirtualGlassesProvider.Tests
         public void ClientDoesNotPreconfigurePayment()
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(1936, 1056);
+            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
@@ -61,7 +61,7 @@ namespace VirtualGlassesProvider.Tests
             const string cvv = "155";
             const string expiryDate = "07/27";
             _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(1936, 1056);
+            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);

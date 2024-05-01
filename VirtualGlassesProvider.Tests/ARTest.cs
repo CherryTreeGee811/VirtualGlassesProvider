@@ -37,7 +37,7 @@ namespace VirtualGlassesProvider.Tests
         public void UnauthenticatedUserClicksGenerateImage()
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
+            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             var product = _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn-primary"));
             new Actions(_driver)
             .ScrollToElement(product)
@@ -55,7 +55,7 @@ namespace VirtualGlassesProvider.Tests
         public void AuthenticatedUserGeneratesImageForSelfSuccessfully()
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
+            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
