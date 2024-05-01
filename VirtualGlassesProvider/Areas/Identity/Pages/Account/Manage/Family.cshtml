@@ -4,6 +4,7 @@
     ViewData["Title"] = "Family";
     ViewData["ActivePage"] = ManageNavPages.Family;
 }
+<p id="familyErrorMessage" class="text-danger">@ViewData["ErrorMessage"]</p>
 <a class="btn btn-primary @ManageNavPages.FamilyFormNavClass(ViewContext)" id="family-form" asp-page="./FamilyForm">Add Family</a>
 <table class="table">
     @if (Model.familyMembers.Count == 0)

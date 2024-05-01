@@ -34,26 +34,32 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         public sealed class InputModel
         {
             [Display(Name = "First Name")]
+            [RegularExpression(@"^[a-zA-Z\s]{1,30}$")]
             public string? FirstName { get; set; }
 
 
             [Display(Name = "Last Name")]
+            [RegularExpression(@"^[a-zA-Z\s]{1,30}$")]
             public string? LastName { get; set; }
 
 
             [Display(Name = "Address")]
+            [RegularExpression(@"^[0-9]{1,6}\s{1}[a-zA-Z]{1,20}\s?[a-zA-Z0-9\s\.\,]{0,30}$")]
             public string? Address { get; set; }
 
 
             [Display(Name = "Email")]
+            [RegularExpression(@"^[0-9a-zA-Z]{1,30}@{1}[0-9a-zA-Z]{1,30}\.{1}[0-9a-zA-Z]{1,30}\.?[0-9a-zA-Z]{0,30}$")]
             public string? Email { get; set; }
 
 
             [Display(Name = "Relationship")]
+            [RegularExpression(@"^[0-9a-zA-Z\s]{1,40}$")]
             public string? Relationship { get; set; }
 
 
             [Display(Name = "Phone Number")]
+            [RegularExpression(@"^\(?[0-9]{3}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{4}$")]
             public string? PhoneNumber { get; set; }
 
 
@@ -137,7 +143,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 // New Record if null
                 if(!ModelState.IsValid)
                 {
-                    return RedirectToPage("./Family");
+                    return RedirectToPage("./Family", new { error = true });
                 }
             }
 

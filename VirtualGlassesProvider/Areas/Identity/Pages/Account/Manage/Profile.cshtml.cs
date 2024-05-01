@@ -46,21 +46,26 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         public sealed class InputModel
         {
             [Display(Name = "First Name")]
+            [RegularExpression(@"^[a-zA-Z\s]{1,30}$", ErrorMessage = "First name must be a-zA-Z and less than 30 characters")]
             public string? FirstName { get; set; }
 
 
-            [Display(Name = "Address")]
-            public string? Address { get; set; }
-
-
             [Display(Name = "Last Name")]
+            [RegularExpression(@"^[a-zA-Z\s]{1,30}$", ErrorMessage = "Last name must be a-zA-Z and less than 30 characters")]
             public string? LastName { get; set; }
 
 
+            [Display(Name = "Address")]
+            [RegularExpression(@"^[0-9]{1,6}\s{1}[a-zA-Z]{1,20}\s?[a-zA-Z0-9\s\.\,]{0,30}$", ErrorMessage = "Invalid address")]
+            public string? Address { get; set; }
+
+
             [Display(Name = "Phone Number")]
+            [RegularExpression(@"^\(?[0-9]{3}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{4}$", ErrorMessage = "Phone number must follow format XXX-XXX-XXXX or XXX XXX XXXX")]
             public string? PhoneNumber { get; set; }
 
 
+            [MaxLength(30, ErrorMessage = "Display name must be less than 30 Characters!")]
             public string DisplayName { get; set; }
 
 
