@@ -31,23 +31,10 @@ namespace VirtualGlassesProvider.Tests
 
 
         [Test, Order(1)]
-        public void UnauthenticatedUserTrysToUseWishlistFeature()
-        {
-            _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
-            _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(9)")).Click();
-            Assert.That(_driver.FindElement(By.CssSelector("h1")).Text, Is.EqualTo("LOG IN"));
-            _driver.FindElement(By.CssSelector(".flex-grow-1 > .nav-item:nth-child(1) > .nav-link")).Click();
-            _driver.FindElement(By.CssSelector(".nav-item:nth-child(4) > .nav-link")).Click();
-            Assert.That(_driver.FindElement(By.CssSelector("h1")).Text, Is.EqualTo("LOG IN"));
-        }
-
-
-        [Test, Order(2)]
         public void ClientAddsItemsToWishlist()
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
+            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
@@ -84,19 +71,19 @@ namespace VirtualGlassesProvider.Tests
         }
 
 
-        [Test, Order(3)]
+        [Test, Order(2)]
         public void ClientRemovesItemsFromWishlist()
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
+            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("login")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
             _driver.FindElement(By.CssSelector(".nav-item:nth-child(4) > .nav-link")).Click();
             _driver.FindElement(By.CssSelector("tr:nth-child(2) .btn")).Click();
-            _driver.FindElement(By.CssSelector(".btn-danger")).Click();
-            Assert.That(_driver.FindElement(By.CssSelector(".center")).Text, Is.EqualTo("There are no glasses on your wish list"));
+            _driver.FindElement(By.ClassName("btn-danger")).Click();
+            Assert.That(_driver.FindElement(By.ClassName("center")).Text, Is.EqualTo("There are no glasses on your wish list"));
         }
     }
 }

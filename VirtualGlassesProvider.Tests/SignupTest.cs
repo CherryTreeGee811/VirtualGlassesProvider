@@ -38,7 +38,7 @@ namespace VirtualGlassesProvider.Tests
         public void ClientFailsToProvideAValidPasswordOnSignUp()
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
+            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("register")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).SendKeys("password");
@@ -54,7 +54,7 @@ namespace VirtualGlassesProvider.Tests
         public void ClientSignsUpSuccessfully()
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(1012, 991);
+            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("register")).Click();
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
