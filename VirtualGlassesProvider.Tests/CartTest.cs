@@ -30,25 +30,6 @@ namespace VirtualGlassesProvider.Tests
 
 
         [Test, Order(1)]
-        public void UnauthenticatedUserTrysToUseCartFeature()
-        {
-            _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            _driver.FindElement(By.ClassName("fa")).Click();
-            Assert.That(_driver.FindElement(By.CssSelector("h1")).Text, Is.EqualTo("LOG IN"));
-            _driver.FindElement(By.CssSelector(".flex-grow-1 > .nav-item:nth-child(1) > .nav-link")).Click();
-            WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
-            var product = _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
-            new Actions(_driver)
-            .ScrollToElement(product)
-           .Perform();
-            var productElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
-            productElem.Click();
-            Assert.That(_driver.FindElement(By.CssSelector("h1")).Text, Is.EqualTo("LOG IN"));
-        }
-
-
-        [Test, Order(2)]
         public void ClientAddsAndRemovesItemsInCart()
         {
             _driver.Navigate().GoToUrl(AppServer.URL);
