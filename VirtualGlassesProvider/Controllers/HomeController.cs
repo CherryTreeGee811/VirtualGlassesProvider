@@ -5,12 +5,10 @@ using System.Diagnostics;
 using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Models.DTOs;
-using VirtualGlassesProvider.CustomAttributes;
 using VirtualGlassesProvider.Services;
 using VirtualGlassesProvider.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
-using Elfie.Serialization;
 
 
 namespace VirtualGlassesProvider.Controllers
@@ -152,7 +150,7 @@ namespace VirtualGlassesProvider.Controllers
         }
 
 
-        [AjaxOnly]
+        [HttpGet]
         public async Task<string> GetPortrait(string? entity)
         {
             var user = await _userManager.GetUserAsync(User);
