@@ -30,29 +30,6 @@ body {
     max-width: 40%;
 }
 
-#detailsRight {
-    float: right;
-    position: relative;
-    padding-top: 3%;
-}
-
-#detailsLeft {
-    float: left;
-    height: 0em;
-}
-
-#formCart {
-    float: left;
-}
-
-#formAR {
-    float: right;
-    position: relative;
-}
-
-#detailsFormsDiv {
-    margin-top: 30%;
-}
 
 #formCart > #addProductToCartBtn {
     margin-top: 78%; 
@@ -65,21 +42,13 @@ body {
 #formAR > #generateImageBtn {
     background: darkblue;
     border-color: darkblue;
-    padding: 8px;
+    padding: 10.2px;
     color: white;
 }
 
-#productDisplayImageDetailsDiv {
-    height: 280px;
-    overflow: hidden;
-}
 
 .errorMessage {
     color: darkred;
-}
-
-#detailsBottom {
-    margin-top: 600px;
 }
 
 #video {
@@ -116,12 +85,6 @@ body {
     font-weight: bold;
     color: #555;
     margin-bottom: 5px;
-}
-
-.btn {
-    padding: 10px 20px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
 }
 
 .card {
@@ -187,4 +150,110 @@ body {
     font-weight: bold;
     color: #007bff;
     margin-bottom: 15px;
+}
+
+
+@media screen and (max-width: 575px) {
+    #accountListElement {
+        display: none;
+    }
+
+
+    #loginListElement, #registerListElement, #logoutListElement {
+        padding-left: 10px;
+    }
+
+    #thirdPartyRegisterDetailsContainer {
+        padding-top: 12%;
+    }
+}
+
+
+@media screen and (max-width: 443px) {
+    #ApplyGlassesFilterBtn {
+        margin-top: 2%;
+    }
+}
+
+
+@media screen and (max-width: 288px) {
+    #generateImageBtn {
+        margin-top: 2%;
+    }
+}
+
+@media screen and (max-width: 329px) {
+    #downloadImageLink {
+        margin-top: 2%;
+    }
+}
+
+
+
+@media screen and (max-width: 1200px) {
+    #detailsDescriptionHeading {
+        padding-top: 5%;
+    }
+
+    #detailsBottom #canvas {
+        width: 90%;
+    }
+}
+
+
+@media screen and (min-width: 1200px) {
+    #formCart {
+        float: left;
+    }
+
+    #formAR {
+        float: right;
+        position: relative;
+    }
+
+    #detailsBottom {
+        margin-top: 600px;
+    }
+
+    #detailsFormsDiv {
+        margin-top: 30%;
+    }
+
+    #detailsRight {
+        float: right;
+        position: relative;
+        padding-top: 3%;
+    }
+
+    #detailsLeft {
+        float: left;
+        height: 0em;
+    }
+
+    #productDisplayImageDetailsDiv {
+        height: 280px;
+        overflow: hidden;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+}
+
+@media screen and (min-width: 575px) {
+    #accountListElementMobile {
+        display: none;
+    }
+
+    #accountListElement {
+        display: block;
+    }
+
+    #accountDashboardBtn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
 }
