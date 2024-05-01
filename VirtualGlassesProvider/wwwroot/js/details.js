@@ -8,41 +8,7 @@ let faceCascade;
 
 document.getElementById("generateImageBtn").addEventListener("click", function () {
     let selectionVal = document.getElementById("buyFor").value.toString();
-    /*$.ajax({
-        type: "GET",
-        url: "/Home/GetPortrait/",
-        data: { 'entity': selectionVal },
-        success: function (response) {
-            if (response == "Please login to use this feature" || response == "Please upload a portrait") {
-                reRenderPartialView("", "", response);
-            }
-            else {
-                const img = new Image();
-                img.src = response;
-                img.onload = function () {
-                    profileMat = cv.imread(img);
-                    if (productMat == undefined) {
-                        img.src = originalProductImage;
-                        img.onload = function () {
-                            productMat = cv.imread(img);
-                        }
-                    }
-                    img.remove();
-                    if (faceCascade == undefined) {
-                        renderCascade();
-                    }
-                    else {
-                        renderAR();
-                    }
-                }
-            }
-        },
-        error: function () {
-            reRenderPartialView("", "", "Error Retrieving Data, Please Try Again")
-        },
-        cache: true
-    });*/
-
+    
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "/Home/GetPortrait/?entity=" + selectionVal, true);
     xhr.onreadystatechange = function () {
