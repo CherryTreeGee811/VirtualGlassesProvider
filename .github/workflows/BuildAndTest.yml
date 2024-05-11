@@ -29,6 +29,10 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
+      - name: Install Nikto
+        shell: bash
+        run: sudo apt install nikto
+
       - name: Create Bridge
         shell: bash
         run: docker network create visionvogue-net
