@@ -33,6 +33,10 @@ jobs:
         shell: bash
         run: sudo apt install nikto
 
+      - name: Install Nmap
+        shell: bash
+        run: sudo apt install nmap
+
       - name: Create Bridge
         shell: bash
         run: docker network create visionvogue-net
@@ -77,11 +81,15 @@ jobs:
         shell: bash
         run: nikto -h http://localhost:5000
 
+      - name: Nmap Scan
+        shell: bash
+        run: nmap -sT -p 5000,1433 --script vuln http://localhost:5000
+
       - name: Stop Containers
         shell: bash
         run: |
-          docker stop container visionvogue-app
-          docker stop container sqlpreview
+          docker stop visionvogue-app
+          docker stop sqlpreview
         
       - name: Push to Docker
         if: ${{ github.ref == 'refs/heads/main' }}
