@@ -83,7 +83,7 @@ jobs:
 
       - name: Nmap Scan
         shell: bash
-        run: nmap -sT -p 5000,1433 --script vuln http://localhost:5000
+        run: nmap -sT -p 5000,5001,1433 --script vuln 127.0.0.1
 
       - name: Stop Containers
         shell: bash
