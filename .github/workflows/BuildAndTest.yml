@@ -68,6 +68,16 @@ jobs:
       - name: Delete Test Data
         shell: bash
         run: docker exec -i sqlpreview /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${{ secrets.MSSQL_SA_SECRET }} -q "DELETE FROM VisionVogue.dbo.ASPNetUsers WHERE NormalizedUserName <> 'ADMIN';"
+
+      - name: Nikto Scan
+        shell: bash
+        run: nikto -h http://localhost:5000
+
+      - name: Stop Containers
+        shell: bash
+        run: |
+          docker stop container visionvogue-app
+          docker stop container sqlpreview
         
       - name: Push to Docker
         if: ${{ github.ref == 'refs/heads/main' }}
