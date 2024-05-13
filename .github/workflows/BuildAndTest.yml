@@ -79,7 +79,9 @@ jobs:
 
       - name: Nikto Scan
         shell: bash
-        run: nikto -h http://localhost:5000
+        run: |
+          nikto -h http://localhost:5000 -C all
+          nikto -h http://localhost:5000/home -C all
 
       - name: Nmap Scan
         shell: bash
