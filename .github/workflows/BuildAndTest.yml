@@ -83,7 +83,7 @@ jobs:
 
       - name: Nmap Scan
         shell: bash
-        run: nmap --script vuln 127.0.0.1 -d
+        run: sudo nmap --script vuln 127.0.0.1
 
       - name: Stop Containers
         shell: bash
