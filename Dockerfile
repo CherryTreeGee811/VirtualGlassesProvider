@@ -3,9 +3,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 5000
-EXPOSE 5001
-EXPOSE 1433
+EXPOSE 5000/tcp
+EXPOSE 5001/tcp
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
