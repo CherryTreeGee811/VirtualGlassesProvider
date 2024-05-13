@@ -43,7 +43,7 @@ jobs:
           
       - name: Setup DB
         shell: bash
-        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{ secrets.MSSQL_SA_SECRET }}" --network visionvogue-net --name sqlpreview --hostname localhost -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{ secrets.MSSQL_SA_SECRET }}" --network visionvogue-net --name sqlpreview --hostname localhost -p 1433:1433/tcp -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
         
       - name: Restore dependencies
         shell: bash
@@ -67,7 +67,7 @@ jobs:
 
       - name: Run App Container
         shell: bash
-        run: docker run --rm -dit --name visionvogue-app --hostname localhost --network visionvogue-net -p 5000:5000 -p 5001:5001 -e ASPNETCORE_HTTP_PORT=https://+5001 -e ASPNETCORE_URLS=http://+:5000 cherrytreegee811/vision-vogue
+        run: docker run --rm -dit --name visionvogue-app --hostname localhost --network visionvogue-net -p 5000:5000/tcp -p 5001:5001/tcp -e ASPNETCORE_HTTP_PORT=https://+5001 -e ASPNETCORE_URLS=http://+:5000 cherrytreegee811/vision-vogue
         
       - name: Automated Tests
         shell: bash
@@ -83,7 +83,7 @@ jobs:
 
       - name: Nmap Scan
         shell: bash
-        run: sudo nmap -p 1433,5000,5001 --script vuln 127.0.0.1
+        run: sudo nmap -sT -p 1433,5000,5001 --script vuln 127.0.0.1
 
       - name: Stop Containers
         shell: bash
