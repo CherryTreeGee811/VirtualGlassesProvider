@@ -1,5 +1,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
 
 namespace VirtualGlassesProvider.Tests
@@ -34,7 +36,13 @@ namespace VirtualGlassesProvider.Tests
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("Rayban");
-            _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
+            var searchBtn = _driver.FindElement(By.CssSelector(".btn:nth-child(3)"));
+            new Actions(_driver)
+              .ScrollToElement(searchBtn)
+              .Perform();
+            WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
+            IWebElement searchBtnElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(searchBtn));
+            searchBtnElem.Click();
             Assert.That(_driver.FindElement(By.CssSelector("html body div.container main.pb-3 div.row div.col-md-4 div.card div.card-body h5.card-title")).Text, Is.EqualTo("RAYBAN"));
         }
 
