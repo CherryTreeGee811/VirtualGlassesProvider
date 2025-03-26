@@ -71,7 +71,7 @@ jobs:
         
       - name: Automated Tests
         shell: bash
-        run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
+        run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity minimal
 
       - name: Delete Test Data
         shell: bash
