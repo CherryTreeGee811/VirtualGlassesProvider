@@ -53,7 +53,13 @@ namespace VirtualGlassesProvider.Tests
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("Blue");
-            _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
+            var searchBtn = _driver.FindElement(By.CssSelector(".btn:nth-child(3)"));
+            new Actions(_driver)
+              .ScrollToElement(searchBtn)
+              .Perform();
+            WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
+            IWebElement searchBtnElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(searchBtn));
+            searchBtnElem.Click();
             Assert.That(_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .label-text:nth-child(5)")).Text, Is.EqualTo("Colour: Blue"));
         }
 
@@ -82,7 +88,13 @@ namespace VirtualGlassesProvider.Tests
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("Square");
-            _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
+            var searchBtn = _driver.FindElement(By.CssSelector(".btn:nth-child(3)"));
+            new Actions(_driver)
+              .ScrollToElement(searchBtn)
+              .Perform();
+            WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
+            IWebElement searchBtnElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(searchBtn));
+            searchBtnElem.Click();
             Assert.That(_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .label-text:nth-child(4)")).Text, Is.EqualTo("Style: Square"));
         }
 
@@ -93,7 +105,13 @@ namespace VirtualGlassesProvider.Tests
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("!~~");
-            _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
+            var searchBtn = _driver.FindElement(By.CssSelector(".btn:nth-child(3)"));
+            new Actions(_driver)
+              .ScrollToElement(searchBtn)
+              .Perform();
+            WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
+            IWebElement searchBtnElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(searchBtn));
+            searchBtnElem.Click();
             Assert.That(_driver.FindElement(By.CssSelector("h1")).Text, Is.EqualTo("NO RESULTS FOUND :("));
         }
     }
