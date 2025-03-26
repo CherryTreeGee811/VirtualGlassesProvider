@@ -22,7 +22,7 @@ jobs:
       
       - uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: 114
+          chrome-version: 120
           
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -71,7 +71,7 @@ jobs:
         
       - name: Automated Tests
         shell: bash
-        run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity normal
+        run: dotnet test VirtualGlassesProvider.Tests/VirtualGlassesProvider.Tests.csproj --os linux --verbosity minimal
 
       - name: Delete Test Data
         shell: bash
