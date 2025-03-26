@@ -22,7 +22,7 @@ jobs:
       
       - uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: 114
+          chrome-version: 120
           
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
