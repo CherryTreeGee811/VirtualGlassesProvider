@@ -36,7 +36,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("Rayban");
-            var searchBtn = _driver.FindElement(By.CssSelector(".btn:nth-child(3)"));
+            var searchBtn = _driver.FindElement(By.Id("searchBtn"));
             new Actions(_driver)
               .ScrollToElement(searchBtn)
               .Perform();
@@ -53,7 +53,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("Blue");
-            var searchBtn = _driver.FindElement(By.CssSelector(".btn:nth-child(3)"));
+            var searchBtn = _driver.FindElement(By.Id("searchBtn"));
             new Actions(_driver)
               .ScrollToElement(searchBtn)
               .Perform();
@@ -70,14 +70,14 @@ namespace VirtualGlassesProvider.Tests
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("10.99");
-            var searchBtn = _driver.FindElement(By.CssSelector(".btn:nth-child(3)"));
+            var searchBtn = _driver.FindElement(By.Id("searchBtn"));
             new Actions(_driver)
               .ScrollToElement(searchBtn)
               .Perform();
             WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
             IWebElement searchBtnElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(searchBtn));
             searchBtnElem.Click();
-            _driver.FindElement(By.CssSelector(".btn:nth-child(3)")).Click();
+            _driver.FindElement(By.Id("searchBtn")).Click();
             Assert.That(_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .price")).Text.Contains("$10.99"), Is.True);
         }
 
@@ -88,7 +88,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("Square");
-            var searchBtn = _driver.FindElement(By.CssSelector(".btn:nth-child(3)"));
+            var searchBtn = _driver.FindElement(By.Id("searchBtn"));
             new Actions(_driver)
               .ScrollToElement(searchBtn)
               .Perform();
@@ -105,7 +105,7 @@ namespace VirtualGlassesProvider.Tests
             _driver.Navigate().GoToUrl(AppServer.URL);
             _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             _driver.FindElement(By.Id("searchString")).SendKeys("!~~");
-            var searchBtn = _driver.FindElement(By.CssSelector(".btn:nth-child(3)"));
+            var searchBtn = _driver.FindElement(By.Id("searchBtn"));
             new Actions(_driver)
               .ScrollToElement(searchBtn)
               .Perform();
