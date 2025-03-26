@@ -30,7 +30,7 @@ namespace VirtualGlassesProvider.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult> Index(int pageNumber = 1)
+        public async Task<IActionResult> Index(int pageNumber = 1)
         {
             int excludeRecords = (pageNumber * PageSize) - PageSize;
 
@@ -197,7 +197,7 @@ namespace VirtualGlassesProvider.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult AddToCart(int id, int qty, string source)
+        public IActionResult AddToCart(int id, int qty, string source)
         {
             var glass = _context.Glasses.Find(id);
             var glassesDTO = new GlassesDTO
@@ -277,7 +277,7 @@ namespace VirtualGlassesProvider.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult> Checkout()
+        public async Task<IActionResult> Checkout()
         {
             var user = await _userManager.GetUserAsync(User);
 
