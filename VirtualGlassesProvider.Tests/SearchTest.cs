@@ -77,7 +77,6 @@ namespace VirtualGlassesProvider.Tests
             WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
             IWebElement searchBtnElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(searchBtn));
             searchBtnElem.Click();
-            _driver.FindElement(By.Id("searchBtn")).Click();
             Assert.That(_driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .price")).Text.Contains("$10.99"), Is.True);
         }
 
