@@ -18,16 +18,16 @@ jobs:
   BuildAndTest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: 114
           
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
 
       - name: Install Nikto
         shell: bash
@@ -43,7 +43,7 @@ jobs:
           
       - name: Setup DB
         shell: bash
-        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{ secrets.MSSQL_SA_SECRET }}" --network visionvogue-net --name sqlpreview --hostname localhost -p 1433:1433/tcp -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=${{ secrets.MSSQL_SA_SECRET }}" --network visionvogue-net --name sqlpreview --hostname localhost -p 1433:1433/tcp -d mcr.microsoft.com/mssql/server:2022-latest
         
       - name: Restore dependencies
         shell: bash
