@@ -1,16 +1,15 @@
-services:
+version: "3.8"
+services: 
     application:
-        image: ${DOCKER_REGISTRY-}virtualglassesprovider
+        image: cherrytreegee811/vision-vogue
         container_name: visionvogue-app
+        hostname: localhost
         networks:
             - visionvogue-net
-        build:
-            context: .
-            dockerfile: VirtualGlassesProvider/Dockerfile
         ports:
             - 5000:5000
         environment:
-            - ASPNETCORE_URLS=http://+:5000
+            ASPNETCORE_URLS: http://+:5000
         depends_on:
             - sqlpreview
         healthcheck:
@@ -18,9 +17,9 @@ services:
             interval: 30s
             timeout: 10s
             retries: 3
-
+         
     sqlpreview:
-        image: mcr.microsoft.com/mssql/server:2022-latest
+        image: cherrytreegee811/vision-vogue-database
         container_name: sqlpreview
         networks:
             - visionvogue-net
@@ -37,4 +36,4 @@ networks:
         driver: bridge
 
 volumes:
-  sqlpreview-data:
+    sqlpreview-data:

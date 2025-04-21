@@ -5,6 +5,7 @@ using Microsoft.Extensions.FileProviders;
 using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Services;
+using VisionVogue.Extensions;
 
 
 // ToDo: Remove all Identity Framework features that are not being used
@@ -64,7 +65,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/modalfile"
 });
 app.UseRouting();
-
+app.ApplyMigrations();
 using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;

@@ -129,7 +129,7 @@ namespace VirtualGlassesProvider.Controllers
                        ID = f.ID,
                        Name = $"{f.FirstName} {f.LastName}"
                    }).ToListAsync();
-                if(family != null)
+                if (family != null)
                 {
                     ViewBag.Members = family;
                 }
@@ -145,7 +145,7 @@ namespace VirtualGlassesProvider.Controllers
                 Style = glasses.Style,
                 Image = glasses.Image
             };
-           
+
             return View(glassesDTO);
         }
 
@@ -249,7 +249,7 @@ namespace VirtualGlassesProvider.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            
+
         }
 
 
@@ -291,7 +291,7 @@ namespace VirtualGlassesProvider.Controllers
             var cartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
             var grandTotal = cartItems.Sum(item => item.TotalPrice);
             CheckoutViewModel viewModel = null;
-            if(paymentinfo == null)
+            if (paymentinfo == null)
             {
                 viewModel = new CheckoutViewModel
                 {
@@ -302,7 +302,7 @@ namespace VirtualGlassesProvider.Controllers
             }
             else
             {
-                if(!String.IsNullOrEmpty(paymentinfo.CardHolderName))
+                if (!String.IsNullOrEmpty(paymentinfo.CardHolderName))
                 {
                     paymentinfo.CardNumber = _aesEncryptionService.Decrypt(paymentinfo.CardNumber);
                 }
@@ -458,7 +458,7 @@ namespace VirtualGlassesProvider.Controllers
                         Colour = glass.Colour,
                         Style = glass.Style,
                         Image = glass.Image,
-                        
+
                     };
 
                     glasses.Add(glasses1);
@@ -548,6 +548,13 @@ namespace VirtualGlassesProvider.Controllers
             {
                 return RedirectToAction("WishList");
             }
+        }
+
+
+        [HttpGet("health")]
+        public IActionResult HealthCheck()
+        {
+            return Ok(new { status = "healthy" });
         }
     }
 }
