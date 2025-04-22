@@ -15,19 +15,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using VirtualGlassesProvider.Models;
 
+
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
-    public sealed class ForgotPasswordModel : PageModel
+    public sealed class ForgotPasswordModel(
+        UserManager<User> userManager,
+        IEmailSender emailSender) 
+        : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly IEmailSender _emailSender;
-
-
-        public ForgotPasswordModel(UserManager<User> userManager, IEmailSender emailSender)
-        {
-            _userManager = userManager;
-            _emailSender = emailSender;
-        }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly IEmailSender _emailSender = emailSender;
 
 
         /// <summary>

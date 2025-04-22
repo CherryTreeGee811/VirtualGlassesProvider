@@ -5,7 +5,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
@@ -15,15 +14,9 @@ using VirtualGlassesProvider.Models;
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class RegisterConfirmationModel : PageModel
+    public class RegisterConfirmationModel(UserManager<User> userManager) : PageModel
     {
-        private readonly UserManager<User> _userManager;
-
-
-        public RegisterConfirmationModel(UserManager<User> userManager)
-        {
-            _userManager = userManager;
-        }
+        private readonly UserManager<User> _userManager = userManager;
 
 
         /// <summary>
@@ -72,7 +65,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
                 EmailConfirmationUrl = Url.Page(
                     "/Account/ConfirmEmail",
                     pageHandler: null,
-                    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                    values: new { area = "Identity", userId, code, returnUrl },
                     protocol: Request.Scheme);
             }
 

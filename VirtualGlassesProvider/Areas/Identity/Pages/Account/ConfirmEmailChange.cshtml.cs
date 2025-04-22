@@ -9,18 +9,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using VirtualGlassesProvider.Models;
 
+
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
-    public sealed class ConfirmEmailChangeModel : PageModel
+    public sealed class ConfirmEmailChangeModel(
+        UserManager<User> userManager, 
+        SignInManager<User> signInManager) 
+        : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly SignInManager<User> _signInManager = signInManager;
 
-        public ConfirmEmailChangeModel(UserManager<User> userManager, SignInManager<User> signInManager)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-        }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

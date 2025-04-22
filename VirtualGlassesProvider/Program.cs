@@ -5,7 +5,6 @@ using Microsoft.Extensions.FileProviders;
 using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Services;
-using VisionVogue.Extensions;
 
 
 // ToDo: Remove all Identity Framework features that are not being used

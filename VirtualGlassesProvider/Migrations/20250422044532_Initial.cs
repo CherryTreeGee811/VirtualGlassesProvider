@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -58,12 +58,12 @@ namespace VirtualGlassesProvider.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BrandName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BrandName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Colour = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Style = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Colour = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Style = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -76,10 +76,10 @@ namespace VirtualGlassesProvider.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     InvoiceDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Bill = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -92,7 +92,7 @@ namespace VirtualGlassesProvider.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -235,7 +235,7 @@ namespace VirtualGlassesProvider.Migrations
                 name: "PaymentInfo",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CardHolderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -245,7 +245,7 @@ namespace VirtualGlassesProvider.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentInfo", x => x.id);
+                    table.PrimaryKey("PK_PaymentInfo", x => x.Id);
                     table.ForeignKey(
                         name: "FK_PaymentInfo_AspNetUsers_UserID",
                         column: x => x.UserID,
@@ -305,13 +305,13 @@ namespace VirtualGlassesProvider.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GlassId = table.Column<int>(type: "int", nullable: false),
-                    BrandName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BrandName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsPurchased = table.Column<bool>(type: "bit", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     InvoiceId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -332,7 +332,7 @@ namespace VirtualGlassesProvider.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GlassesID = table.Column<int>(type: "int", nullable: false),
-                    WishListsID = table.Column<int>(type: "int", nullable: false)
+                    WishListsID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

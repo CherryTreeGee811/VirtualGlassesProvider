@@ -5,9 +5,9 @@ namespace VirtualGlassesProvider.Services
 {
     public static class FileUploadService
     {
-        public static UploadedImages ConvertFormFileToUploadedImageObject(IFormFile file)
+        public static UploadedImages? ConvertFormFileToUploadedImageObject(IFormFile file)
         {
-            UploadedImages upload = null;
+            UploadedImages? upload = null;
             using (var memoryStream = new MemoryStream())
             {
                 file.CopyTo(memoryStream);

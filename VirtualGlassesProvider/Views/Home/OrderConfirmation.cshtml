@@ -4,23 +4,26 @@
     <div class="card-body">
         <h2 class="card-title">Order Confirmation</h2>
 
-        @if (Model != null)
+        @if (Model != null && Model.InvoiceDetails != null)
         {
             <h3>Invoice Details</h3>
-            <p hidden>Invoice ID: @Model.InvoiceDetails.Id</p>
-            <p>Invoice Date: @Model.InvoiceDetails.InvoiceDate.ToString("dd MMM yyyy")</p>
-            <p>Total Bill: &#36;@Model.InvoiceDetails.Bill.ToString("F")</p>
-            <p>Payment Method: @Model.InvoiceDetails.PaymentMethod</p>
+            <p hidden>Invoice ID: @Model.InvoiceDetails?.Id</p>
+            <p>Invoice Date: @Model.InvoiceDetails?.InvoiceDate.ToString("dd MMM yyyy")</p>
+            <p>Total Bill: &#36;@Model.InvoiceDetails?.Bill.ToString("F")</p>
+            <p>Payment Method: @Model.InvoiceDetails?.PaymentMethod</p>
 
             <h3>Order Items</h3>
-            @foreach (var item in Model.OrderItems)
+            @if (Model.OrderItems != null && Model.OrderItems.Any())
             {
-                <div>
-                    <p>Glasses Brand Name: @item.BrandName</p>
-                    <p>Quantity: @item.Quantity</p>
-                    <p>Price per Unit: &#36;@item.UnitPrice.ToString("F")</p>
-                    <p>Total Price: &#36;@item.TotalPrice.ToString("F")</p>
-                </div>
+                @foreach (var item in Model.OrderItems)
+                {
+                    <div>
+                        <p>Glasses Brand Name: @item.BrandName</p>
+                        <p>Quantity: @item.Quantity</p>
+                        <p>Price per Unit: &#36;@item.UnitPrice.ToString("F")</p>
+                        <p>Total Price: &#36;@item.TotalPrice.ToString("F")</p>
+                    </div>
+                }
             }
         }
         else

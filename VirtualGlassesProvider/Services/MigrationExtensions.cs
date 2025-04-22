@@ -2,7 +2,7 @@
 using VirtualGlassesProvider.Models.DataAccess;
 
 
-namespace VisionVogue.Extensions
+namespace VirtualGlassesProvider.Services
 {
     /// <summary>
     /// Provides extension methods for applying database migrations.

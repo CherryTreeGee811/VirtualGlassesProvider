@@ -13,20 +13,15 @@ using Newtonsoft.Json;
 
 namespace VirtualGlassesProvider.Controllers
 {
-    public sealed class HomeController : Controller
+    public sealed class HomeController(
+            GlassesStoreDbContext context,
+            UserManager<User> userManager,
+            AesEncryptionService aesEncryptionService) : Controller
     {
-        private readonly GlassesStoreDbContext _context;
+        private readonly GlassesStoreDbContext _context = context;
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly AesEncryptionService _aesEncryptionService = aesEncryptionService;
         private const int PageSize = 10;
-        private readonly UserManager<User> _userManager;
-        private readonly AesEncryptionService _aesEncryptionService;
-
-
-        public HomeController(GlassesStoreDbContext context, UserManager<User> userManager, AesEncryptionService aesEncryptionService)
-        {
-            _context = context;
-            _userManager = userManager;
-            _aesEncryptionService = aesEncryptionService;
-        }
 
 
         [HttpGet]
@@ -70,13 +65,13 @@ namespace VirtualGlassesProvider.Controllers
             // Start with all glasses if the search string is not null or empty.
             var glassesQuery = _context.Glasses.AsQueryable();
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 // Modify the query to filter by any of the conditions.
                 glassesQuery = glassesQuery.Where(g =>
-                    g.BrandName.Contains(searchString) ||
-                    g.Style.Contains(searchString) ||
-                    g.Colour.Contains(searchString) ||
+                    (g.BrandName != null && g.BrandName.Contains(searchString)) ||
+                    (g.Style != null && g.Style.Contains(searchString)) ||
+                    (g.Colour != null && g.Colour.Contains(searchString)) ||
                     g.Price.ToString().Contains(searchString));
             }
 
@@ -134,7 +129,13 @@ namespace VirtualGlassesProvider.Controllers
                     ViewBag.Members = family;
                 }
             }
-            var glasses = _context.Glasses.Find(id);
+            var glasses = await _context.Glasses.FindAsync(id);
+
+            if (glasses == null)
+            {
+                return NotFound();
+            }
+
             var glassesDTO = new GlassesDTO
             {
                 ID = glasses.ID,
@@ -154,19 +155,22 @@ namespace VirtualGlassesProvider.Controllers
         public async Task<string> GetPortrait(string? entity)
         {
             var user = await _userManager.GetUserAsync(User);
-            string imgB64 = null;
+            string? imgB64 = null;
             if (user != null)
             {
-                if (entity.Equals("self"))
+                if (string.Equals(entity, "self"))
                 {
                     var profile = await _context.Profiles.FirstOrDefaultAsync(p => p.UserID == user.Id);
-                    if (profile != null || profile.ImageID != null)
+                    if (profile != null || profile?.ImageID != null)
                     {
                         var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
-                        imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                        if (uploadedImage?.Image != null)
+                        {
+                            imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                        }
                     }
                 }
-                else if (!String.IsNullOrEmpty(entity))
+                else if (!string.IsNullOrEmpty(entity))
                 {
                     bool parseSuccessfull = int.TryParse(entity, out int familyID);
                     if (parseSuccessfull)
@@ -175,7 +179,10 @@ namespace VirtualGlassesProvider.Controllers
                         if (familyMember.ImageID != null)
                         {
                             var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == familyMember.ImageID);
-                            imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                            if (uploadedImage?.Image != null)
+                            {
+                                imgB64 = Convert.ToBase64String(uploadedImage.Image);
+                            }
                         }
                     }
                 }
@@ -200,6 +207,12 @@ namespace VirtualGlassesProvider.Controllers
         public IActionResult AddToCart(int id, int qty, string source)
         {
             var glass = _context.Glasses.Find(id);
+
+            if (glass == null)
+            {
+                return NotFound("The specified glasses item was not found.");
+            }
+
             var glassesDTO = new GlassesDTO
             {
                 ID = glass.ID,
@@ -210,12 +223,9 @@ namespace VirtualGlassesProvider.Controllers
                 Style = glass.Style,
                 Image = glass.Image,
             };
-            if (id == null)
-            {
-                return View();
-            }
+
             qty = 1;
-            CartItem cartItem = new CartItem
+            var cartItem = new CartItem
             {
                 ID = glassesDTO.ID,
                 BrandName = glassesDTO.BrandName,
@@ -226,7 +236,7 @@ namespace VirtualGlassesProvider.Controllers
                 IsPurchased = false // Initially, the game is not purchased
             };
 
-            List<CartItem> cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
+            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
             var existingItem = cart.Find(x => x.ID == id);
 
             if (existingItem != null)
@@ -243,7 +253,7 @@ namespace VirtualGlassesProvider.Controllers
             HttpContext.Session.SetObjectAsJson("cart", cart);
             if (source == "details")
             {
-                return RedirectToAction("Details", "Home", new { id = id });
+                return RedirectToAction("Details", "Home", new { id });
             }
             else
             {
@@ -257,7 +267,7 @@ namespace VirtualGlassesProvider.Controllers
         [HttpPost]
         public IActionResult RemoveFromCart(int glassId)
         {
-            var cartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
+            var cartItems = HttpContext.Session.GetObjectFromJson<HashSet<CartItem>>("cart") ?? new HashSet<CartItem>();
 
             var itemToUpdate = cartItems.FirstOrDefault(item => item.ID == glassId);
             if (itemToUpdate != null)
@@ -288,9 +298,9 @@ namespace VirtualGlassesProvider.Controllers
 
             var paymentinfo = await _context.PaymentInfo.FirstOrDefaultAsync(p => p.UserID == user.Id);
 
-            var cartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
+            var cartItems = HttpContext.Session.GetObjectFromJson<HashSet<CartItem>>("cart") ?? new HashSet<CartItem>();
             var grandTotal = cartItems.Sum(item => item.TotalPrice);
-            CheckoutViewModel viewModel = null;
+            CheckoutViewModel? viewModel = null;
             if (paymentinfo == null)
             {
                 viewModel = new CheckoutViewModel
@@ -302,12 +312,12 @@ namespace VirtualGlassesProvider.Controllers
             }
             else
             {
-                if (!String.IsNullOrEmpty(paymentinfo.CardHolderName))
+                if (!string.IsNullOrEmpty(paymentinfo.CardNumber))
                 {
                     paymentinfo.CardNumber = _aesEncryptionService.Decrypt(paymentinfo.CardNumber);
                 }
 
-                if (!String.IsNullOrEmpty(paymentinfo.CVV))
+                if (!string.IsNullOrEmpty(paymentinfo.CVV))
                 {
                     paymentinfo.CVV = _aesEncryptionService.Decrypt(paymentinfo.CVV);
                 }
@@ -331,12 +341,19 @@ namespace VirtualGlassesProvider.Controllers
             if (ModelState.IsValid)
             {
                 var cartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart");
-                if (cartItems != null && cartItems.Any())
+                if (cartItems != null && cartItems.Count > 0)
                 {
+                    var userId = User?.Identity?.Name;
+
+                    if (string.IsNullOrEmpty(userId))
+                    {
+                        return NotFound("User ID is null or empty.");
+                    }
+
                     // Create and save the invoice
                     var invoice = new Invoice
                     {
-                        UserId = User?.Identity.Name ?? string.Empty, // Or however you get the user ID
+                        UserId = userId,
                         InvoiceDate = DateTime.Now,
                         Bill = cartItems.Sum(item => item.TotalPrice),
                         PaymentMethod = "Card"
@@ -386,8 +403,15 @@ namespace VirtualGlassesProvider.Controllers
             }
             else
             {
-                viewModel.CartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
-                viewModel.GrandTotal = viewModel.CartItems.Sum(item => item.TotalPrice);
+                viewModel.CartItems = HttpContext.Session.GetObjectFromJson<HashSet<CartItem>>("cart");
+                if (viewModel.CartItems != null)
+                {
+                    viewModel.GrandTotal = viewModel.CartItems.Sum(item => item.TotalPrice);
+                }
+                else
+                {
+                    viewModel.GrandTotal = 0;
+                }
             }
 
             // If model state is not valid, or cart is empty, return to the same view
@@ -413,12 +437,17 @@ namespace VirtualGlassesProvider.Controllers
         [Authorize]
         public async Task<IActionResult> OrderDetail()
         {
-            var userId = User?.Identity.Name ?? string.Empty;
+            var userId = User?.Identity?.Name;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return NotFound("User ID is null or empty.");
+            }
 
             var userOrders = await _context.Orders
-                                           .Include(o => o.Invoice) // Include the Invoice in the query
-                                           .Where(o => o.Invoice.UserId == userId)
-                                           .ToListAsync();
+                .Include(o => o.Invoice) // Include the Invoice in the query
+                .Where(o => o.Invoice != null && o.Invoice.UserId == userId) // Ensure Invoice is not null
+                .ToListAsync();
 
             return View(userOrders);
         }
@@ -429,27 +458,35 @@ namespace VirtualGlassesProvider.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            WishLists wishList = await _context.WishLists.Include(w => w.WishListItems).Where(w => w.User.Id == user.Id).FirstOrDefaultAsync();
+            if (user == null || string.IsNullOrEmpty(user.Id))
+            {
+                return NotFound("User ID is null or empty.");
+            }
+
+            var wishList = await _context.WishLists
+                .Include(w => w.WishListItems)
+                .Where(w => w.User != null && w.User.Id == user.Id)
+                .FirstOrDefaultAsync();
 
             if (wishList == null)
             {
-                wishList = new WishLists { User = user };
+                wishList = new WishLists { User = user, WishListItems = new HashSet<WishListItems>() };
                 _context.WishLists.Add(wishList);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             if (wishList.WishListItems == null)
             {
-                wishList.WishListItems = new List<WishListItems>();
+                wishList.WishListItems = new HashSet<WishListItems>();
             }
 
             if (wishList.WishListItems.Count > 0)
             {
 
-                List<Glasses> glasses = new List<Glasses>();
+                var glasses = new List<Glasses>();
                 foreach (Glasses glass in _context.Glasses)
                 {
-                    Glasses glasses1 = new Glasses()
+                    var glasses1 = new Glasses()
                     {
                         ID = glass.ID,
                         BrandName = glass.BrandName,
@@ -468,7 +505,7 @@ namespace VirtualGlassesProvider.Controllers
 
                 foreach (var glass in glasses)
                 {
-                    WishListItems item = wishList.WishListItems.SingleOrDefault(wi => wi.GlassesID == glass.ID); ;
+                    var item = wishList.WishListItems.SingleOrDefault(wi => wi.GlassesID == glass.ID); ;
                     if (item != null)
                     {
                         wishList.WishListItems.Remove(item);
@@ -482,7 +519,7 @@ namespace VirtualGlassesProvider.Controllers
             }
             else
             {
-                wishList.WishListItems = new List<WishListItems>();
+                wishList.WishListItems = new HashSet<WishListItems>();
             }
 
             ViewBag.UserName = user.UserName;
@@ -496,14 +533,23 @@ namespace VirtualGlassesProvider.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
+            if (user == null || string.IsNullOrEmpty(user.Id))
+            {
+                return NotFound("User ID is null or empty.");
+            }
+
             var isInWishlist = await _context.WishListItems
-                .AnyAsync(wli => wli.WishLists.User.Id == user.Id && wli.GlassesID == ID);
+                .AnyAsync(wli => (wli.WishLists != null) &&
+                    (wli.WishLists.User != null) &&
+                    (wli.WishLists.User.Id == user.Id) &&
+                    (wli.GlassesID == ID));
+
 
             if (!isInWishlist)
             {
-                WishLists wishList = await _context.WishLists
+                var wishList = await _context.WishLists
                     .Include(w => w.WishListItems)
-                    .FirstOrDefaultAsync(w => w.User.Id == user.Id);
+                    .FirstOrDefaultAsync(w => (w.User != null) && (w.User.Id == user.Id));
 
                 if (wishList == null)
                 {
@@ -512,7 +558,7 @@ namespace VirtualGlassesProvider.Controllers
                     await _context.SaveChangesAsync();
                 }
 
-                WishListItems item = new WishListItems { GlassesID = ID, WishLists = wishList };
+                var item = new WishListItems { GlassesID = ID, WishLists = wishList };
 
                 _context.WishListItems.Add(item);
                 await _context.SaveChangesAsync();
@@ -533,12 +579,15 @@ namespace VirtualGlassesProvider.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            WishLists wishList = await _context.WishLists.Include(w => w.WishListItems).Where(w => w.User == user).FirstOrDefaultAsync();
+            var wishList = await _context.WishLists.Include(w => w.WishListItems).Where(w => w.User == user).FirstOrDefaultAsync();
 
-            WishListItems item = wishList.WishListItems.SingleOrDefault(wi => wi.GlassesID == ID);
+            var item = wishList?.WishListItems?.SingleOrDefault(wi => wi.GlassesID == ID);
 
-            _context.WishListItems.Remove(item);
-            _context.SaveChanges();
+            if (item != null)
+            {
+                _context.WishListItems.Remove(item);
+                await _context.SaveChangesAsync();
+            }
 
             if (page.Equals("Index"))
             {

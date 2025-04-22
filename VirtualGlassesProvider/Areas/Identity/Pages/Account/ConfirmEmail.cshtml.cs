@@ -12,14 +12,9 @@ using VirtualGlassesProvider.Models;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
-    public sealed class ConfirmEmailModel : PageModel
+    public sealed class ConfirmEmailModel(UserManager<User> userManager) : PageModel
     {
-        private readonly UserManager<User> _userManager;
-
-        public ConfirmEmailModel(UserManager<User> userManager)
-        {
-            _userManager = userManager;
-        }
+        private readonly UserManager<User> _userManager = userManager;
 
 
         /// <summary>

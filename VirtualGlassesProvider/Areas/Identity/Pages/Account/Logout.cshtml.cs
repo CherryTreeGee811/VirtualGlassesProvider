@@ -10,17 +10,12 @@ using VirtualGlassesProvider.Models;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
-    public sealed class LogoutModel : PageModel
+    public sealed class LogoutModel(
+        SignInManager<User> signInManager, 
+        ILogger<LogoutModel> logger) : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<LogoutModel> _logger;
-
-
-        public LogoutModel(SignInManager<User> signInManager, ILogger<LogoutModel> logger)
-        {
-            _signInManager = signInManager;
-            _logger = logger;
-        }
+        private readonly SignInManager<User> _signInManager = signInManager;
+        private readonly ILogger<LogoutModel> _logger = logger;
 
 
         public async Task<IActionResult> OnPost(string returnUrl = null)

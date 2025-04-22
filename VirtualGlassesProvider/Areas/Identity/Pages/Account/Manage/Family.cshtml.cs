@@ -1,32 +1,22 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
 using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
 
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
-    public class FamilyModel : PageModel
-    {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly GlassesStoreDbContext _context;
-
-        public FamilyModel(
+    public class FamilyModel(
           UserManager<User> userManager,
-          SignInManager<User> signInManager,
-          GlassesStoreDbContext context)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _context = context;
-        }
+          GlassesStoreDbContext context) : PageModel
+    {
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly GlassesStoreDbContext _context = context;
 
 
         [BindProperty(SupportsGet = true)]
-        public List<FamilyMember> familyMembers { get; set; }
+        public ICollection<FamilyMember>? FamilyMembers { get; set; }
 
 
         public async Task<IActionResult> OnGet(bool? error)
@@ -42,7 +32,9 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            familyMembers = _context.FamilyMembers.Where(u => u.UserID == user.Id).ToList();
+            FamilyMembers = _context.FamilyMembers
+                .Where(u => u.UserID == user.Id)
+                .ToHashSet();
 
             return Page();
         }

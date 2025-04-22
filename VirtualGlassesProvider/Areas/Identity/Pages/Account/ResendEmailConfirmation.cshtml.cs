@@ -16,17 +16,13 @@ using VirtualGlassesProvider.Models;
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public sealed class ResendEmailConfirmationModel : PageModel
+    public sealed class ResendEmailConfirmationModel(
+        UserManager<User> userManager,
+        IEmailSender emailSender)
+        : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly IEmailSender _emailSender;
-
-
-        public ResendEmailConfirmationModel(UserManager<User> userManager, IEmailSender emailSender)
-        {
-            _userManager = userManager;
-            _emailSender = emailSender;
-        }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly IEmailSender _emailSender = emailSender;
 
 
         /// <summary>
@@ -78,7 +74,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
             var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
-                values: new { userId = userId, code = code },
+                values: new { userId, code },
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 Input.Email,

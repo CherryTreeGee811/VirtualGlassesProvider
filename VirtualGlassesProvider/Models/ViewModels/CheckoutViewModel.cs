@@ -2,8 +2,12 @@
 {
     public class CheckoutViewModel
     {
-        public List<CartItem>? CartItems { get; set; }
-        public PaymentInfo PaymentInfo { get; set; }
+        public ICollection<CartItem>? CartItems { get; set; }
+
+
+        public PaymentInfo? PaymentInfo { get; set; }
+
+
         public decimal GrandTotal { get; set; }
     }
 }

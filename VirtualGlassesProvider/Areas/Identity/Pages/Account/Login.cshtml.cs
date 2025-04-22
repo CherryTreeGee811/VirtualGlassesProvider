@@ -12,17 +12,12 @@ using VirtualGlassesProvider.Models;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
-    public sealed class LoginModel : PageModel
+    public sealed class LoginModel(
+        SignInManager<User> signInManager, 
+        ILogger<LoginModel> logger) : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
-
-
-        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)
-        {
-            _signInManager = signInManager;
-            _logger = logger;
-        }
+        private readonly SignInManager<User> _signInManager = signInManager;
+        private readonly ILogger<LoginModel> _logger = logger;
 
 
         /// <summary>

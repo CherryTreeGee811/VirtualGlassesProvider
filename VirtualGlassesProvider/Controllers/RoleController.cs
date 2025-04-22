@@ -1,21 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using VirtualGlassesProvider.Models;
+
 
 namespace VirtualGlassesProvider.Controllers
 {
-    public class RoleController : Controller
+    public class RoleController(RoleManager<IdentityRole> roleManager) 
+        : Controller
     {
-        private RoleManager<IdentityRole> _roleManager;
-        private UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
-        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
-        {
-            _roleManager = roleManager;
-
-            _userManager = userManager;
-
-        }
 
         [HttpGet]
         public IActionResult Index()
@@ -25,24 +18,29 @@ namespace VirtualGlassesProvider.Controllers
             return View(roles);
         }
 
+
         [HttpGet]
         public ViewResult CreateRole()
         {
             return View();
         }
 
+
         [HttpPost]
         public async Task<IActionResult> CreateRole(IdentityRole role)
         {
-            if (_roleManager.RoleExistsAsync(role.Name).GetAwaiter().GetResult())
+            if (role == null || string.IsNullOrWhiteSpace(role.Name))
             {
-                _roleManager.CreateAsync(new IdentityRole(role.Name)).GetAwaiter().GetResult();
+                ModelState.AddModelError(string.Empty, "Role name cannot be null or empty.");
+                return View(role);
+            }
+
+            if (!await _roleManager.RoleExistsAsync(role.Name))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(role.Name));
             }
 
             return RedirectToAction("Index");
         }
-
-
-
     }
 }

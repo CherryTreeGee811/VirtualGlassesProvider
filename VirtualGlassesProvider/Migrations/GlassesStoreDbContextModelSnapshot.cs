@@ -17,7 +17,7 @@ namespace VirtualGlassesProvider.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -207,26 +207,21 @@ namespace VirtualGlassesProvider.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("BrandName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Colour")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Style")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -331,11 +326,9 @@ namespace VirtualGlassesProvider.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentMethod")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -352,7 +345,6 @@ namespace VirtualGlassesProvider.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BrandName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GlassId")
@@ -371,7 +363,6 @@ namespace VirtualGlassesProvider.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalPrice")
@@ -389,11 +380,11 @@ namespace VirtualGlassesProvider.Migrations
 
             modelBuilder.Entity("VirtualGlassesProvider.Models.PaymentInfo", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CVV")
                         .HasColumnType("nvarchar(max)");
@@ -410,7 +401,7 @@ namespace VirtualGlassesProvider.Migrations
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserID")
                         .IsUnique()
@@ -466,7 +457,6 @@ namespace VirtualGlassesProvider.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<byte[]>("Image")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.HasKey("ID");
@@ -550,7 +540,7 @@ namespace VirtualGlassesProvider.Migrations
                     b.Property<int>("GlassesID")
                         .HasColumnType("int");
 
-                    b.Property<int>("WishListsID")
+                    b.Property<int?>("WishListsID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -677,8 +667,7 @@ namespace VirtualGlassesProvider.Migrations
                     b.HasOne("VirtualGlassesProvider.Models.WishLists", "WishLists")
                         .WithMany("WishListItems")
                         .HasForeignKey("WishListsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("WishLists");
                 });

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using VirtualGlassesProvider.Models;
-
 
 
 namespace VirtualGlassesProvider.Models.DataAccess
@@ -25,19 +23,19 @@ namespace VirtualGlassesProvider.Models.DataAccess
             );
 
             builder.Entity<Profiles>()
-              .HasOne(u => u.User)
-              .WithOne(p => p.Profiles)
-              .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(u => u.User)
+                .WithOne(p => p.Profiles)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<PaymentInfo>()
-             .HasOne(u => u.User)
-             .WithOne(p => p.PaymentInfo)
-             .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(u => u.User)
+                .WithOne(p => p.PaymentInfo)
+                .OnDelete(DeleteBehavior.Cascade);
              
             builder.Entity<WishLists>()
-               .HasOne(u => u.User)
-               .WithOne(w => w.WishLists)
-               .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(u => u.User)
+                .WithOne(w => w.WishLists)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<WishListItems>()
                 .HasOne(wi => wi.WishLists)
@@ -45,9 +43,9 @@ namespace VirtualGlassesProvider.Models.DataAccess
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<FamilyMember>()
-             .HasOne(u => u.User)
-             .WithMany(p => p.FamilyMembers)
-             .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(u => u.User)
+                .WithMany(p => p.FamilyMembers)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
 
@@ -55,6 +53,7 @@ namespace VirtualGlassesProvider.Models.DataAccess
         {
             var userManager =
                 serviceProvider.GetRequiredService<UserManager<User>>();
+
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             string adminUsername = "admin";
@@ -67,7 +66,6 @@ namespace VirtualGlassesProvider.Models.DataAccess
             {
                 await roleManager.CreateAsync(new IdentityRole(adminRoleName));
             }
-
 
             // if admin username doesn't exist, create it and add it to role
             if (await userManager.FindByNameAsync(adminUsername) == null)
@@ -106,17 +104,27 @@ namespace VirtualGlassesProvider.Models.DataAccess
 
         public DbSet<Glasses> Glasses { get; set; }
 
+
         public DbSet<Profiles> Profiles { get; set; }
+
 
         public DbSet<PaymentInfo> PaymentInfo { get; set; }
 
+
         public DbSet<UploadedImages> UploadedImages { get; set; }
+
 
         public DbSet<Invoice> Invoices { get; set; }
 
+
         public DbSet<Order> Orders { get; set; }
+
+
         public DbSet<WishLists> WishLists { get; set; }
+
+
         public DbSet<WishListItems> WishListItems { get; set; }
+
 
         public DbSet<FamilyMember> FamilyMembers { get; set; }
 

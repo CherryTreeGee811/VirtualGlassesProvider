@@ -13,15 +13,9 @@ using VirtualGlassesProvider.Models;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
-    public sealed class ResetPasswordModel : PageModel
+    public sealed class ResetPasswordModel(UserManager<User> userManager) : PageModel
     {
-        private readonly UserManager<User> _userManager;
-
-
-        public ResetPasswordModel(UserManager<User> userManager)
-        {
-            _userManager = userManager;
-        }
+        private readonly UserManager<User> _userManager = userManager;
 
 
         /// <summary>
