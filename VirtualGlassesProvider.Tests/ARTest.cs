@@ -40,7 +40,7 @@ namespace VirtualGlassesProvider.Tests
             var generateImageBtn = Driver.FindElement(By.Id("generateImageBtn"));
             TestUtils.ClickElementSafely(ref generateImageBtn, Driver);
             Thread.Sleep(1000);
-            Assert.That(Driver.FindElement(By.CssSelector(".errorMessage")).Text, Is.EqualTo("Please login to use this feature"));
+            Assert.That(Driver.FindElement(By.Id("detailsErrorMessage")).Text, Is.EqualTo("Please login to use this feature"));
         }
 
 
@@ -74,7 +74,7 @@ namespace VirtualGlassesProvider.Tests
                 File.Delete(file[0]);
             }
             Driver.FindElement(By.Id("clearImage")).Click();
-            var revertedAltText = Driver.FindElement(By.ClassName("detailsImage"))?.GetAttribute("alt")?.ToString();
+            var revertedAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(revertedAltText, Is.EqualTo(preRenderAltText));
         }
     }

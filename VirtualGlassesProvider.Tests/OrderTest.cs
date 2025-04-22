@@ -40,9 +40,9 @@ namespace VirtualGlassesProvider.Tests
             var product = Driver.FindElement(By.Id("addToCartButton1"));
             TestUtils.ClickElementSafely(ref product, Driver);
             Driver.FindElement(By.Id("ViewCartButton")).Click();
-            var checkout = Driver.FindElement(By.ClassName("btn-primary"));
+            var checkout = Driver.FindElement(By.Id("cartCheckoutButton"));
             TestUtils.ClickElementSafely(ref checkout, Driver);
-            Assert.That(Driver.FindElement(By.CssSelector(".card-title")).Text, Is.EqualTo("ORDER CONFIRMATION"));
+            Assert.That(Driver.FindElement(By.Id("orderConfirmationPageTitle")).Text, Is.EqualTo("ORDER CONFIRMATION"));
         }
     }
 }

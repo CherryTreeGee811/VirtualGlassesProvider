@@ -1,4 +1,4 @@
-﻿const errorMessageElement = document.getElementById("errorMessage");
+﻿const detailsErrorMessageElement = document.getElementById("detailsErrorMessage");
 const detailsImage = document.getElementById('detailsImage');
 const originalProductImage = detailsImage.src;
 const originalProductAltText = detailsImage.alt;
@@ -47,7 +47,7 @@ document.getElementById("generateImageBtn").addEventListener("click", function (
     function renderCascade() {
         faceCascade = new cv.CascadeClassifier();
         const pathToCascade = '\\detection\\haarcascade_frontalface_default.xml';
-        const utils = new Utils('errorMessage');
+        const utils = new Utils('detailsErrorMessage');
         utils.createFileFromUrl(pathToCascade, pathToCascade, () => {
             loadCascade();
         });
@@ -111,12 +111,12 @@ document.getElementById("downloadImageLink").addEventListener("click", function 
 function reRenderPartialView(img, alt, error) {
     detailsImage.src = img;
     detailsImage.alt = alt;
-    errorMessageElement.textContent = error; 
+    detailsErrorMessageElement.textContent = error; 
 }
 
 
 document.getElementById("clearImage").addEventListener("click", function () {
     detailsImage.src = originalProductImage;
     detailsImage.alt = originalProductAltText;
-    errorMessageElement.textContent = "";
+    detailsErrorMessageElement.textContent = "";
 });

@@ -35,7 +35,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys("Test1S");
             Driver.FindElement(By.Id("login-submit")).Click();
-            Assert.That(Driver.FindElement(By.CssSelector(".text-danger li")).Text, Is.EqualTo("Invalid login attempt."));
+            Assert.That(Driver.FindElement(By.Id("loginRequestErrorMessage")).Text, Is.EqualTo("Invalid login attempt."));
         }
 
 

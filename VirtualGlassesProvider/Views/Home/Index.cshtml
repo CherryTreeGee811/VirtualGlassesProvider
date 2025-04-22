@@ -50,8 +50,8 @@
                     <img src="@Url.Content($"~/{item.Image}")" alt="@item.BrandName" />
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">@item.BrandName</h5>
-                    <p class="card-text">@item.Description</p>
+                    <h5 class="card-title" id=@string.Concat("product", item.ID.ToString(), "BrandName")>@item.BrandName</h5>
+                    <p class="card-text" id=@string.Concat("product", item.ID.ToString(), "Description")>@item.Description</p>
                     <p class="price">&#36;@item.Price.ToString("F")</p>
                     <p class="label-text">Style: <span class="font-weight-bold">@item.Style</span></p>
                     <p class="label-text">Color: <span class="font-weight-bold">@item.Colour</span></p>
