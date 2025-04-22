@@ -1,7 +1,5 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 
 
 namespace VirtualGlassesProvider.Tests
@@ -62,12 +60,7 @@ namespace VirtualGlassesProvider.Tests
                 var img_path = Path.GetFullPath(file_path).Replace("\\", "/").Replace("/bin", "").Replace("/Debug", "");
                 upload_file.SendKeys(img_path);
                 var submitDetails = Driver.FindElement(By.ClassName("btn-primary"));
-                new Actions(Driver)
-                .ScrollToElement(submitDetails)
-                .Perform();
-                var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 0, 10));
-                var submitDetailsElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(submitDetails));
-                submitDetailsElem.Click();
+                TestUtils.ClickElementSafely(ref submitDetails, Driver);
                 Thread.Sleep(1000);
                 Assert.That(Driver.FindElement(By.ClassName("alert")).Text, Is.EqualTo("Your profile has been updated"));
                 var firstNameSubmitted = Driver.FindElement(By.Id("Input_FirstName"))?.GetAttribute("value")?.ToString();

@@ -1,7 +1,5 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 
 
 namespace VirtualGlassesProvider.Tests
@@ -40,12 +38,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             Driver.FindElement(By.Id("login-submit")).Click();
             var addProduct1ToCartBtn = Driver.FindElement(By.Id("addToCartButton1"));
-            new Actions(Driver)
-            .ScrollToElement(addProduct1ToCartBtn)
-            .Perform();
-            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 0, 10));
-            var addProduct1ToCartBtnElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(addProduct1ToCartBtn));
-            addProduct1ToCartBtnElem.Click();
+            TestUtils.ClickElementSafely(ref addProduct1ToCartBtn, Driver);
             Driver.FindElement(By.Id("ViewCartButton")).Click();
             var preconfiguredCardHolderName = Driver.FindElement(By.Id("CardHolderName"))?.GetAttribute("value")?.ToString();
             var preconfiguredCardNumber = Driver.FindElement(By.Id("CardNumber"))?.GetAttribute("value")?.ToString();
@@ -81,23 +74,14 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_CVV")).SendKeys(cvv);
             Driver.FindElement(By.Id("Input_ExpiryDate")).SendKeys(expiryDate);
             var preconfigure = Driver.FindElement(By.ClassName("btn-primary"));
-            new Actions(Driver)
-            .ScrollToElement(preconfigure)
-            .Perform();
-            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 0, 10));
-            var preconfigureElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(preconfigure));
-            preconfigureElem.Click();
+            TestUtils.ClickElementSafely(ref preconfigure, Driver);
             Assert.Multiple(() =>
             {
                 Assert.That(Driver.FindElement(By.ClassName("alert")).Text, Is.EqualTo("Your Payment Info has been updated"));
                 Driver.FindElement(By.CssSelector("body > header > nav > div > div > ul > li:nth-child(1) > a")).Click();
                 var product = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
-                new Actions(Driver)
-                .ScrollToElement(product)
-                .Perform();
-                var productElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
-                productElem.Click();
-                Driver.FindElement(By.ClassName("fa")).Click();
+                TestUtils.ClickElementSafely(ref product, Driver);
+                Driver.FindElement(By.Id("ViewCartButton")).Click();
                 var preconfiguredCardHolderName = Driver.FindElement(By.Id("CardHolderName"))?.GetAttribute("value")?.ToString();
                 var preconfiguredCardNumber = Driver.FindElement(By.Id("CardNumber"))?.GetAttribute("value")?.ToString();
                 var preconfiguredCvv = Driver.FindElement(By.Id("CVV"))?.GetAttribute("value")?.ToString();

@@ -1,7 +1,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
+
 
 namespace VirtualGlassesProvider.Tests
 {
@@ -39,19 +38,10 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("login-submit")).Click();
             Thread.Sleep(1000);
             var product = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
-            new Actions(Driver)
-            .ScrollToElement(product)
-            .Perform();
-            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 0, 10));
-            var productElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
-            productElem.Click();
-            Driver.FindElement(By.ClassName("fa")).Click();
+            TestUtils.ClickElementSafely(ref product, Driver);
+            Driver.FindElement(By.Id("ViewCartButton")).Click();
             var checkout = Driver.FindElement(By.ClassName("btn-primary"));
-            new Actions(Driver)
-            .ScrollToElement(checkout)
-            .Perform();
-            var checkoutElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(checkout));
-            checkoutElem.Click();
+            TestUtils.ClickElementSafely(ref checkout, Driver);
             Assert.That(Driver.FindElement(By.CssSelector(".card-title")).Text, Is.EqualTo("ORDER CONFIRMATION"));
         }
     }

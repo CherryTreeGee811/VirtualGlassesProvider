@@ -1,7 +1,5 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 
 
 namespace VirtualGlassesProvider.Tests
@@ -49,12 +47,7 @@ namespace VirtualGlassesProvider.Tests
             Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
             Driver.FindElement(By.Id("family-form")).Click();
             var cancelBtn = Driver.FindElement(By.Id("exitFamilyFormBtn"));
-            new Actions(Driver)
-              .ScrollToElement(cancelBtn)
-              .Perform();
-            var wait = new WebDriverWait(Driver, new TimeSpan(0,0,0,10));
-            IWebElement elem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(cancelBtn));
-            elem.Click();
+            TestUtils.ClickElementSafely(ref cancelBtn, Driver);
             Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
         }
 
@@ -96,12 +89,7 @@ namespace VirtualGlassesProvider.Tests
                 var img_path = Path.GetFullPath(file_path).Replace("\\", "/").Replace("/bin", "").Replace("/Debug", "");
                 upload_file.SendKeys(img_path);
                 var saveBtn = Driver.FindElement(By.Id("saveFamilyFormBtn"));
-                new Actions(Driver)
-                 .ScrollToElement(saveBtn)
-                 .Perform();
-                var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 0, 10));
-                IWebElement elem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(saveBtn));
-                elem.Click();
+                TestUtils.ClickElementSafely(ref saveBtn, Driver);
                 Thread.Sleep(1000);
                 var firstNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(1)")).Text;
                 var lastNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(2)")).Text;
@@ -140,10 +128,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("accountDashboard")).Click();
             Driver.FindElement(By.Id("manageFamily")).Click();
             var editBtn = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr:nth-child(1) > td:nth-child(6) > a"));
-            new Actions(Driver)
-            .ScrollToElement(editBtn)
-            .Perform();
-            editBtn.Click();
+            TestUtils.ClickElementSafely(ref editBtn, Driver);
             var altText = Driver.FindElement(By.Id("memberImage"))?.GetAttribute("alt")?.ToString();
             Assert.Multiple(() =>
             {
@@ -165,12 +150,7 @@ namespace VirtualGlassesProvider.Tests
                 var img_path = Path.GetFullPath(file_path).Replace("\\", "/").Replace("/bin", "").Replace("/Debug", "");
                 upload_file.SendKeys(img_path);
                 var saveBtn = Driver.FindElement(By.Id("saveFamilyFormBtn"));
-                new Actions(Driver)
-                 .ScrollToElement(saveBtn)
-                 .Perform();
-                var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 0, 10));
-                var elem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(saveBtn));
-                elem.Click();
+                TestUtils.ClickElementSafely(ref saveBtn, Driver);
                 var firstNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(1)")).Text;
                 var lastNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(2)")).Text;
                 var addressDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(3)")).Text;
@@ -196,37 +176,20 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             Driver.FindElement(By.Id("login-submit")).Click();
             var product1DetailsBtn = Driver.FindElement(By.Id("productDetailsButton1"));
-            new Actions(Driver)
-            .ScrollToElement(product1DetailsBtn)
-            .Perform();
-            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 0, 10));
-            var product1DetailsBtnElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product1DetailsBtn));
-            product1DetailsBtnElem.Click();
+            TestUtils.ClickElementSafely(ref product1DetailsBtn, Driver);
             var buyForSelectList = Driver.FindElement(By.Id("buyFor"));
-            new Actions(Driver)
-            .ScrollToElement(buyForSelectList)
-            .Perform();
-            var buyForSelectListElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(buyForSelectList));
-            buyForSelectListElem.Click();
-            buyForSelectListElem.FindElement(By.XPath("//option[. = 'Janet Sinclair']")).Click();
+            TestUtils.ClickElementSafely(ref buyForSelectList, Driver);
+            buyForSelectList.FindElement(By.XPath("//option[. = 'Janet Sinclair']")).Click();
             Driver.FindElement(By.CssSelector("#buyFor > option:nth-child(2)")).Click();
             var preRenderAltText = Driver.FindElement(By.ClassName("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(preRenderAltText?.Equals("Render"), Is.False);
             var generateImageBtn = Driver.FindElement(By.Id("generateImageBtn"));
-            new Actions(Driver)
-            .ScrollToElement(generateImageBtn)
-            .Perform();
-            var generateImageBtnElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(generateImageBtn));
-            generateImageBtnElem.Click();
+            TestUtils.ClickElementSafely(ref generateImageBtn, Driver);
             Thread.Sleep(5000);
             var renderAltText = Driver.FindElement(By.ClassName("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(renderAltText, Is.EqualTo("Render"));
             var downloadImage = Driver.FindElement(By.Id("downloadImageLink"));
-            new Actions(Driver)
-            .ScrollToElement(downloadImage)
-            .Perform();
-            var downloadImageElement = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(downloadImage));
-            downloadImageElement.Click();
+            TestUtils.ClickElementSafely(ref downloadImage, Driver);
             Thread.Sleep(5000);
             var fileName = $"ARGeneratedImage.jpg";
             var file = Directory.GetFiles(_downloadPath, fileName, SearchOption.TopDirectoryOnly);
@@ -252,11 +215,8 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("login-submit")).Click();
             Driver.FindElement(By.Id("accountDashboard")).Click();
             Driver.FindElement(By.Id("manageFamily")).Click();
-            var deleteBtn =Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr:nth-child(1) > td:nth-child(6) > form > input.btn.btn-danger"));
-            new Actions(Driver)
-           .ScrollToElement(deleteBtn)
-           .Perform();
-            deleteBtn.Click();
+            var deleteBtn = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr:nth-child(1) > td:nth-child(6) > form > input.btn.btn-danger"));
+            TestUtils.ClickElementSafely(ref deleteBtn, Driver);
             Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
         }
     }

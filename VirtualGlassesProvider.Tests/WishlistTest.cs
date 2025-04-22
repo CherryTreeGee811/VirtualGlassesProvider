@@ -1,7 +1,5 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
 
 
 namespace VirtualGlassesProvider.Tests
@@ -42,26 +40,13 @@ namespace VirtualGlassesProvider.Tests
             Assert.That(Driver.FindElement(By.CssSelector(".center")).Text, Is.EqualTo("There are no glasses on your wish list"));
             Driver.FindElement(By.CssSelector(".nav-item:nth-child(1) > .nav-link")).Click();
             var product1 = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(9)"));
-            new Actions(Driver)
-            .ScrollToElement(product1)
-            .Perform();
-            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 0, 10));
-            var product1Elem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product1));
-            product1Elem.Click();
+            TestUtils.ClickElementSafely(ref product1, Driver);
             Assert.That(Driver.FindElement(By.Id("addedToWishlistMessage")).Text, Is.EqualTo("Glasses successfully added to wishlist!"));
             var product2 = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(2) .btn:nth-child(9)"));
-            new Actions(Driver)
-           .ScrollToElement(product2)
-           .Perform();
-            var product2Elem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product2));
-            product2Elem.Click();
+            TestUtils.ClickElementSafely(ref product2, Driver);
             Assert.That(Driver.FindElement(By.Id("addedToWishlistMessage")).Text, Is.EqualTo("Glasses successfully added to wishlist!"));
             product1 = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(9)"));
-            new Actions(Driver)
-            .ScrollToElement(product1)
-            .Perform();
-            product1Elem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product1));
-            product1Elem.Click();
+            TestUtils.ClickElementSafely(ref product1, Driver);
             Assert.That(Driver.FindElement(By.Id("addedToWishlistMessage")).Text, Is.EqualTo("Glasses are already in the wishlist!"));
             Driver.FindElement(By.CssSelector(".nav-item:nth-child(4) > .nav-link")).Click();
             Assert.That(Driver.FindElement(By.LinkText("Rayban Black Colour Squared shaped Rayban Sunglasses")).Text, Is.EqualTo("Rayban Black Colour Squared shaped Rayban Sunglasses"));
