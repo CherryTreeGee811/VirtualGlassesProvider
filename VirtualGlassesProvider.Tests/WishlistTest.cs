@@ -14,7 +14,7 @@ namespace VirtualGlassesProvider.Tests
         public void SetUp()
         {
             var options = new ChromeOptions { AcceptInsecureCertificates = true };
-            //options.AddArgument("--headless=new");
+            options.AddArgument("--headless=new");
             Driver = new ChromeDriver(options);
         }
 
