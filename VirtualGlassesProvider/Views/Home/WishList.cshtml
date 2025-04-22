@@ -24,7 +24,8 @@ else
                     <tr>
                         <td><a asp-controller="Home" asp-action="Details" asp-route-id="@glass.Glasses.ID">@glass.Glasses.BrandName @glass.Glasses.Description</a></td>
                     <td>$@glass.Glasses.Price</td>
-                    <td><a asp-controller="Home" asp-action="RemoveFromWishList" asp-route-id="@glass.Glasses.ID" asp-route-page="WishList" class="btn btn-danger">Remove from Wish List</a></td>
+                    <td><a asp-controller="Home" asp-action="RemoveFromWishList" asp-route-id="@glass.Glasses.ID" asp-route-page="WishList" class="btn btn-danger"
+                        id=@string.Concat("product", glass.Glasses.ID, "WishlistRemoveButton")>Remove from Wish List</a></td>
                 </tr>
             }
         }

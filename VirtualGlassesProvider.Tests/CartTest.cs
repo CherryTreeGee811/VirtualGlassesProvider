@@ -47,7 +47,7 @@ namespace VirtualGlassesProvider.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(Driver.FindElement(By.CssSelector("h3")).Text, Is.EqualTo("YOUR CART IS EMPTY."));
-                Driver.FindElement(By.CssSelector(".flex-grow-1 > .nav-item:nth-child(1) > .nav-link")).Click();
+                Driver.FindElement(By.Id("navLinkHome")).Click();
                 var product1BrandName = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .card-title")).Text.ToUpper();
                 var product1Description = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .card-text")).Text.ToUpper();
                 var product2BrandName = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(2) .card-title")).Text.ToUpper();
@@ -63,7 +63,7 @@ namespace VirtualGlassesProvider.Tests
                 TestUtils.ClickElementSafely(ref addToCartBtn, Driver);
                 Assert.That(Driver.FindElement(By.Id("addedToCartMessage")).Text, Is.EqualTo("Glasses successfully added to cart!"));
                 Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("2"));
-                Driver.FindElement(By.CssSelector(".flex-grow-1 > .nav-item:nth-child(1) > .nav-link")).Click();
+                Driver.FindElement(By.Id("navLinkHome")).Click();
                 product1Button = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
                 TestUtils.ClickElementSafely(ref product1Button, Driver);
                 Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("3"));
@@ -78,12 +78,12 @@ namespace VirtualGlassesProvider.Tests
 
         private void ClientRemovesItemsFromCart()
         {
-            Driver.FindElement(By.Id("product1RemoveButton")).Click();
+            Driver.FindElement(By.Id("product1CartRemoveButton")).Click();
             Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("2"));
-            var product2RemoveBtn = Driver.FindElement(By.Id("product2RemoveButton"));
+            var product2RemoveBtn = Driver.FindElement(By.Id("product2CartRemoveButton"));
             TestUtils.ClickElementSafely(ref product2RemoveBtn, Driver);
             Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("1"));
-            Driver.FindElement(By.Id("product1RemoveButton")).Click();
+            Driver.FindElement(By.Id("product1CartRemoveButton")).Click();
             Assert.That(Driver.FindElement(By.CssSelector("h3")).Text, Is.EqualTo("YOUR CART IS EMPTY."));
         }
     }
