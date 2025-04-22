@@ -37,7 +37,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             Driver.FindElement(By.Id("login-submit")).Click();
             Thread.Sleep(1000);
-            var product = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
+            var product = Driver.FindElement(By.Id("addToCartButton1"));
             TestUtils.ClickElementSafely(ref product, Driver);
             Driver.FindElement(By.Id("ViewCartButton")).Click();
             var checkout = Driver.FindElement(By.ClassName("btn-primary"));

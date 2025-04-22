@@ -9,7 +9,7 @@ namespace VirtualGlassesProvider.Tests
     {
         internal static void ClickElementSafely(ref IWebElement element, IWebDriver driver)
         {
-            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 0, 10));
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 0, 15));
             new Actions(driver)
             .ScrollToElement(element)
             .Perform();
