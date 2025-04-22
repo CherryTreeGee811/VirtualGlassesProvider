@@ -9,46 +9,55 @@ namespace VirtualGlassesProvider.Tests
     [TestFixture, Order(6)]
     internal class PreconfigurePaymentTest
     {
-        private ChromeDriver _driver { get; set; }
+        private ChromeDriver Driver { get; set; }
 
 
         [SetUp]
         public void SetUp()
         {
-            ChromeOptions options = new ChromeOptions { AcceptInsecureCertificates = true };
-            //options.AddArgument("--headless=new");
+            var options = new ChromeOptions { AcceptInsecureCertificates = true };
+            options.AddArgument("--headless=new");
             options.AddUserProfilePreference("autofill.credit_card_enabled", false);
-            _driver = new ChromeDriver(options);
+            Driver = new ChromeDriver(options);
         }
 
 
         [TearDown]
         protected void TearDown()
         {
-            _driver.Quit();
-            _driver.Dispose();
+            Driver.Quit();
+            Driver.Dispose();
         }
 
 
         [Test, Order(1)]
         public void ClientDoesNotPreconfigurePayment()
         {
-            _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            _driver.FindElement(By.Id("login")).Click();
-            _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
-            _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            _driver.FindElement(By.Id("login-submit")).Click();
-            _driver.FindElement(By.Id("addToCartButton1")).Click();
-            _driver.FindElement(By.Id("ViewCartButton")).Click();
-            var preconfiguredCardHolderName = _driver.FindElement(By.Id("CardHolderName")).GetAttribute("value").ToString();
-            var preconfiguredCardNumber = _driver.FindElement(By.Id("CardNumber")).GetAttribute("value").ToString();
-            var preconfiguredCvv = _driver.FindElement(By.Id("CVV")).GetAttribute("value").ToString();
-            var preconfiguredExpiryDate = _driver.FindElement(By.Id("ExpiryDate")).GetAttribute("value").ToString();
-            Assert.That(preconfiguredCardHolderName, Is.EqualTo(""));
-            Assert.That(preconfiguredCardNumber, Is.EqualTo(""));
-            Assert.That(preconfiguredCvv, Is.EqualTo(""));
-            Assert.That(preconfiguredExpiryDate, Is.EqualTo(""));
+            Driver.Navigate().GoToUrl(AppServer.URL);
+            Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
+            Driver.FindElement(By.Id("login")).Click();
+            Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
+            Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
+            Driver.FindElement(By.Id("login-submit")).Click();
+            var addProduct1ToCartBtn = Driver.FindElement(By.Id("addToCartButton1"));
+            new Actions(Driver)
+            .ScrollToElement(addProduct1ToCartBtn)
+            .Perform();
+            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 0, 10));
+            var addProduct1ToCartBtnElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(addProduct1ToCartBtn));
+            addProduct1ToCartBtnElem.Click();
+            Driver.FindElement(By.Id("ViewCartButton")).Click();
+            var preconfiguredCardHolderName = Driver.FindElement(By.Id("CardHolderName"))?.GetAttribute("value")?.ToString();
+            var preconfiguredCardNumber = Driver.FindElement(By.Id("CardNumber"))?.GetAttribute("value")?.ToString();
+            var preconfiguredCvv = Driver.FindElement(By.Id("CVV"))?.GetAttribute("value")?.ToString();
+            var preconfiguredExpiryDate = Driver.FindElement(By.Id("ExpiryDate"))?.GetAttribute("value")?.ToString();
+            Assert.Multiple(() =>
+            {
+                Assert.That(preconfiguredCardHolderName, Is.EqualTo(""));
+                Assert.That(preconfiguredCardNumber, Is.EqualTo(""));
+                Assert.That(preconfiguredCvv, Is.EqualTo(""));
+                Assert.That(preconfiguredExpiryDate, Is.EqualTo(""));
+            });
         }
 
 
@@ -59,42 +68,45 @@ namespace VirtualGlassesProvider.Tests
             const string cardNumber = "4256284623339010";
             const string cvv = "155";
             const string expiryDate = "07/27";
-            _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            _driver.FindElement(By.Id("login")).Click();
-            _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
-            _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            _driver.FindElement(By.Id("login-submit")).Click();
-            _driver.FindElement(By.Id("accountDashboard")).Click();
-            _driver.FindElement(By.Id("managePaymentInfo")).Click();
-            _driver.FindElement(By.Id("Input_CardHolderName")).SendKeys(cardHolderName);
-            _driver.FindElement(By.Id("Input_CardNumber")).SendKeys(cardNumber);
-            _driver.FindElement(By.Id("Input_CVV")).SendKeys(cvv);
-            _driver.FindElement(By.Id("Input_ExpiryDate")).SendKeys(expiryDate);
-            var preconfigure = _driver.FindElement(By.ClassName("btn-primary"));
-            new Actions(_driver)
+            Driver.Navigate().GoToUrl(AppServer.URL);
+            Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
+            Driver.FindElement(By.Id("login")).Click();
+            Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
+            Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
+            Driver.FindElement(By.Id("login-submit")).Click();
+            Driver.FindElement(By.Id("accountDashboard")).Click();
+            Driver.FindElement(By.Id("managePaymentInfo")).Click();
+            Driver.FindElement(By.Id("Input_CardHolderName")).SendKeys(cardHolderName);
+            Driver.FindElement(By.Id("Input_CardNumber")).SendKeys(cardNumber);
+            Driver.FindElement(By.Id("Input_CVV")).SendKeys(cvv);
+            Driver.FindElement(By.Id("Input_ExpiryDate")).SendKeys(expiryDate);
+            var preconfigure = Driver.FindElement(By.ClassName("btn-primary"));
+            new Actions(Driver)
             .ScrollToElement(preconfigure)
             .Perform();
-            WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
+            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 0, 10));
             var preconfigureElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(preconfigure));
             preconfigureElem.Click();
-            Assert.That(_driver.FindElement(By.ClassName("alert")).Text, Is.EqualTo("Your Payment Info has been updated"));
-            _driver.FindElement(By.CssSelector("body > header > nav > div > div > ul > li:nth-child(1) > a")).Click();
-            var product = _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
-            new Actions(_driver)
-            .ScrollToElement(product)
-            .Perform();
-            var productElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
-            productElem.Click();
-            _driver.FindElement(By.ClassName("fa")).Click();
-            var preconfiguredCardHolderName = _driver.FindElement(By.Id("CardHolderName")).GetAttribute("value").ToString();
-            var preconfiguredCardNumber = _driver.FindElement(By.Id("CardNumber")).GetAttribute("value").ToString();
-            var preconfiguredCvv = _driver.FindElement(By.Id("CVV")).GetAttribute("value").ToString();
-            var preconfiguredExpiryDate = _driver.FindElement(By.Id("ExpiryDate")).GetAttribute("value").ToString();
-            Assert.That(preconfiguredCardHolderName, Is.EqualTo(cardHolderName));
-            Assert.That(preconfiguredCardNumber, Is.EqualTo(cardNumber));
-            Assert.That(preconfiguredCvv, Is.EqualTo(cvv));
-            Assert.That(preconfiguredExpiryDate, Is.EqualTo(expiryDate));
+            Assert.Multiple(() =>
+            {
+                Assert.That(Driver.FindElement(By.ClassName("alert")).Text, Is.EqualTo("Your Payment Info has been updated"));
+                Driver.FindElement(By.CssSelector("body > header > nav > div > div > ul > li:nth-child(1) > a")).Click();
+                var product = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
+                new Actions(Driver)
+                .ScrollToElement(product)
+                .Perform();
+                var productElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
+                productElem.Click();
+                Driver.FindElement(By.ClassName("fa")).Click();
+                var preconfiguredCardHolderName = Driver.FindElement(By.Id("CardHolderName"))?.GetAttribute("value")?.ToString();
+                var preconfiguredCardNumber = Driver.FindElement(By.Id("CardNumber"))?.GetAttribute("value")?.ToString();
+                var preconfiguredCvv = Driver.FindElement(By.Id("CVV"))?.GetAttribute("value")?.ToString();
+                var preconfiguredExpiryDate = Driver.FindElement(By.Id("ExpiryDate"))?.GetAttribute("value")?.ToString();
+                Assert.That(preconfiguredCardHolderName, Is.EqualTo(cardHolderName));
+                Assert.That(preconfiguredCardNumber, Is.EqualTo(cardNumber));
+                Assert.That(preconfiguredCvv, Is.EqualTo(cvv));
+                Assert.That(preconfiguredExpiryDate, Is.EqualTo(expiryDate));
+            });
         }
     }
 }

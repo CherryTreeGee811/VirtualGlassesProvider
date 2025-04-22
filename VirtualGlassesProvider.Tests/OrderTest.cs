@@ -8,51 +8,51 @@ namespace VirtualGlassesProvider.Tests
     [TestFixture, Order(7)]
     internal class OrderTest
     {
-        private ChromeDriver _driver { get; set; }
+        private ChromeDriver Driver { get; set; }
 
 
         [SetUp]
         public void SetUp()
         {
-            ChromeOptions options = new ChromeOptions { AcceptInsecureCertificates = true };
+            var options = new ChromeOptions { AcceptInsecureCertificates = true };
             options.AddArgument("--headless=new");
-            _driver = new ChromeDriver(options);
+            Driver = new ChromeDriver(options);
         }
 
 
         [TearDown]
         protected void TearDown()
         {
-            _driver.Quit();
-            _driver.Dispose();
+            Driver.Quit();
+            Driver.Dispose();
         }
 
 
         [Test, Order(1)]
         public void ClientPlacesOrder()
         {
-            _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            _driver.FindElement(By.Id("login")).Click();
-            _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
-            _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            _driver.FindElement(By.Id("login-submit")).Click();
+            Driver.Navigate().GoToUrl(AppServer.URL);
+            Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
+            Driver.FindElement(By.Id("login")).Click();
+            Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
+            Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
+            Driver.FindElement(By.Id("login-submit")).Click();
             Thread.Sleep(1000);
-            var product = _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
-            new Actions(_driver)
+            var product = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
+            new Actions(Driver)
             .ScrollToElement(product)
             .Perform();
-            WebDriverWait wait = new WebDriverWait(_driver, new TimeSpan(0, 0, 0, 10));
+            var wait = new WebDriverWait(Driver, new TimeSpan(0, 0, 0, 10));
             var productElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(product));
             productElem.Click();
-            _driver.FindElement(By.ClassName("fa")).Click();
-            var checkout = _driver.FindElement(By.ClassName("btn-primary"));
-            new Actions(_driver)
+            Driver.FindElement(By.ClassName("fa")).Click();
+            var checkout = Driver.FindElement(By.ClassName("btn-primary"));
+            new Actions(Driver)
             .ScrollToElement(checkout)
             .Perform();
             var checkoutElem = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(checkout));
             checkoutElem.Click();
-            Assert.That(_driver.FindElement(By.CssSelector(".card-title")).Text, Is.EqualTo("ORDER CONFIRMATION"));
+            Assert.That(Driver.FindElement(By.CssSelector(".card-title")).Text, Is.EqualTo("ORDER CONFIRMATION"));
         }
     }
 }

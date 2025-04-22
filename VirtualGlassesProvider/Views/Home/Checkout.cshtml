@@ -38,7 +38,7 @@
                             <p class="card-text"><strong>Total: &#36;@item.TotalPrice.ToString("F")</strong></p>
                             <form asp-action="RemoveFromCart" asp-controller="Home" method="post">
                                 <input type="hidden" name="glassId" value="@item.ID" />
-                                <button type="submit" class="btn btn-danger card-item">Remove</button>
+                                <button type="submit" class="btn btn-danger card-item" id=@string.Concat("product", item.ID, "RemoveButton")>Remove</button>
                             </form>
                         </div>
                         <!-- Right side image in a small square -->
