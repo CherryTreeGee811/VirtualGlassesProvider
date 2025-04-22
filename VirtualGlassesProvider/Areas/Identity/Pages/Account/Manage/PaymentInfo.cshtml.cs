@@ -76,7 +76,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 
 
             [Required(ErrorMessage = "Expiry Date is required")]
-            [RegularExpression(@"^(0[1-9]|1[0-2])\/?([0-9]{2})$", ErrorMessage = "Invalid Expiry Date. Format MM/YY")]
+            [RegularExpression(@"^(0[1-9]|1[0-2])\/([0-9]{2})$", ErrorMessage = "Invalid Expiry Date. Format MM/YY")]
             [FutureDate(ErrorMessage = "Expiry Date cannot be in the past")]
             [Display(Name = "Expiry Date")]
             public string? ExpiryDate { get; set; }
