@@ -8,7 +8,7 @@ using VirtualGlassesProvider.Models.DTOs;
 using VirtualGlassesProvider.Services;
 using VirtualGlassesProvider.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 
 namespace VirtualGlassesProvider.Controllers
@@ -55,7 +55,7 @@ namespace VirtualGlassesProvider.Controllers
         [HttpPost]
         public IActionResult Search(string searchString)
         {
-            if (String.IsNullOrEmpty(searchString))
+            if (string.IsNullOrEmpty(searchString))
             {
                 return RedirectToAction("Index");
             }
@@ -337,7 +337,6 @@ namespace VirtualGlassesProvider.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(CheckoutViewModel viewModel)
         {
-
             if (ModelState.IsValid)
             {
                 var cartItems = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart");
@@ -364,7 +363,6 @@ namespace VirtualGlassesProvider.Controllers
                     // Create and save each order
                     foreach (var item in cartItems)
                     {
-
                         var order = new Order
                         {
                             GlassId = item.ID,
@@ -394,8 +392,7 @@ namespace VirtualGlassesProvider.Controllers
                     };
 
                     // Use TempData or a similar mechanism to pass data to the redirection target
-                    TempData["OrderConfirmation"] = JsonConvert.SerializeObject(confirmationViewModel);
-
+                    TempData["OrderConfirmation"] = JsonSerializer.Serialize(confirmationViewModel);
 
                     // Redirect to an order confirmation page
                     return RedirectToAction("OrderConfirmation");
@@ -425,7 +422,7 @@ namespace VirtualGlassesProvider.Controllers
         {
             if (TempData["OrderConfirmation"] is string serializedConfirmationViewModel)
             {
-                var viewModel = JsonConvert.DeserializeObject<OrderConfirmationViewModel>(serializedConfirmationViewModel);
+                var viewModel = JsonSerializer.Deserialize<OrderConfirmationViewModel>(serializedConfirmationViewModel);
                 return View(viewModel);
             }
 

@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 
+
 namespace VirtualGlassesProvider.Services
 {
     public class AesEncryptionService(
@@ -16,12 +17,19 @@ namespace VirtualGlassesProvider.Services
             aes.Key = _key;
             aes.IV = _iv;
             var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
             using var ms = new MemoryStream();
-            using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
-            using var sw = new StreamWriter(cs);
-            sw.Write(plainText);
+            using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+            {
+                using (var sw = new StreamWriter(cs))
+                {
+                    sw.Write(plainText);
+                }
+            }
+
             return Convert.ToBase64String(ms.ToArray());
         }
+
 
         public string Decrypt(string cipherText)
         {

@@ -1,7 +1,5 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,22 +9,15 @@ using VirtualGlassesProvider.Models;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
-    public sealed class DeletePersonalDataModel : PageModel
+    public sealed class DeletePersonalDataModel(
+        UserManager<User> userManager,
+        SignInManager<User> signInManager,
+        ILogger<DeletePersonalDataModel> logger)
+        : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<DeletePersonalDataModel> _logger;
-
-
-        public DeletePersonalDataModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-        }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly SignInManager<User> _signInManager = signInManager;
+        private readonly ILogger<DeletePersonalDataModel> _logger = logger;
 
 
         /// <summary>
@@ -34,7 +25,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = new InputModel();
 
 
         /// <summary>
@@ -49,7 +40,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Required]
             [DataType(DataType.Password)]
-            public string Password { get; set; }
+            public string Password { get; set; } = string.Empty;
         }
 
 

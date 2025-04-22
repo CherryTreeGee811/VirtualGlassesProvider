@@ -1,4 +1,6 @@
 ﻿using System.Security.Cryptography;
+
+
 namespace VirtualGlassesProvider.Services
 {
     public static class AesKeyGenerator

@@ -7,6 +7,9 @@ namespace VirtualGlassesProvider.Models.DataAccess
 {
     public class GlassesStoreDbContext : IdentityDbContext<User>
     {
+        public GlassesStoreDbContext(DbContextOptions<GlassesStoreDbContext> options) : base(options) { }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -127,9 +130,5 @@ namespace VirtualGlassesProvider.Models.DataAccess
 
 
         public DbSet<FamilyMember> FamilyMembers { get; set; }
-
-
-        public GlassesStoreDbContext(DbContextOptions<GlassesStoreDbContext> options) : base(options)
-        { }
     }
 }
