@@ -9,9 +9,7 @@ namespace VirtualGlassesProvider.Tests
     [TestFixture, Order(3)]
     internal class SearchTest
     {
-        #pragma warning disable NUnit1032
         private ChromeDriver _driver { get; set; }
-        #pragma warning restore NUnit1032
 
 
         [SetUp]
@@ -27,6 +25,7 @@ namespace VirtualGlassesProvider.Tests
         protected void TearDown()
         {
             _driver.Quit();
+            _driver.Dispose();
         }
 
 

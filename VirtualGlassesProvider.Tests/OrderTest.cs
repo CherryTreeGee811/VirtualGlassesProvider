@@ -8,9 +8,7 @@ namespace VirtualGlassesProvider.Tests
     [TestFixture, Order(7)]
     internal class OrderTest
     {
-        #pragma warning disable NUnit1032
         private ChromeDriver _driver { get; set; }
-        #pragma warning restore NUnit1032
 
 
         [SetUp]
@@ -26,6 +24,7 @@ namespace VirtualGlassesProvider.Tests
         protected void TearDown()
         {
             _driver.Quit();
+            _driver.Dispose();
         }
 
 

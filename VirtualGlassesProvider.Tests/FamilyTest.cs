@@ -9,9 +9,7 @@ namespace VirtualGlassesProvider.Tests
     [TestFixture, Order(8)]
     internal class FamilyTest
     {
-        #pragma warning disable NUnit1032
         private ChromeDriver _driver { get; set; }
-        #pragma warning restore NUnit1032
         private string _downloadPath = Path.GetTempPath();
 
 
@@ -22,7 +20,7 @@ namespace VirtualGlassesProvider.Tests
             options.AddUserProfilePreference("download.default_directory", _downloadPath);
             options.AddUserProfilePreference("download.prompt_for_download", false);
             options.AddUserProfilePreference("disable-popup-blocking", "true");
-            options.AddArgument("--headless=new");
+            //options.AddArgument("--headless=new");
             _driver = new ChromeDriver(options);
         }
 
@@ -31,6 +29,7 @@ namespace VirtualGlassesProvider.Tests
         protected void TearDown()
         {
             _driver.Quit();
+            _driver.Dispose();
         }
 
 

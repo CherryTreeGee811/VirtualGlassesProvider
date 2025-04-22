@@ -9,16 +9,14 @@ namespace VirtualGlassesProvider.Tests
     [TestFixture, Order(6)]
     internal class PreconfigurePaymentTest
     {
-        #pragma warning disable NUnit1032
         private ChromeDriver _driver { get; set; }
-        #pragma warning restore NUnit1032
 
 
         [SetUp]
         public void SetUp()
         {
             ChromeOptions options = new ChromeOptions { AcceptInsecureCertificates = true };
-            options.AddArgument("--headless=new");
+            //options.AddArgument("--headless=new");
             options.AddUserProfilePreference("autofill.credit_card_enabled", false);
             _driver = new ChromeDriver(options);
         }
@@ -28,6 +26,7 @@ namespace VirtualGlassesProvider.Tests
         protected void TearDown()
         {
             _driver.Quit();
+            _driver.Dispose();
         }
 
 
@@ -40,8 +39,8 @@ namespace VirtualGlassesProvider.Tests
             _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             _driver.FindElement(By.Id("login-submit")).Click();
-            _driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn-success")).Click();
-            _driver.FindElement(By.CssSelector(".fa")).Click();
+            _driver.FindElement(By.Id("addToCartButton1")).Click();
+            _driver.FindElement(By.Id("ViewCartButton")).Click();
             var preconfiguredCardHolderName = _driver.FindElement(By.Id("CardHolderName")).GetAttribute("value").ToString();
             var preconfiguredCardNumber = _driver.FindElement(By.Id("CardNumber")).GetAttribute("value").ToString();
             var preconfiguredCvv = _driver.FindElement(By.Id("CVV")).GetAttribute("value").ToString();

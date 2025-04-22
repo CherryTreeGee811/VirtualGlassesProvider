@@ -8,16 +8,14 @@ namespace VirtualGlassesProvider.Tests
     [TestFixture, Order(10)]
     internal class CartTest
     {
-        #pragma warning disable NUnit1032
         private ChromeDriver _driver { get; set; }
-        #pragma warning restore NUnit1032
 
 
         [SetUp]
         public void SetUp()
         {
             ChromeOptions options = new ChromeOptions { AcceptInsecureCertificates = true };
-            options.AddArgument("--headless=new");
+            //options.AddArgument("--headless=new");
             _driver = new ChromeDriver(options);
         }
 
@@ -26,6 +24,7 @@ namespace VirtualGlassesProvider.Tests
         protected void TearDown()
         {
             _driver.Quit();
+            _driver.Dispose();
         }
 
 

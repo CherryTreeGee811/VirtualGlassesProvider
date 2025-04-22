@@ -12,10 +12,7 @@ namespace VirtualGlassesProvider.Tests
         // in the tests exployer.
         // Thank you
 
-
-        #pragma warning disable NUnit1032
         private ChromeDriver _driver { get; set; }
-        #pragma warning restore NUnit1032
 
 
         [SetUp]
@@ -31,6 +28,7 @@ namespace VirtualGlassesProvider.Tests
         protected void TearDown()
         {
             _driver.Quit();
+            _driver.Dispose();
         }
 
 

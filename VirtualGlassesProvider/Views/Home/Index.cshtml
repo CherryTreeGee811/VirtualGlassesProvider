@@ -1,4 +1,5 @@
-﻿@model List<VirtualGlassesProvider.Models.DTOs.GlassesDTO>
+﻿@using VirtualGlassesProvider.Models.DTOs
+@model List<GlassesDTO>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -54,10 +55,10 @@
                     <p class="price">&#36;@item.Price.ToString("F")</p>
                     <p class="label-text">Style: <span class="font-weight-bold">@item.Style</span></p>
                     <p class="label-text">Color: <span class="font-weight-bold">@item.Colour</span></p>
-                    <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID">Details</a>
-                    <a asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID">Add to Cart</a>
+                    <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID" id="productDetailsButton@{item.ID.ToString();}>Details</a>
+                    <a asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID" id="addToCartButton@{item.ID.ToString();}">Add to Cart</a>
                     <p></p>
-                    <a asp-controller="Home" asp-action="AddToWishList" asp-route-id="@item.ID" class="btn btn-success">Add to Wish List</a>
+                    <a asp-controller="Home" asp-action="AddToWishList" asp-route-id="@item.ID" class="btn btn-success" id="addToWishlistButton@{item.ID.ToString();}" >Add to Wish List</a>
                 </div>
             </div>
         </div>
