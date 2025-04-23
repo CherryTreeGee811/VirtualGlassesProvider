@@ -52,9 +52,9 @@
                 <div class="card-body">
                     <h5 class="card-title" id=@string.Concat("product", item.ID.ToString(), "BrandName")>@item.BrandName</h5>
                     <p class="card-text" id=@string.Concat("product", item.ID.ToString(), "Description")>@item.Description</p>
-                    <p class="price">&#36;@item.Price.ToString("F")</p>
-                    <p class="label-text">Style: <span class="font-weight-bold">@item.Style</span></p>
-                    <p class="label-text">Color: <span class="font-weight-bold">@item.Colour</span></p>
+                    <p class="price" id=@string.Concat("product", item.ID.ToString(), "Price")>&#36;@item.Price.ToString("F")</p>
+                    <p class="label-text" id=@string.Concat("product", item.ID.ToString(), "Style")>Style: <span class="font-weight-bold">@item.Style</span></p>
+                    <p class="label-text" id=@string.Concat("product", item.ID.ToString(), "Colour")>Colour: <span class="font-weight-bold">@item.Colour</span></p>
                     <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID" id=@string.Concat("productDetailsButton",item.ID.ToString())>Details</a>
                     <a asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID" id=@string.Concat("addToCartButton",item.ID.ToString())>Add to Cart</a>
                     <p></p>

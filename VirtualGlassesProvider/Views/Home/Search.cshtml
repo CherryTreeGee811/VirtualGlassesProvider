@@ -26,11 +26,11 @@ else{
                         <img src="@Url.Content($"~/{item.Image}")" alt="@item.BrandName">
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">@item.BrandName</h5>
-                        <p class="card-text">@item.Description</p>
-                        <p class="price">&#36;@item.Price.ToString("F")</p>
-                        <p class="label-text">Style: @item.Style</p>
-                        <p class="label-text">Colour: @item.Colour</p>
+                        <h5 class="card-title" id=@string.Concat("searchProduct", item.ID, "BrandName")>@item.BrandName</h5>
+                        <p class="card-text" id=@string.Concat("searchProduct", item.ID, "Description")>@item.Description</p>
+                        <p class="price" id=@string.Concat("searchProduct", item.ID, "Price")>&#36;@item.Price.ToString("F")</p>
+                        <p class="label-text" id=@string.Concat("searchProduct", item.ID, "Style")>Style: @item.Style</p>
+                        <p class="label-text" id=@string.Concat("searchProduct", item.ID, "Colour")>Colour: @item.Colour</p>
                         <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID">Details</a>
                         <a asp-area="Member" asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID">Add to Cart</a>
                         <p></p>
