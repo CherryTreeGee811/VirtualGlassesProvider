@@ -45,7 +45,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             Driver.FindElement(By.Id("searchString")).SendKeys("Blue");
             TestUtils.ClickElementSafely("searchBtn", Driver);
-            Assert.That(Driver.FindElement(By.CssSelector("searchProduct1Colour")).Text, Is.EqualTo("Colour: Blue"));
+            Assert.That(Driver.FindElement(By.CssSelector("searchProduct2Colour")).Text, Is.EqualTo("Colour: Blue"));
         }
 
 
