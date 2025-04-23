@@ -38,7 +38,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             Driver.FindElement(By.Id("login-submit")).Click();
             var addProduct1ToCartBtn = Driver.FindElement(By.Id("addToCartButton1"));
-            TestUtils.ClickElementSafely(ref addProduct1ToCartBtn, Driver);
+            TestUtils.ClickElementSafely("addToCartButton1", Driver);
             Driver.FindElement(By.Id("ViewCartButton")).Click();
             var preconfiguredCardHolderName = Driver.FindElement(By.Id("CardHolderName"))?.GetAttribute("value")?.ToString();
             var preconfiguredCardNumber = Driver.FindElement(By.Id("CardNumber"))?.GetAttribute("value")?.ToString();
@@ -73,14 +73,12 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_CardNumber")).SendKeys(cardNumber);
             Driver.FindElement(By.Id("Input_CVV")).SendKeys(cvv);
             Driver.FindElement(By.Id("Input_ExpiryDate")).SendKeys(expiryDate);
-            var preconfigure = Driver.FindElement(By.ClassName("btn-primary"));
-            TestUtils.ClickElementSafely(ref preconfigure, Driver);
+            TestUtils.ClickElementSafely("savePaymentInfoButton", Driver);
             Assert.Multiple(() =>
             {
                 Assert.That(Driver.FindElement(By.ClassName("alert")).Text, Is.EqualTo("Your Payment Info has been updated"));
                 Driver.FindElement(By.CssSelector("body > header > nav > div > div > ul > li:nth-child(1) > a")).Click();
-                var product = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
-                TestUtils.ClickElementSafely(ref product, Driver);
+                TestUtils.ClickElementSafely("addToCartButton1", Driver);
                 Driver.FindElement(By.Id("ViewCartButton")).Click();
                 var preconfiguredCardHolderName = Driver.FindElement(By.Id("CardHolderName"))?.GetAttribute("value")?.ToString();
                 var preconfiguredCardNumber = Driver.FindElement(By.Id("CardNumber"))?.GetAttribute("value")?.ToString();

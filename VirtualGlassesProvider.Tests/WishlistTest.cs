@@ -39,14 +39,11 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("navLinkWishlist")).Click();
             Assert.That(Driver.FindElement(By.CssSelector(".center")).Text, Is.EqualTo("There are no glasses on your wish list"));
             Driver.FindElement(By.Id("navLinkHome")).Click();
-            var product1 = Driver.FindElement(By.Id("addToWishlistButton1"));
-            TestUtils.ClickElementSafely(ref product1, Driver);
+            TestUtils.ClickElementSafely("addToWishlistButton1", Driver);
             Assert.That(Driver.FindElement(By.Id("addedToWishlistMessage")).Text, Is.EqualTo("Glasses successfully added to wishlist!"));
-            var product2 = Driver.FindElement(By.Id("addToWishlistButton2"));
-            TestUtils.ClickElementSafely(ref product2, Driver);
+            TestUtils.ClickElementSafely("addToWishlistButton2", Driver);
             Assert.That(Driver.FindElement(By.Id("addedToWishlistMessage")).Text, Is.EqualTo("Glasses successfully added to wishlist!"));
-            product1 = Driver.FindElement(By.Id("addToWishlistButton1"));
-            TestUtils.ClickElementSafely(ref product1, Driver);
+            TestUtils.ClickElementSafely("addToWishlistButton1", Driver);
             Assert.That(Driver.FindElement(By.Id("addedToWishlistMessage")).Text, Is.EqualTo("Glasses are already in the wishlist!"));
             Driver.FindElement(By.Id("navLinkWishlist")).Click();
             Assert.That(Driver.FindElement(By.LinkText("Rayban Black Colour Squared shaped Rayban Sunglasses")).Text, Is.EqualTo("Rayban Black Colour Squared shaped Rayban Sunglasses"));

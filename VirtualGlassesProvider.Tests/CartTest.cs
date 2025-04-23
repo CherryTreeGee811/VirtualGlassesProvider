@@ -52,20 +52,16 @@ namespace VirtualGlassesProvider.Tests
                 var product1Description = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .card-text")).Text.ToUpper();
                 var product2BrandName = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(2) .card-title")).Text.ToUpper();
                 var product2Description = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(2) .card-text")).Text.ToUpper();
-                var product1Button = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
-                TestUtils.ClickElementSafely(ref product1Button, Driver);
+                TestUtils.ClickElementSafely("addToCartButton1", Driver);
                 Assert.That(Driver.FindElement(By.Id("addedToCartMessage")).Text, Is.EqualTo("Glasses successfully added to cart!"));
                 Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("1"));
-                var product2Button = Driver.FindElement(By.Id("productDetailsButton2"));
-                TestUtils.ClickElementSafely(ref product2Button, Driver);
+                TestUtils.ClickElementSafely("productDetailsButton2", Driver);
                 Thread.Sleep(1000);
-                var addToCartBtn = Driver.FindElement(By.Id("detailsAddToCartButton"));
-                TestUtils.ClickElementSafely(ref addToCartBtn, Driver);
+                TestUtils.ClickElementSafely("detailsAddToCartButton", Driver);
                 Assert.That(Driver.FindElement(By.Id("addedToCartMessage")).Text, Is.EqualTo("Glasses successfully added to cart!"));
                 Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("2"));
                 Driver.FindElement(By.Id("navLinkHome")).Click();
-                product1Button = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .btn:nth-child(7)"));
-                TestUtils.ClickElementSafely(ref product1Button, Driver);
+                TestUtils.ClickElementSafely("addToCartButton1", Driver);
                 Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("3"));
                 Driver.FindElement(By.Id("ViewCartButton")).Click();
                 Assert.That(Driver.FindElement(By.CssSelector(".col-12:nth-child(1) .card-title")).Text, Is.EqualTo($"{product1BrandName} - {product1Description}"));
@@ -80,8 +76,7 @@ namespace VirtualGlassesProvider.Tests
         {
             Driver.FindElement(By.Id("product1CartRemoveButton")).Click();
             Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("2"));
-            var product2RemoveBtn = Driver.FindElement(By.Id("product2CartRemoveButton"));
-            TestUtils.ClickElementSafely(ref product2RemoveBtn, Driver);
+            TestUtils.ClickElementSafely("product2CartRemoveButton", Driver);
             Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("1"));
             Driver.FindElement(By.Id("product1CartRemoveButton")).Click();
             Assert.That(Driver.FindElement(By.CssSelector("h3")).Text, Is.EqualTo("YOUR CART IS EMPTY."));

@@ -61,7 +61,8 @@
                             @Html.DisplayFor(modelItem => item.PhoneNumber)
                         </td>
                         <td>
-                            <a class="btn btn-dark" asp-page="./FamilyForm" asp-route-id="@item.ID">Edit</a> | <form method="post"><input type="submit" class="btn btn-danger" asp-page-handler="DeleteMember" asp-route-id="@item.ID" value="Delete" /></form>
+                            <a class="btn btn-dark" asp-page="./FamilyForm" asp-route-id="@item.ID" id=@string.Concat("familyMember", item.ID, "EditButton")>Edit</a>
+                            | <form method="post"><input type="submit" class="btn btn-danger" asp-page-handler="DeleteMember" asp-route-id="@item.ID" value="Delete" id=@string.Concat("familyMember", item.ID, "DeleteButton") /></form>
                         </td>
                     </tr>
                 }

@@ -18,7 +18,7 @@ namespace VirtualGlassesProvider.Tests
             options.AddUserProfilePreference("download.default_directory", _downloadPath);
             options.AddUserProfilePreference("download.prompt_for_download", false);
             options.AddUserProfilePreference("disable-popup-blocking", "true");
-            options.AddArgument("--headless=new");
+            //options.AddArgument("--headless=new");
             Driver = new ChromeDriver(options);
         }
 
@@ -46,8 +46,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("manageFamily")).Click();
             Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
             Driver.FindElement(By.Id("family-form")).Click();
-            var cancelBtn = Driver.FindElement(By.Id("exitFamilyFormBtn"));
-            TestUtils.ClickElementSafely(ref cancelBtn, Driver);
+            TestUtils.ClickElementSafely("exitFamilyFormBtn", Driver);
             Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
         }
 
@@ -88,8 +87,7 @@ namespace VirtualGlassesProvider.Tests
                 var file_path = Path.Join(projectDir, @"Resources\Faces\Barack_Obama.jpg");
                 var img_path = Path.GetFullPath(file_path).Replace("\\", "/").Replace("/bin", "").Replace("/Debug", "");
                 upload_file.SendKeys(img_path);
-                var saveBtn = Driver.FindElement(By.Id("saveFamilyFormBtn"));
-                TestUtils.ClickElementSafely(ref saveBtn, Driver);
+                TestUtils.ClickElementSafely("saveFamilyFormBtn", Driver);
                 Thread.Sleep(1000);
                 var firstNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(1)")).Text;
                 var lastNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(2)")).Text;
@@ -127,8 +125,8 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("login-submit")).Click();
             Driver.FindElement(By.Id("accountDashboard")).Click();
             Driver.FindElement(By.Id("manageFamily")).Click();
-            var editBtn = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr:nth-child(1) > td:nth-child(6) > a"));
-            TestUtils.ClickElementSafely(ref editBtn, Driver);
+            var editBtn = Driver.FindElement(By.Id("familyMember1EditButton"));
+            TestUtils.ClickElementSafely("familyMember1EditButton", Driver);
             var altText = Driver.FindElement(By.Id("memberImage"))?.GetAttribute("alt")?.ToString();
             Assert.Multiple(() =>
             {
@@ -149,8 +147,7 @@ namespace VirtualGlassesProvider.Tests
                 var file_path = Path.Join(projectDir, @"Resources\Faces\Janet_Sinclair.jpg");
                 var img_path = Path.GetFullPath(file_path).Replace("\\", "/").Replace("/bin", "").Replace("/Debug", "");
                 upload_file.SendKeys(img_path);
-                var saveBtn = Driver.FindElement(By.Id("saveFamilyFormBtn"));
-                TestUtils.ClickElementSafely(ref saveBtn, Driver);
+                TestUtils.ClickElementSafely("saveFamilyFormBtn", Driver);
                 var firstNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(1)")).Text;
                 var lastNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(2)")).Text;
                 var addressDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(3)")).Text;
@@ -175,21 +172,18 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             Driver.FindElement(By.Id("login-submit")).Click();
-            var product1DetailsBtn = Driver.FindElement(By.Id("productDetailsButton1"));
-            TestUtils.ClickElementSafely(ref product1DetailsBtn, Driver);
+            TestUtils.ClickElementSafely("productDetailsButton1", Driver);
             var buyForSelectList = Driver.FindElement(By.Id("buyFor"));
-            TestUtils.ClickElementSafely(ref buyForSelectList, Driver);
+            TestUtils.ClickElementSafely("buyFor", Driver);
             buyForSelectList.FindElement(By.XPath("//option[. = 'Janet Sinclair']")).Click();
             Driver.FindElement(By.CssSelector("#buyFor > option:nth-child(2)")).Click();
             var preRenderAltText = Driver.FindElement(By.ClassName("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(preRenderAltText?.Equals("Render"), Is.False);
-            var generateImageBtn = Driver.FindElement(By.Id("generateImageBtn"));
-            TestUtils.ClickElementSafely(ref generateImageBtn, Driver);
+            TestUtils.ClickElementSafely("generateImageBtn", Driver);
             Thread.Sleep(5000);
             var renderAltText = Driver.FindElement(By.ClassName("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(renderAltText, Is.EqualTo("Render"));
-            var downloadImage = Driver.FindElement(By.Id("downloadImageLink"));
-            TestUtils.ClickElementSafely(ref downloadImage, Driver);
+            TestUtils.ClickElementSafely("downloadImageLink", Driver);
             Thread.Sleep(5000);
             var fileName = $"ARGeneratedImage.jpg";
             var file = Directory.GetFiles(_downloadPath, fileName, SearchOption.TopDirectoryOnly);
@@ -215,8 +209,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("login-submit")).Click();
             Driver.FindElement(By.Id("accountDashboard")).Click();
             Driver.FindElement(By.Id("manageFamily")).Click();
-            var deleteBtn = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr:nth-child(1) > td:nth-child(6) > form > input.btn.btn-danger"));
-            TestUtils.ClickElementSafely(ref deleteBtn, Driver);
+            TestUtils.ClickElementSafely("familyMember1DeleteButton", Driver);
             Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
         }
     }

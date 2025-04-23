@@ -1,20 +1,31 @@
-﻿using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 
 namespace VirtualGlassesProvider.Tests
 {
     internal static class TestUtils
     {
-        internal static void ClickElementSafely(ref IWebElement element, IWebDriver driver)
+        internal static void ClickElementSafely(string elementId, IWebDriver driver)
         {
-            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 0, 15));
-            new Actions(driver)
-            .ScrollToElement(element)
-            .Perform();
-            var elementVisible = wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(element));
-            elementVisible.Click();
+            try
+            {
+                // Use JavaScript to retrieve and click the element
+                var script = @"
+                    var element = document.getElementById(arguments[0]);
+                    if (!element) {
+                        throw new Error('Element with ID ' + arguments[0] + ' was not found.');
+                    }
+                    element.scrollIntoView({ block: 'center' });
+                    element.click();
+                ";
+                ((IJavaScriptExecutor)driver).ExecuteScript(script, elementId);
+            }
+            catch (Exception ex)
+            {
+                // Log any other exceptions
+                Console.WriteLine($"Error clicking element: {ex.Message}");
+                throw;
+            }
         }
     }
 }

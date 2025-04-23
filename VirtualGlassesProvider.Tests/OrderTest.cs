@@ -37,11 +37,9 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             Driver.FindElement(By.Id("login-submit")).Click();
             Thread.Sleep(1000);
-            var product = Driver.FindElement(By.Id("addToCartButton1"));
-            TestUtils.ClickElementSafely(ref product, Driver);
+            TestUtils.ClickElementSafely("addToCartButton1", Driver);
             Driver.FindElement(By.Id("ViewCartButton")).Click();
-            var checkout = Driver.FindElement(By.Id("cartCheckoutButton"));
-            TestUtils.ClickElementSafely(ref checkout, Driver);
+            TestUtils.ClickElementSafely("cartCheckoutButton", Driver);
             Assert.That(Driver.FindElement(By.Id("orderConfirmationPageTitle")).Text, Is.EqualTo("ORDER CONFIRMATION"));
         }
     }

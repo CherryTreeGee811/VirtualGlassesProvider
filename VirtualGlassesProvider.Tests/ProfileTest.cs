@@ -59,8 +59,7 @@ namespace VirtualGlassesProvider.Tests
                 var file_path = Path.Join(projectDir, @"Resources\Faces\tim_apple.jpg");
                 var img_path = Path.GetFullPath(file_path).Replace("\\", "/").Replace("/bin", "").Replace("/Debug", "");
                 upload_file.SendKeys(img_path);
-                var submitDetails = Driver.FindElement(By.ClassName("btn-primary"));
-                TestUtils.ClickElementSafely(ref submitDetails, Driver);
+                TestUtils.ClickElementSafely("saveProfileButton", Driver);
                 Thread.Sleep(1000);
                 Assert.That(Driver.FindElement(By.ClassName("alert")).Text, Is.EqualTo("Your profile has been updated"));
                 var firstNameSubmitted = Driver.FindElement(By.Id("Input_FirstName"))?.GetAttribute("value")?.ToString();

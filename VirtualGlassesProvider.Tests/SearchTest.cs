@@ -33,8 +33,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             Driver.FindElement(By.Id("searchString")).SendKeys("Rayban");
-            var searchBtn = Driver.FindElement(By.Id("searchBtn"));
-            TestUtils.ClickElementSafely(ref searchBtn, Driver);
+            TestUtils.ClickElementSafely("searchBtn", Driver);
             Assert.That(Driver.FindElement(By.CssSelector("html body div.container main.pb-3 div.row div.col-md-4 div.card div.card-body h5.card-title")).Text, Is.EqualTo("RAYBAN"));
         }
 
@@ -45,8 +44,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             Driver.FindElement(By.Id("searchString")).SendKeys("Blue");
-            var searchBtn = Driver.FindElement(By.Id("searchBtn"));
-            TestUtils.ClickElementSafely(ref searchBtn, Driver);
+            TestUtils.ClickElementSafely("searchBtn", Driver);
             Assert.That(Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .label-text:nth-child(5)")).Text, Is.EqualTo("Colour: Blue"));
         }
 
@@ -57,8 +55,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             Driver.FindElement(By.Id("searchString")).SendKeys("10.99");
-            var searchBtn = Driver.FindElement(By.Id("searchBtn"));
-            TestUtils.ClickElementSafely(ref searchBtn, Driver);
+            TestUtils.ClickElementSafely("searchBtn", Driver);
             Assert.That(Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .price")).Text, Does.Contain("$10.99"));
         }
 
@@ -69,8 +66,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             Driver.FindElement(By.Id("searchString")).SendKeys("Square");
-            var searchBtn = Driver.FindElement(By.Id("searchBtn"));
-            TestUtils.ClickElementSafely(ref searchBtn, Driver);
+            TestUtils.ClickElementSafely("searchBtn", Driver);
             Assert.That(Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .label-text:nth-child(4)")).Text, Is.EqualTo("Style: Square"));
         }
 
@@ -81,8 +77,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             Driver.FindElement(By.Id("searchString")).SendKeys("!~~");
-            var searchBtn = Driver.FindElement(By.Id("searchBtn"));
-            TestUtils.ClickElementSafely(ref searchBtn, Driver);
+            TestUtils.ClickElementSafely("searchBtn", Driver);
             Assert.That(Driver.FindElement(By.CssSelector("h1")).Text, Is.EqualTo("NO RESULTS FOUND :("));
         }
     }
