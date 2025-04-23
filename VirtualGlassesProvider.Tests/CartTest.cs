@@ -79,7 +79,7 @@ namespace VirtualGlassesProvider.Tests
             TestUtils.ClickElementSafely("product2CartRemoveButton", Driver);
             Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("1"));
             Driver.FindElement(By.Id("product1CartRemoveButton")).Click();
-            Assert.That(Driver.FindElement(By.CssSelector("h3")).Text, Is.EqualTo("YOUR CART IS EMPTY."));
+            Assert.That(Driver.FindElement(By.Id("cartIsEmptyText")).Text, Is.EqualTo("YOUR CART IS EMPTY."));
         }
     }
 }
