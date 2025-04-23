@@ -36,12 +36,11 @@ namespace VirtualGlassesProvider.Tests
         public void ClientFailsToProvideAValidPasswordOnSignUp()
         {
             Driver.Navigate().GoToUrl(AppServer.URL);
-            Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            Driver.FindElement(By.Id("register")).Click();
+            TestUtils.ClickElementSafely("register", Driver);
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys("password");
             Driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys("password");
-            Driver.FindElement(By.Id("registerSubmit")).Click();
+            TestUtils.ClickElementSafely("registerSubmit", Driver);
             Assert.Multiple(() =>
             {
                 Assert.That(Driver.FindElement(By.CssSelector("#registerRequestErrorMessage li:nth-child(1)")).Text, Is.EqualTo("Passwords must have at least one non alphanumeric character."));
@@ -56,11 +55,11 @@ namespace VirtualGlassesProvider.Tests
         {
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            Driver.FindElement(By.Id("register")).Click();
+            TestUtils.ClickElementSafely("register", Driver);
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             Driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys(TestClient.Password);
-            Driver.FindElement(By.Id("registerSubmit")).Click();
+            TestUtils.ClickElementSafely("registerSubmit", Driver);
             Assert.That(Driver.FindElement(By.Id("registerConfirmationCheckEmailMessage")).Text, Is.EqualTo($"Please check your {TestClient.Email} email to confirm your account."));
         }
     }

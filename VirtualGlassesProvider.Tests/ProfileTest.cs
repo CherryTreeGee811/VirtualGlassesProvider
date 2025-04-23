@@ -40,12 +40,12 @@ namespace VirtualGlassesProvider.Tests
                 ?? throw new InvalidOperationException("Unable to determine the project directory.");
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            Driver.FindElement(By.Id("login")).Click();
+            TestUtils.ClickElementSafely("login", Driver);
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            Driver.FindElement(By.Id("login-submit")).Click();
-            Driver.FindElement(By.Id("accountDashboard")).Click();
-            Driver.FindElement(By.Id("manageProfile")).Click();
+            TestUtils.ClickElementSafely("login-submit", Driver);
+            TestUtils.ClickElementSafely("accountDashboard", Driver);
+            TestUtils.ClickElementSafely("manageProfile", Driver);
             var altText = Driver.FindElement(By.Id("profileImage"))?.GetAttribute("alt")?.ToString();
             Assert.Multiple(() =>
             {

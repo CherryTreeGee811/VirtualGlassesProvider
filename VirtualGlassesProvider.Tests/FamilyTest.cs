@@ -36,16 +36,16 @@ namespace VirtualGlassesProvider.Tests
         {
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            Driver.FindElement(By.Id("login")).Click();
-            Driver.FindElement(By.Id("Input_Email")).Click();
+            TestUtils.ClickElementSafely("login", Driver);
+            TestUtils.ClickElementSafely("Input_Email", Driver);
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
-            Driver.FindElement(By.Id("Input_Password")).Click();
+            TestUtils.ClickElementSafely("Input_Password", Driver);
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            Driver.FindElement(By.Id("login-submit")).Click();
-            Driver.FindElement(By.Id("accountDashboard")).Click();
-            Driver.FindElement(By.Id("manageFamily")).Click();
+            TestUtils.ClickElementSafely("login-submit", Driver);
+            TestUtils.ClickElementSafely("accountDashboard", Driver);
+            TestUtils.ClickElementSafely("manageFamily", Driver);
             Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
-            Driver.FindElement(By.Id("family-form")).Click();
+            TestUtils.ClickElementSafely("manageFamily", Driver);
             TestUtils.ClickElementSafely("exitFamilyFormBtn", Driver);
             Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
         }
@@ -65,16 +65,16 @@ namespace VirtualGlassesProvider.Tests
                 ?? throw new InvalidOperationException("Unable to determine the project directory.");
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            Driver.FindElement(By.Id("login")).Click();
+            TestUtils.ClickElementSafely("login", Driver);
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            Driver.FindElement(By.Id("login-submit")).Click();
-            Driver.FindElement(By.Id("accountDashboard")).Click();
+            TestUtils.ClickElementSafely("login-submit", Driver);
+            TestUtils.ClickElementSafely("accountDashboard", Driver);
             Driver.FindElement(By.Id("manageFamily")).Click();
             Assert.Multiple(() =>
             {
                 Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
-                Driver.FindElement(By.Id("family-form")).Click();
+                TestUtils.ClickElementSafely("family-form", Driver);
                 var altText = Driver.FindElement(By.Id("memberImage"))?.GetAttribute("alt")?.ToString();
                 Assert.That(altText, Is.EqualTo("Placeholder Family Member Image"));
                 Driver.FindElement(By.Id("Input_FirstName")).SendKeys(memberFirstName);
@@ -118,13 +118,13 @@ namespace VirtualGlassesProvider.Tests
                 ?? throw new InvalidOperationException("Unable to determine the project directory.");
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            Driver.FindElement(By.Id("register")).Click();
-            Driver.FindElement(By.Id("login")).Click();
+            TestUtils.ClickElementSafely("register", Driver);
+            TestUtils.ClickElementSafely("login", Driver);
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            Driver.FindElement(By.Id("login-submit")).Click();
-            Driver.FindElement(By.Id("accountDashboard")).Click();
-            Driver.FindElement(By.Id("manageFamily")).Click();
+            TestUtils.ClickElementSafely("login-submit", Driver);
+            TestUtils.ClickElementSafely("accountDashboard", Driver);
+            TestUtils.ClickElementSafely("manageFamily", Driver);
             var editBtn = Driver.FindElement(By.Id("familyMember1EditButton"));
             TestUtils.ClickElementSafely("familyMember1EditButton", Driver);
             var altText = Driver.FindElement(By.Id("memberImage"))?.GetAttribute("alt")?.ToString();
@@ -168,7 +168,7 @@ namespace VirtualGlassesProvider.Tests
         {
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            Driver.FindElement(By.Id("login")).Click();
+            TestUtils.ClickElementSafely("login", Driver);
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             Driver.FindElement(By.Id("login-submit")).Click();
@@ -192,7 +192,7 @@ namespace VirtualGlassesProvider.Tests
             {
                 File.Delete(file[0]);
             }
-            Driver.FindElement(By.Id("clearImage")).Click();
+            TestUtils.ClickElementSafely("clearImage", Driver);
             var revertedAltText = Driver.FindElement(By.ClassName("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(revertedAltText, Is.EqualTo(preRenderAltText));
         }
@@ -203,12 +203,12 @@ namespace VirtualGlassesProvider.Tests
         {
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            Driver.FindElement(By.Id("login")).Click();
+            TestUtils.ClickElementSafely("login", Driver);
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            Driver.FindElement(By.Id("login-submit")).Click();
-            Driver.FindElement(By.Id("accountDashboard")).Click();
-            Driver.FindElement(By.Id("manageFamily")).Click();
+            TestUtils.ClickElementSafely("login-submit", Driver);
+            TestUtils.ClickElementSafely("accountDashboard", Driver);
+            TestUtils.ClickElementSafely("manageFamily", Driver);
             TestUtils.ClickElementSafely("familyMember1DeleteButton", Driver);
             Assert.That(Driver.FindElement(By.Id("noFamilyAddedMessage")).Text, Is.EqualTo("No Family Added Yet"));
         }

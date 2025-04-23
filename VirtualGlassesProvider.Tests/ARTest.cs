@@ -37,7 +37,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             TestUtils.ClickElementSafely("productDetailsButton1", Driver);
             TestUtils.ClickElementSafely("generateImageBtn", Driver);
-            Thread.Sleep(3000);
+            Thread.Sleep(5000);
             Assert.That(Driver.FindElement(By.Id("detailsErrorMessage")).Text, Is.EqualTo("Please login to use this feature"));
         }
 
@@ -47,10 +47,10 @@ namespace VirtualGlassesProvider.Tests
         {
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            Driver.FindElement(By.Id("login")).Click();
+            TestUtils.ClickElementSafely("login", Driver);
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            Driver.FindElement(By.Id("login-submit")).Click();
+            TestUtils.ClickElementSafely("login-submit", Driver);
             TestUtils.ClickElementSafely("productDetailsButton1", Driver);
             var preRenderAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(preRenderAltText?.Equals("Render"), Is.False);
@@ -68,7 +68,7 @@ namespace VirtualGlassesProvider.Tests
             {
                 File.Delete(file[0]);
             }
-            Driver.FindElement(By.Id("clearImage")).Click();
+            TestUtils.ClickElementSafely("clearImage", Driver);
             var revertedAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(revertedAltText, Is.EqualTo(preRenderAltText));
         }

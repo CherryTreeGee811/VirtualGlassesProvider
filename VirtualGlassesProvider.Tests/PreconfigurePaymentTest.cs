@@ -63,12 +63,12 @@ namespace VirtualGlassesProvider.Tests
             const string expiryDate = "07/27";
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            Driver.FindElement(By.Id("login")).Click();
+            TestUtils.ClickElementSafely("login", Driver);
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            Driver.FindElement(By.Id("login-submit")).Click();
-            Driver.FindElement(By.Id("accountDashboard")).Click();
-            Driver.FindElement(By.Id("managePaymentInfo")).Click();
+            TestUtils.ClickElementSafely("login-submit", Driver);
+            TestUtils.ClickElementSafely("accountDashboard", Driver);
+            TestUtils.ClickElementSafely("managePaymentInfo", Driver);
             Driver.FindElement(By.Id("Input_CardHolderName")).SendKeys(cardHolderName);
             Driver.FindElement(By.Id("Input_CardNumber")).SendKeys(cardNumber);
             Driver.FindElement(By.Id("Input_CVV")).SendKeys(cvv);
@@ -79,7 +79,7 @@ namespace VirtualGlassesProvider.Tests
                 Assert.That(Driver.FindElement(By.Id("statusMessagePartialViewAlert")).Text, Is.EqualTo("Your Payment Info has been updated"));
                 Driver.FindElement(By.Id("navLinkHome")).Click();
                 TestUtils.ClickElementSafely("addToCartButton1", Driver);
-                Driver.FindElement(By.Id("ViewCartButton")).Click();
+                TestUtils.ClickElementSafely("ViewCartButton", Driver);
                 var preconfiguredCardHolderName = Driver.FindElement(By.Id("CardHolderName"))?.GetAttribute("value")?.ToString();
                 var preconfiguredCardNumber = Driver.FindElement(By.Id("CardNumber"))?.GetAttribute("value")?.ToString();
                 var preconfiguredCvv = Driver.FindElement(By.Id("CVV"))?.GetAttribute("value")?.ToString();
