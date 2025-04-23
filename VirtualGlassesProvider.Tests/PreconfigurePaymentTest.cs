@@ -76,8 +76,8 @@ namespace VirtualGlassesProvider.Tests
             TestUtils.ClickElementSafely("savePaymentInfoButton", Driver);
             Assert.Multiple(() =>
             {
-                Assert.That(Driver.FindElement(By.ClassName("alert")).Text, Is.EqualTo("Your Payment Info has been updated"));
-                Driver.FindElement(By.CssSelector("body > header > nav > div > div > ul > li:nth-child(1) > a")).Click();
+                Assert.That(Driver.FindElement(By.Id("statusMessagePartialViewAlert")).Text, Is.EqualTo("Your Payment Info has been updated"));
+                Driver.FindElement(By.Id("navLinkHome")).Click();
                 TestUtils.ClickElementSafely("addToCartButton1", Driver);
                 Driver.FindElement(By.Id("ViewCartButton")).Click();
                 var preconfiguredCardHolderName = Driver.FindElement(By.Id("CardHolderName"))?.GetAttribute("value")?.ToString();

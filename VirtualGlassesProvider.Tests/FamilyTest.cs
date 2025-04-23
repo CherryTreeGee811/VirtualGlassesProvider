@@ -18,7 +18,7 @@ namespace VirtualGlassesProvider.Tests
             options.AddUserProfilePreference("download.default_directory", _downloadPath);
             options.AddUserProfilePreference("download.prompt_for_download", false);
             options.AddUserProfilePreference("disable-popup-blocking", "true");
-            //options.AddArgument("--headless=new");
+            options.AddArgument("--headless=new");
             Driver = new ChromeDriver(options);
         }
 
@@ -89,11 +89,11 @@ namespace VirtualGlassesProvider.Tests
                 upload_file.SendKeys(img_path);
                 TestUtils.ClickElementSafely("saveFamilyFormBtn", Driver);
                 Thread.Sleep(1000);
-                var firstNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(1)")).Text;
-                var lastNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(2)")).Text;
-                var addressDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(3)")).Text;
-                var emailDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(4)")).Text;
-                var phoneDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(5)")).Text;
+                var firstNameDisplayed = Driver.FindElement(By.Id("familyMember1FirstName")).Text;
+                var lastNameDisplayed = Driver.FindElement(By.Id("familyMember1LastName")).Text;
+                var addressDisplayed = Driver.FindElement(By.Id("familyMember1Address")).Text;
+                var emailDisplayed = Driver.FindElement(By.Id("familyMember1Email")).Text;
+                var phoneDisplayed = Driver.FindElement(By.Id("familyMember1PhoneNumber")).Text;
                 Thread.Sleep(1000);
                 Assert.That(firstNameDisplayed, Is.EqualTo(memberFirstName));
                 Assert.That(lastNameDisplayed, Is.EqualTo(memberLastName));
@@ -148,11 +148,11 @@ namespace VirtualGlassesProvider.Tests
                 var img_path = Path.GetFullPath(file_path).Replace("\\", "/").Replace("/bin", "").Replace("/Debug", "");
                 upload_file.SendKeys(img_path);
                 TestUtils.ClickElementSafely("saveFamilyFormBtn", Driver);
-                var firstNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(1)")).Text;
-                var lastNameDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(2)")).Text;
-                var addressDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(3)")).Text;
-                var emailDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(4)")).Text;
-                var phoneDisplayed = Driver.FindElement(By.CssSelector("body > div > main > div > div > div.col-md-9 > table > tbody > tr > td:nth-child(5)")).Text;
+                var firstNameDisplayed = Driver.FindElement(By.Id("familyMember1FirstName")).Text;
+                var lastNameDisplayed = Driver.FindElement(By.Id("familyMember1LastName")).Text;
+                var addressDisplayed = Driver.FindElement(By.Id("familyMember1Address")).Text;
+                var emailDisplayed = Driver.FindElement(By.Id("familyMember1Email")).Text;
+                var phoneDisplayed = Driver.FindElement(By.Id("familyMember1PhoneNumber")).Text;
                 Thread.Sleep(1000);
                 Assert.That(firstNameDisplayed, Is.EqualTo(memberFirstName));
                 Assert.That(lastNameDisplayed, Is.EqualTo(memberLastName));
@@ -177,11 +177,11 @@ namespace VirtualGlassesProvider.Tests
             TestUtils.ClickElementSafely("buyFor", Driver);
             buyForSelectList.FindElement(By.XPath("//option[. = 'Janet Sinclair']")).Click();
             Driver.FindElement(By.CssSelector("#buyFor > option:nth-child(2)")).Click();
-            var preRenderAltText = Driver.FindElement(By.ClassName("detailsImage"))?.GetAttribute("alt")?.ToString();
+            var preRenderAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(preRenderAltText?.Equals("Render"), Is.False);
             TestUtils.ClickElementSafely("generateImageBtn", Driver);
             Thread.Sleep(5000);
-            var renderAltText = Driver.FindElement(By.ClassName("detailsImage"))?.GetAttribute("alt")?.ToString();
+            var renderAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(renderAltText, Is.EqualTo("Render"));
             TestUtils.ClickElementSafely("downloadImageLink", Driver);
             Thread.Sleep(5000);
@@ -210,7 +210,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("accountDashboard")).Click();
             Driver.FindElement(By.Id("manageFamily")).Click();
             TestUtils.ClickElementSafely("familyMember1DeleteButton", Driver);
-            Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
+            Assert.That(Driver.FindElement(By.Id("noFamilyAddedMessage")).Text, Is.EqualTo("No Family Added Yet"));
         }
     }
 }

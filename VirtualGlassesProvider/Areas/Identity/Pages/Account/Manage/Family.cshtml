@@ -11,7 +11,7 @@
     {
         <tbody>
             <tr class="text-center">
-                <td>No Family Added Yet</td>
+                <td id="noFamilyAddedMessage">No Family Added Yet</td>
             </tr>
         </tbody>
 
@@ -45,24 +45,25 @@
                 @foreach (var item in Model.FamilyMembers)
                 {
                     <tr>
-                        <td>
+                        <td id=@string.Concat("familyMember", item.ID, "FirstName")>
                             @Html.DisplayFor(modelItem => item.FirstName)
                         </td>
-                        <td>
+                        <td id=@string.Concat("familyMember", item.ID, "LastName")>
                             @Html.DisplayFor(modelItem => item.LastName)
                         </td>
-                        <td>
+                        <td id=@string.Concat("familyMember", item.ID, "Address")>
                             @Html.DisplayFor(modelItem => item.Address)
                         </td>
-                        <td>
+                        <td id=@string.Concat("familyMember", item.ID, "Email")>
                             @Html.DisplayFor(modelItem => item.Email)
                         </td>
-                        <td>
+                        <td id=@string.Concat("familyMember", item.ID, "PhoneNumber")>
                             @Html.DisplayFor(modelItem => item.PhoneNumber)
                         </td>
                         <td>
                             <a class="btn btn-dark" asp-page="./FamilyForm" asp-route-id="@item.ID" id=@string.Concat("familyMember", item.ID, "EditButton")>Edit</a>
-                            | <form method="post"><input type="submit" class="btn btn-danger" asp-page-handler="DeleteMember" asp-route-id="@item.ID" value="Delete" id=@string.Concat("familyMember", item.ID, "DeleteButton") /></form>
+                            | <form method="post"><input type="submit" class="btn btn-danger" asp-page-handler="DeleteMember" asp-route-id="@item.ID" value="Delete" 
+                                id=@string.Concat("familyMember", item.ID, "DeleteButton") /></form>
                         </td>
                     </tr>
                 }
