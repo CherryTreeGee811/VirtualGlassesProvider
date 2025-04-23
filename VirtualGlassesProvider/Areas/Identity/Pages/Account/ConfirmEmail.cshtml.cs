@@ -1,7 +1,5 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,14 +10,9 @@ using VirtualGlassesProvider.Models;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
-    public sealed class ConfirmEmailModel : PageModel
+    public sealed class ConfirmEmailModel(UserManager<User> userManager) : PageModel
     {
-        private readonly UserManager<User> _userManager;
-
-        public ConfirmEmailModel(UserManager<User> userManager)
-        {
-            _userManager = userManager;
-        }
+        private readonly UserManager<User> _userManager = userManager;
 
 
         /// <summary>
@@ -27,7 +20,9 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; set; } = string.Empty;
+
+
         public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
             if (userId == null || code == null)

@@ -6,7 +6,7 @@
 @if (Model.ToList().Count == 0)
 {
     <div class="row">
-        <h1> No Results Found :(</h1>
+        <h1 id="searchNoResultsMessage">No Results Found :(</h1>
         <div>
             <a asp-action="Index" class="btn btn-primary">Back to Home Page</a>
         </div>
@@ -26,15 +26,18 @@ else{
                         <img src="@Url.Content($"~/{item.Image}")" alt="@item.BrandName">
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">@item.BrandName</h5>
-                        <p class="card-text">@item.Description</p>
-                        <p class="price">&#36;@item.Price.ToString("F")</p>
-                        <p class="label-text">Style: @item.Style</p>
-                        <p class="label-text">Colour: @item.Colour</p>
-                        <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID">Details</a>
-                        <a asp-area="Member" asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID">Add to Cart</a>
+                        <h5 class="card-title" id=@string.Concat("searchProduct", item.ID, "BrandName")>@item.BrandName</h5>
+                        <p class="card-text" id=@string.Concat("searchProduct", item.ID, "Description")>@item.Description</p>
+                        <p class="price" id=@string.Concat("searchProduct", item.ID, "Price")>&#36;@item.Price.ToString("F")</p>
+                        <p class="label-text" id=@string.Concat("searchProduct", item.ID, "Style")>Style: @item.Style</p>
+                        <p class="label-text" id=@string.Concat("searchProduct", item.ID, "Colour")>Colour: @item.Colour</p>
+                        <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID" 
+                            id=@string.Concat("searchProduct", item.ID, "DetailsButton")>Details</a>
+                        <a asp-area="Member" asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID"
+                           id=@string.Concat("searchProduct", item.ID, "AddToCartButton")>Add to Cart</a>
                         <p></p>
-                        <a asp-controller="Home" asp-action="AddToWishList" asp-route-id="@item.ID" class="btn btn-success">Add to Wish List</a>
+                        <a asp-controller="Home" asp-action="AddToWishList" asp-route-id="@item.ID" class="btn btn-success"
+                           id=@string.Concat("searchProduct", item.ID, "AddToWishlistButton")>Add to Wish List</a>
                     </div>
                 </div>
             </div>

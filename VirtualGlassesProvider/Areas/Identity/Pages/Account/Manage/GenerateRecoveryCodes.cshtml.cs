@@ -1,7 +1,5 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,19 +8,13 @@ using VirtualGlassesProvider.Models;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
-    public sealed class GenerateRecoveryCodesModel : PageModel
+    public sealed class GenerateRecoveryCodesModel(
+        UserManager<User> userManager,
+        ILogger<GenerateRecoveryCodesModel> logger
+        ) : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly ILogger<GenerateRecoveryCodesModel> _logger;
-
-
-        public GenerateRecoveryCodesModel(
-            UserManager<User> userManager,
-            ILogger<GenerateRecoveryCodesModel> logger)
-        {
-            _userManager = userManager;
-            _logger = logger;
-        }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly ILogger<GenerateRecoveryCodesModel> _logger = logger;
 
 
         /// <summary>
@@ -30,7 +22,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
-        public string[] RecoveryCodes { get; set; }
+        public string[] RecoveryCodes { get; set; } = Array.Empty<string>();
 
 
         /// <summary>
@@ -38,7 +30,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; set; } = string.Empty;
 
 
         public async Task<IActionResult> OnGetAsync()
@@ -75,7 +67,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             }
 
             var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
-            RecoveryCodes = recoveryCodes.ToArray();
+            RecoveryCodes = recoveryCodes?.ToArray() ?? Array.Empty<string>();
 
             _logger.LogInformation("User with ID '{UserId}' has generated new 2FA recovery codes.", userId);
             StatusMessage = "You have generated new recovery codes.";

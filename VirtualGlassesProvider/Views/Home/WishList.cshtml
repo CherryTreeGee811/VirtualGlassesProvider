@@ -4,7 +4,7 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-@if (Model.WishListItems.Count == 0)
+@if (Model?.WishListItems == null || Model.WishListItems.Count == 0)
 {
     <p class="center">There are no glasses on your wish list</p>
 }
@@ -19,11 +19,15 @@ else
 
         @foreach (var glass in Model.WishListItems)
         {
-            <tr>
-                <td><a asp-controller="Home" asp-action="Details" asp-route-id="@glass.Glasses.ID">@glass.Glasses.BrandName @glass.Glasses.Description</a></td>
-                <td>$@glass.Glasses.Price</td>
-                <td><a asp-controller="Home" asp-action="RemoveFromWishList" asp-route-id="@glass.Glasses.ID" asp-route-page="WishList" class="btn btn-danger">Remove from Wish List</a></td>
-            </tr>
+            if (glass.Glasses != null)
+            {
+                    <tr>
+                        <td><a asp-controller="Home" asp-action="Details" asp-route-id="@glass.Glasses.ID">@glass.Glasses.BrandName @glass.Glasses.Description</a></td>
+                    <td>$@glass.Glasses.Price</td>
+                    <td><a asp-controller="Home" asp-action="RemoveFromWishList" asp-route-id="@glass.Glasses.ID" asp-route-page="WishList" class="btn btn-danger"
+                        id=@string.Concat("product", glass.Glasses.ID, "WishlistRemoveButton")>Remove from Wish List</a></td>
+                </tr>
+            }
         }
     </table>
 }

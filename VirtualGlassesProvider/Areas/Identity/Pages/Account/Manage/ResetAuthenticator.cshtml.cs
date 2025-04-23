@@ -1,7 +1,5 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,22 +8,16 @@ using VirtualGlassesProvider.Models;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
-    public sealed class ResetAuthenticatorModel : PageModel
+    public sealed class ResetAuthenticatorModel(
+        UserManager<User> userManager,
+        SignInManager<User> signInManager,
+        ILogger<ResetAuthenticatorModel> logger
+        )
+        : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<ResetAuthenticatorModel> _logger;
-
-
-        public ResetAuthenticatorModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            ILogger<ResetAuthenticatorModel> logger)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-        }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly SignInManager<User> _signInManager = signInManager;
+        private readonly ILogger<ResetAuthenticatorModel> _logger = logger;
 
 
         /// <summary>
@@ -33,7 +25,8 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; set; } = string.Empty;
+
 
         public async Task<IActionResult> OnGet()
         {
@@ -57,7 +50,6 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 
             await _userManager.SetTwoFactorEnabledAsync(user, false);
             await _userManager.ResetAuthenticatorKeyAsync(user);
-            var userId = await _userManager.GetUserIdAsync(user);
             _logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", user.Id);
 
             await _signInManager.RefreshSignInAsync(user);

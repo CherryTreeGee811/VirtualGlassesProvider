@@ -1,7 +1,5 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,20 +8,15 @@ using VirtualGlassesProvider.Models;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
-    public sealed class LogoutModel : PageModel
+    public sealed class LogoutModel(
+        SignInManager<User> signInManager, 
+        ILogger<LogoutModel> logger) : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<LogoutModel> _logger;
+        private readonly SignInManager<User> _signInManager = signInManager;
+        private readonly ILogger<LogoutModel> _logger = logger;
 
 
-        public LogoutModel(SignInManager<User> signInManager, ILogger<LogoutModel> logger)
-        {
-            _signInManager = signInManager;
-            _logger = logger;
-        }
-
-
-        public async Task<IActionResult> OnPost(string returnUrl = null)
+        public async Task<IActionResult> OnPost(string? returnUrl = null)
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");

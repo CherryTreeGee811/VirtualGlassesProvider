@@ -7,49 +7,48 @@ namespace VirtualGlassesProvider.Tests
     [TestFixture, Order(2)]
     internal class LoginTest
     {
-        #pragma warning disable NUnit1032
-        private ChromeDriver _driver { get; set; }
-        #pragma warning restore NUnit1032
+        private ChromeDriver Driver { get; set; }
 
         [SetUp]
         public void SetUp()
         {
-            ChromeOptions options = new ChromeOptions { AcceptInsecureCertificates = true };
+            var options = new ChromeOptions { AcceptInsecureCertificates = true };
             options.AddArgument("--headless=new");
-            _driver = new ChromeDriver(options);
+            Driver = new ChromeDriver(options);
         }
 
 
         [TearDown]
         protected void TearDown()
         {
-            _driver.Quit();
+            Driver.Quit();
+            Driver.Dispose(); ;
         }
 
 
         [Test, Order(1)]
         public void ClientFailsToLogin()
         {
-            _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            _driver.FindElement(By.Id("login")).Click();
-            _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
-            _driver.FindElement(By.Id("Input_Password")).SendKeys("Test1S");
-            _driver.FindElement(By.Id("login-submit")).Click();
-            Assert.That(_driver.FindElement(By.CssSelector(".text-danger li")).Text, Is.EqualTo("Invalid login attempt."));
+            Driver.Navigate().GoToUrl(AppServer.URL);
+            Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
+            TestUtils.ClickElementSafely("login", Driver);
+            Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
+            Driver.FindElement(By.Id("Input_Password")).SendKeys("Test1S");
+            TestUtils.ClickElementSafely("login-submit", Driver);
+            Assert.That(Driver.FindElement(By.Id("loginRequestErrorMessage")).Text, Is.EqualTo("Invalid login attempt."));
         }
 
 
         [Test, Order(2)]
         public void ClientLogsInSuccessfully()
         {
-            _driver.Navigate().GoToUrl(AppServer.URL);
-            _driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            _driver.FindElement(By.Id("login")).Click();
-            _driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
-            _driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            _driver.FindElement(By.Id("login-submit")).Click();
-            Assert.That(_driver.FindElement(By.Id("accountDashboard")).Text == TestClient.Email.ToUpper());
+            Driver.Navigate().GoToUrl(AppServer.URL);
+            Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
+            Driver.FindElement(By.Id("login")).Click();
+            Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
+            Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
+            Driver.FindElement(By.Id("login-submit")).Click();
+            Assert.That(string.Equals(Driver.FindElement(By.Id("accountDashboard")).Text, TestClient.Email.ToUpper()));
         }
     }
 }

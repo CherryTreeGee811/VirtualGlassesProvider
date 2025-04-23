@@ -7,28 +7,19 @@ using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Services;
 
+
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
-    public class FamilyFormModel : PageModel
+    public class FamilyFormModel(
+        UserManager<User> userManager,
+        GlassesStoreDbContext context) : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly GlassesStoreDbContext _context;
-
-
-        public FamilyFormModel(
-           UserManager<User> userManager,
-           SignInManager<User> signInManager,
-           GlassesStoreDbContext context)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _context = context;
-        }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly GlassesStoreDbContext _context = context;
 
 
         [BindProperty(SupportsGet = true)]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = new InputModel();
 
 
         public sealed class InputModel
@@ -83,32 +74,32 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 var member = await _context.FamilyMembers.Where(u => u.UserID == user.Id).FirstAsync(m => m.ID == id);
                 if(member != null)
                 {
-                    if (!String.IsNullOrEmpty(member.FirstName))
+                    if (!string.IsNullOrEmpty(member.FirstName))
                     {
                         Input.FirstName = member.FirstName;
                     }
 
-                    if (!String.IsNullOrEmpty(member.LastName))
+                    if (!string.IsNullOrEmpty(member.LastName))
                     {
                         Input.LastName = member.LastName;
                     }
                     
-                    if (!String.IsNullOrEmpty(member.Address))
+                    if (!string.IsNullOrEmpty(member.Address))
                     {
                         Input.Address = member.Address;
                     }
 
-                    if (!String.IsNullOrEmpty(member.Email))
+                    if (!string.IsNullOrEmpty(member.Email))
                     {
                         Input.Email = member.Email;
                     }
 
-                    if (!String.IsNullOrEmpty(member.Relationship))
+                    if (!string.IsNullOrEmpty(member.Relationship))
                     {
                         Input.Relationship = member.Relationship;
                     }
 
-                    if (!String.IsNullOrEmpty(member.PhoneNumber))
+                    if (!string.IsNullOrEmpty(member.PhoneNumber))
                     {
                         Input.PhoneNumber = member.PhoneNumber;
                     }
@@ -116,7 +107,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                     if (member.ImageID != null)
                     {
                         var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == member.ImageID);
-                        if (uploadedImage != null)
+                        if (uploadedImage?.Image != null)
                         {
                             ViewData["priorImage"] = $"data:image/jpg;base64,{Convert.ToBase64String(uploadedImage.Image)}";
                             ViewData["imageAlt"] = "Family Member Image";
@@ -157,16 +148,19 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            UploadedImages image = null;
+            UploadedImages? image = null;
 
             if (file != null)
             {
                 image = FileUploadService.ConvertFormFileToUploadedImageObject(file);
-                _context.UploadedImages.Add(image);
-                _context.SaveChanges();
+                if (image != null)
+                {
+                    _context.UploadedImages.Add(image);
+                    _context.SaveChanges();
+                }
             }
 
-            FamilyMember familyMember = null;
+            FamilyMember? familyMember;
             bool existingMember = false;
             if (id == null)
             {
@@ -182,6 +176,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 else
                 {
                     existingMember = true;
+
                     if(image == null)
                     {
                         image = await _context.UploadedImages.FindAsync(familyMember.ImageID);

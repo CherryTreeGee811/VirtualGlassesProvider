@@ -1,7 +1,5 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,24 +9,19 @@ using VirtualGlassesProvider.Models;
 using VirtualGlassesProvider.Models.DataAccess;
 using VirtualGlassesProvider.Services;
 
+
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
-    public class ProfileModel : PageModel
+    public class ProfileModel(
+        UserManager<User> userManager,
+        SignInManager<User> signInManager,
+        GlassesStoreDbContext context
+        )
+        : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly GlassesStoreDbContext _context;
-
-
-        public ProfileModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            GlassesStoreDbContext context)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _context = context;
-        }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly SignInManager<User> _signInManager = signInManager;
+        private readonly GlassesStoreDbContext _context = context;
 
 
         /// <summary>
@@ -36,37 +29,37 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; set; } = string.Empty;
 
 
         [BindProperty(SupportsGet = true)]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = new InputModel();
 
 
         public sealed class InputModel
         {
             [Display(Name = "First Name")]
             [RegularExpression(@"^[a-zA-Z\s]{1,30}$", ErrorMessage = "First name must be a-zA-Z and less than 30 characters")]
-            public string? FirstName { get; set; }
+            public string FirstName { get; set; } = string.Empty;
 
 
             [Display(Name = "Last Name")]
             [RegularExpression(@"^[a-zA-Z\s]{1,30}$", ErrorMessage = "Last name must be a-zA-Z and less than 30 characters")]
-            public string? LastName { get; set; }
+            public string LastName { get; set; } = string.Empty;
 
 
             [Display(Name = "Address")]
             [RegularExpression(@"^[0-9]{1,6}\s{1}[a-zA-Z]{1,20}\s?[a-zA-Z0-9\s\.\,]{0,30}$", ErrorMessage = "Invalid address")]
-            public string? Address { get; set; }
+            public string Address { get; set; } = string.Empty;
 
 
             [Display(Name = "Phone Number")]
             [RegularExpression(@"^\(?[0-9]{3}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{4}$", ErrorMessage = "Phone number must follow format XXX-XXX-XXXX or XXX XXX XXXX")]
-            public string? PhoneNumber { get; set; }
+            public string PhoneNumber { get; set; } = string.Empty;
 
 
             [MaxLength(30, ErrorMessage = "Display name must be less than 30 Characters!")]
-            public string DisplayName { get; set; }
+            public string DisplayName { get; set; } = string.Empty;
 
 
             public IFormFile? Image { get; set; }
@@ -85,8 +78,10 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 
             if(profile == null)
             {
-                profile = new Profiles();
-                profile.UserID = user.Id;
+                profile = new Profiles
+                {
+                    UserID = user.Id
+                };
                 _context.Add(profile);
                 await _context.SaveChangesAsync();
             }
@@ -119,8 +114,11 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             if (profile.ImageID != null)
             {
                 var uploadedImage = await _context.UploadedImages.FirstOrDefaultAsync(p => p.ID == profile.ImageID);
-                ViewData["priorImage"] = $"data:image/jpg;base64,{Convert.ToBase64String(uploadedImage.Image)}";
-                ViewData["imageAlt"] = "Profile Image";
+                if (uploadedImage?.Image != null)
+                {
+                    ViewData["priorImage"] = $"data:image/jpg;base64,{Convert.ToBase64String(uploadedImage.Image)}";
+                    ViewData["imageAlt"] = "Profile Image";
+                }
             }
             else
             {
@@ -134,50 +132,53 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync(IFormFile file)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
 
             var user = await _userManager.GetUserAsync(User);
-           
-            if(user == null)
+
+            if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
             var profile = await _context.Profiles.FirstOrDefaultAsync(p => p.UserID == user.Id);
 
-            UploadedImages image = null;
+            UploadedImages? image = null;
 
-            if(file != null)
+            if (file != null)
             {
                 image = FileUploadService.ConvertFormFileToUploadedImageObject(file);
-
-                if(profile.ImageID != null)
+                if (image != null)
                 {
-                    _context.UploadedImages.Update(image);
+                    if (profile?.ImageID != null)
+                    {
+                        _context.UploadedImages.Update(image);
+                    }
+                    else
+                    {
+                        _context.UploadedImages.Add(image);
+                    }
+                    _context.SaveChanges();
                 }
-                else
+            }
+            if (profile != null)
+            {
+                if (image != null)
                 {
-                    _context.UploadedImages.Add(image);
+                    profile.ImageID = image.ID;
                 }
+                profile.UserID = user.Id;
+                profile.DisplayName = Input.DisplayName;
+                profile.Address = Input.Address;
+                profile.FirstName = Input.FirstName;
+                profile.LastName = Input.LastName;
+                profile.PhoneNumber = Input.PhoneNumber;
+                _context.Profiles.Update(profile);
                 _context.SaveChanges();
             }
-
-            if(image != null)
-            {
-                profile.ImageID = image.ID;
-            }
-            profile.UserID = user.Id;
-            profile.DisplayName = Input.DisplayName;
-            profile.Address = Input.Address;
-            profile.FirstName = Input.FirstName;
-            profile.LastName = Input.LastName;
-            profile.PhoneNumber = Input.PhoneNumber;
-            _context.Profiles.Update(profile);
-            _context.SaveChanges();
-
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();

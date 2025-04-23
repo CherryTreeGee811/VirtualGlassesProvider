@@ -64,7 +64,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/modalfile"
 });
 app.UseRouting();
-
+app.ApplyMigrations();
 using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;

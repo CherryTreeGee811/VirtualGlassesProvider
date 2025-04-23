@@ -1,0 +1,39 @@
+version: "3.8"
+services: 
+    application:
+        image: cherrytreegee811/vision-vogue
+        container_name: visionvogue-app
+        hostname: localhost
+        networks:
+            - visionvogue-net
+        ports:
+            - 5000:5000
+        environment:
+            ASPNETCORE_URLS: http://+:5000
+        depends_on:
+            - sqlpreview
+        healthcheck:
+            test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+         
+    sqlpreview:
+        image: cherrytreegee811/vision-vogue-database
+        container_name: sqlpreview
+        networks:
+            - visionvogue-net
+        ports:
+            - 1433:1433
+        environment:
+            ACCEPT_EULA: Y
+            MSSQL_SA_PASSWORD: SATestPassword10*
+        volumes:
+            - sqlpreview-data:/var/opt/mssql
+
+networks:
+    visionvogue-net:
+        driver: bridge
+
+volumes:
+    sqlpreview-data:

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace VirtualGlassesProvider.Models
 {
     public class FamilyMember
@@ -35,10 +36,6 @@ namespace VirtualGlassesProvider.Models
 
         [Display(Name = "Relationship")]
         public string? Relationship { get; set; }
-
-
-        /*[Display(Name = "Order")]
-        public string? Order { get; set; }*/
 
 
         [Display(Name = "Phone Number")]

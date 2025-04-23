@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection.Metadata;
 
 
 namespace VirtualGlassesProvider.Models
@@ -10,6 +9,6 @@ namespace VirtualGlassesProvider.Models
         public int ID { get; set; }
 
 
-        public byte[] Image { get; set; }
+        public byte[]? Image { get; set; }
     }
 }

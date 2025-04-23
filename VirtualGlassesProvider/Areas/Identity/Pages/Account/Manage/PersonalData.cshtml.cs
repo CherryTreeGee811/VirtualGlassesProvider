@@ -8,16 +8,12 @@ using VirtualGlassesProvider.Models;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
-    public sealed class PersonalDataModel : PageModel
+    public sealed class PersonalDataModel(
+        UserManager<User> userManager
+        )
+        : PageModel
     {
-        private readonly UserManager<User> _userManager;
-
-
-        public PersonalDataModel(
-            UserManager<User> userManager)
-        {
-            _userManager = userManager;
-        }
+        private readonly UserManager<User> _userManager = userManager;
 
 
         public async Task<IActionResult> OnGet()

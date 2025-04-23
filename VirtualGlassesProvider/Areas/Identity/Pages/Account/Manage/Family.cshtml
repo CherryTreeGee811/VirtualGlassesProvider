@@ -7,11 +7,11 @@
 <p id="familyErrorMessage" class="text-danger">@ViewData["ErrorMessage"]</p>
 <a class="btn btn-primary @ManageNavPages.FamilyFormNavClass(ViewContext)" id="family-form" asp-page="./FamilyForm">Add Family</a>
 <table class="table">
-    @if (Model.familyMembers.Count == 0)
+    @if (Model.FamilyMembers?.Count == 0)
     {
         <tbody>
             <tr class="text-center">
-                <td>No Family Added Yet</td>
+                <td id="noFamilyAddedMessage">No Family Added Yet</td>
             </tr>
         </tbody>
 
@@ -40,28 +40,33 @@
         </thead>
 
         <tbody>
-            @foreach (var item in Model.familyMembers)
+            @if(Model.FamilyMembers != null && Model.FamilyMembers.Count > 0)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </td>
-                    <td>
-                        <a class="btn btn-dark" asp-page="./FamilyForm" asp-route-id="@item.ID">Edit</a> | <form method="post"><input type="submit" class="btn btn-danger" asp-page-handler="DeleteMember" asp-route-id="@item.ID" value="Delete" /></form>
-                    </td>
-                </tr>
+                @foreach (var item in Model.FamilyMembers)
+                {
+                    <tr>
+                        <td id=@string.Concat("familyMember", item.ID, "FirstName")>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td id=@string.Concat("familyMember", item.ID, "LastName")>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td id=@string.Concat("familyMember", item.ID, "Address")>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td id=@string.Concat("familyMember", item.ID, "Email")>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td id=@string.Concat("familyMember", item.ID, "PhoneNumber")>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+                        <td>
+                            <a class="btn btn-dark" asp-page="./FamilyForm" asp-route-id="@item.ID" id=@string.Concat("familyMember", item.ID, "EditButton")>Edit</a>
+                            | <form method="post"><input type="submit" class="btn btn-danger" asp-page-handler="DeleteMember" asp-route-id="@item.ID" value="Delete" 
+                                id=@string.Concat("familyMember", item.ID, "DeleteButton") /></form>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     }

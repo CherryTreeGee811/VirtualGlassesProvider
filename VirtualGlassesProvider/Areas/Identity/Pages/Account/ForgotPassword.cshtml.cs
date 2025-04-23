@@ -1,13 +1,8 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -15,19 +10,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using VirtualGlassesProvider.Models;
 
+
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
 {
-    public sealed class ForgotPasswordModel : PageModel
+    public sealed class ForgotPasswordModel(
+        UserManager<User> userManager,
+        IEmailSender emailSender) 
+        : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly IEmailSender _emailSender;
-
-
-        public ForgotPasswordModel(UserManager<User> userManager, IEmailSender emailSender)
-        {
-            _userManager = userManager;
-            _emailSender = emailSender;
-        }
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly IEmailSender _emailSender = emailSender;
 
 
         /// <summary>
@@ -35,7 +27,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = new InputModel();
 
 
         /// <summary>
@@ -50,7 +42,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
-            public string Email { get; set; }
+            public string Email { get; set; } = string.Empty;
         }
 
 
@@ -78,7 +70,8 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
                 await _emailSender.SendEmailAsync(
                     Input.Email,
                     "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl ?? string.Empty)}'>clicking here</a>.");
+
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

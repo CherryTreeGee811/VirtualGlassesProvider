@@ -1,9 +1,6 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
 using Microsoft.AspNetCore.Mvc.Rendering;
-using VirtualGlassesProvider.Models;
 
 
 namespace  VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
@@ -175,8 +172,8 @@ namespace  VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         public static string PageNavClass(ViewContext viewContext, string page)
         {
             var activePage = viewContext.ViewData["ActivePage"] as string
-                ?? System.IO.Path.GetFileNameWithoutExtension(viewContext.ActionDescriptor.DisplayName);
-            return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "active" : null;
+                ?? Path.GetFileNameWithoutExtension(viewContext.ActionDescriptor.DisplayName) ?? string.Empty;
+            return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "active" : string.Empty;
         }
     }
 }

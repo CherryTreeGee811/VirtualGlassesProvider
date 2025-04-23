@@ -23,7 +23,7 @@
         <div id="productDisplayImageDetailsDiv">
             <div id="imgRender">
                 <img class="detailsImage" id="detailsImage" src="/@Html.DisplayFor(model => model.Image)" alt="@Html.DisplayFor(model => model.BrandName)" />
-                <p class="errorMessage" id="errorMessage"></p>
+                <p class="detailsErrorMessage" id="detailsErrorMessage"></p>
             </div>
         </div>
         <br />
@@ -68,7 +68,7 @@
             </select>
             <br />
             <br />
-            <a asp-action="AddToCart" asp-controller="Home" class="btn btn-dark" asp-route-id="@Model.ID" asp-route-source="details">Add to Cart</a>
+            <a asp-action="AddToCart" asp-controller="Home" class="btn btn-dark" asp-route-id="@Model.ID" asp-route-source="details" id="detailsAddToCartButton">Add to Cart</a>
             &nbsp; &nbsp;
             <input type="button" id="generateImageBtn" name="generateImageBtn" value="Try on virtually" aria-label="generate AR image button" class="btn btn-dark" />
             &nbsp; &nbsp;

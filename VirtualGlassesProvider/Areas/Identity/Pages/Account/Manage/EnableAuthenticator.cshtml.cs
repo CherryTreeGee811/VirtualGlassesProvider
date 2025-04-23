@@ -1,7 +1,5 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text;
@@ -14,37 +12,31 @@ using VirtualGlassesProvider.Models;
 
 namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
 {
-    public sealed class EnableAuthenticatorModel : PageModel
+    public sealed class EnableAuthenticatorModel(
+        UserManager<User> userManager,
+        ILogger<EnableAuthenticatorModel> logger,
+        UrlEncoder urlEncoder)
+        : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly ILogger<EnableAuthenticatorModel> _logger;
-        private readonly UrlEncoder _urlEncoder;
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly ILogger<EnableAuthenticatorModel> _logger = logger;
+        private readonly UrlEncoder _urlEncoder = urlEncoder;
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
 
-        public EnableAuthenticatorModel(
-            UserManager<User> userManager,
-            ILogger<EnableAuthenticatorModel> logger,
-            UrlEncoder urlEncoder)
-        {
-            _userManager = userManager;
-            _logger = logger;
-            _urlEncoder = urlEncoder;
-        }
+
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        public string SharedKey { get; set; } = string.Empty;
 
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public string SharedKey { get; set; }
-
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public string AuthenticatorUri { get; set; }
+        public string AuthenticatorUri { get; set; } = string.Empty;
 
 
         /// <summary>
@@ -52,7 +44,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
-        public string[] RecoveryCodes { get; set; }
+        public string[] RecoveryCodes { get; set; } = Array.Empty<string>();
 
 
         /// <summary>
@@ -60,7 +52,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
-        public string StatusMessage { get; set; }
+        public string StatusMessage { get; set; } = string.Empty;
 
 
         /// <summary>
@@ -68,7 +60,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = new InputModel();
 
 
         /// <summary>
@@ -85,7 +77,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Text)]
             [Display(Name = "Verification Code")]
-            public string Code { get; set; }
+            public string Code { get; set; } = string.Empty;
         }
 
 
@@ -139,7 +131,14 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             if (await _userManager.CountRecoveryCodesAsync(user) == 0)
             {
                 var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
-                RecoveryCodes = recoveryCodes.ToArray();
+                if (recoveryCodes != null)
+                {
+                    RecoveryCodes = recoveryCodes.ToArray();
+                }
+                else
+                {
+                    RecoveryCodes = Array.Empty<string>();
+                }
                 return RedirectToPage("./ShowRecoveryCodes");
             }
             else
@@ -159,14 +158,26 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 unformattedKey = await _userManager.GetAuthenticatorKeyAsync(user);
             }
 
-            SharedKey = FormatKey(unformattedKey);
+            if (!string.IsNullOrEmpty(unformattedKey)) // Ensure unformattedKey is not null
+            {
+                SharedKey = FormatKey(unformattedKey);
+            }
+            else
+            {
+                SharedKey = string.Empty; // Handle the case where unformattedKey is null
+            }
 
             var email = await _userManager.GetEmailAsync(user);
-            AuthenticatorUri = GenerateQrCodeUri(email, unformattedKey);
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new InvalidOperationException("Cannot generate QR code URI because the user's email is null or empty.");
+            }
+            AuthenticatorUri = GenerateQrCodeUri(email, unformattedKey ?? string.Empty);
+
         }
 
 
-        private string FormatKey(string unformattedKey)
+        private static string FormatKey(string unformattedKey)
         {
             var result = new StringBuilder();
             int currentPosition = 0;

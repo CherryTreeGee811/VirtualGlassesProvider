@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace VirtualGlassesProvider.Models
 {
     public class WishListItems
@@ -13,9 +14,9 @@ namespace VirtualGlassesProvider.Models
 
 
         [NotMapped]
-        public virtual Glasses Glasses { get; set; }
+        public Glasses? Glasses { get; set; }
 
 
-        public virtual WishLists WishLists { get; set; }
+        public WishLists? WishLists { get; set; }
     }
 }
