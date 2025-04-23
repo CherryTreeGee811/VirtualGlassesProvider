@@ -45,7 +45,7 @@ namespace VirtualGlassesProvider.Tests
             TestUtils.ClickElementSafely("accountDashboard", Driver);
             TestUtils.ClickElementSafely("manageFamily", Driver);
             Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
-            TestUtils.ClickElementSafely("manageFamily", Driver);
+            TestUtils.ClickElementSafely("family-form", Driver);
             TestUtils.ClickElementSafely("exitFamilyFormBtn", Driver);
             Assert.That(Driver.FindElement(By.CssSelector("td")).Text, Is.EqualTo("No Family Added Yet"));
         }
