@@ -55,8 +55,10 @@
                     <p class="price" id=@string.Concat("product", item.ID.ToString(), "Price")>&#36;@item.Price.ToString("F")</p>
                     <p class="label-text" id=@string.Concat("product", item.ID.ToString(), "Style")>Style: <span class="font-weight-bold">@item.Style</span></p>
                     <p class="label-text" id=@string.Concat("product", item.ID.ToString(), "Colour")>Colour: <span class="font-weight-bold">@item.Colour</span></p>
-                    <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID" id=@string.Concat("productDetailsButton",item.ID.ToString())>Details</a>
-                    <a asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID" id=@string.Concat("addToCartButton",item.ID.ToString())>Add to Cart</a>
+                    <a asp-action="Details" asp-controller="Home" class="btn btn-primary" asp-route-id="@item.ID"
+                        id=@string.Concat("productDetailsButton",item.ID.ToString())>Details</a>
+                    <a asp-action="AddToCart" asp-controller="Home" class="btn btn-success" asp-route-id="@item.ID"
+                        id=@string.Concat("addToCartButton",item.ID.ToString())>Add to Cart</a>
                     <p></p>
                     <a asp-controller="Home" asp-action="AddToWishList" asp-route-id="@item.ID" class="btn btn-success" id=@string.Concat("addToWishlistButton",item.ID.ToString())>Add to Wish List</a>
                 </div>

@@ -48,10 +48,10 @@ namespace VirtualGlassesProvider.Tests
             {
                 Assert.That(Driver.FindElement(By.CssSelector("h3")).Text, Is.EqualTo("YOUR CART IS EMPTY."));
                 Driver.FindElement(By.Id("navLinkHome")).Click();
-                var product1BrandName = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .card-title")).Text.ToUpper();
-                var product1Description = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(1) .card-text")).Text.ToUpper();
-                var product2BrandName = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(2) .card-title")).Text.ToUpper();
-                var product2Description = Driver.FindElement(By.CssSelector(".col-md-4:nth-child(2) .card-text")).Text.ToUpper();
+                var product1BrandName = Driver.FindElement(By.Id("product1BrandName")).Text.ToUpper();
+                var product1Description = Driver.FindElement(By.Id("product1Description")).Text.ToUpper();
+                var product2BrandName = Driver.FindElement(By.Id("product2BrandName")).Text.ToUpper();
+                var product2Description = Driver.FindElement(By.Id("product2Description")).Text.ToUpper();
                 TestUtils.ClickElementSafely("addToCartButton1", Driver);
                 Assert.That(Driver.FindElement(By.Id("addedToCartMessage")).Text, Is.EqualTo("Glasses successfully added to cart!"));
                 Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("1"));
