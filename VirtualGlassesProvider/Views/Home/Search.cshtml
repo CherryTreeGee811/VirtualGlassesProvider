@@ -6,7 +6,7 @@
 @if (Model.ToList().Count == 0)
 {
     <div class="row">
-        <h1> No Results Found :(</h1>
+        <h1 id="searchNoResultsMessage">No Results Found :(</h1>
         <div>
             <a asp-action="Index" class="btn btn-primary">Back to Home Page</a>
         </div>

@@ -34,6 +34,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             Driver.FindElement(By.Id("searchString")).SendKeys("Rayban");
             TestUtils.ClickElementSafely("searchBtn", Driver);
+            Thread.Sleep(500);
             Assert.That(Driver.FindElement(By.Id("searchProduct1BrandName")).Text, Is.EqualTo("RAYBAN"));
         }
 
@@ -45,6 +46,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             Driver.FindElement(By.Id("searchString")).SendKeys("Blue");
             TestUtils.ClickElementSafely("searchBtn", Driver);
+            Thread.Sleep(500);
             Assert.That(Driver.FindElement(By.Id("searchProduct2Colour")).Text, Is.EqualTo("Colour: Blue"));
         }
 
@@ -56,6 +58,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             Driver.FindElement(By.Id("searchString")).SendKeys("10.99");
             TestUtils.ClickElementSafely("searchBtn", Driver);
+            Thread.Sleep(500);
             Assert.That(Driver.FindElement(By.Id("searchProduct1Price")).Text, Does.Contain("$10.99"));
         }
 
@@ -67,6 +70,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             Driver.FindElement(By.Id("searchString")).SendKeys("Square");
             TestUtils.ClickElementSafely("searchBtn", Driver);
+            Thread.Sleep(500);
             Assert.That(Driver.FindElement(By.Id("searchProduct1Style")).Text, Is.EqualTo("Style: Square"));
         }
 
@@ -78,7 +82,8 @@ namespace VirtualGlassesProvider.Tests
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             Driver.FindElement(By.Id("searchString")).SendKeys("!~~");
             TestUtils.ClickElementSafely("searchBtn", Driver);
-            Assert.That(Driver.FindElement(By.CssSelector("h1")).Text, Is.EqualTo("NO RESULTS FOUND :("));
+            Thread.Sleep(500);
+            Assert.That(Driver.FindElement(By.Id("searchNoResultsMessage")).Text, Is.EqualTo("NO RESULTS FOUND :("));
         }
     }
 }
