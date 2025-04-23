@@ -36,8 +36,9 @@ namespace VirtualGlassesProvider.Tests
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             TestUtils.ClickElementSafely("productDetailsButton1", Driver);
+            Thread.Sleep(3000);
             TestUtils.ClickElementSafely("generateImageBtn", Driver);
-            Thread.Sleep(5000);
+            Thread.Sleep(3000);
             Assert.That(Driver.FindElement(By.Id("detailsErrorMessage")).Text, Is.EqualTo("Please login to use this feature"));
         }
 
