@@ -44,9 +44,9 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("registerSubmit")).Click();
             Assert.Multiple(() =>
             {
-                Assert.That(Driver.FindElement(By.CssSelector(".text-danger li:nth-child(1)")).Text, Is.EqualTo("Passwords must have at least one non alphanumeric character."));
-                Assert.That(Driver.FindElement(By.CssSelector(".text-danger li:nth-child(2)")).Text, Is.EqualTo("Passwords must have at least one digit (\'0\'-\'9\')."));
-                Assert.That(Driver.FindElement(By.CssSelector("div.text-danger > ul:nth-child(1) > li:nth-child(3)")).Text, Is.EqualTo("Passwords must have at least one uppercase (\'A\'-\'Z\')."));
+                Assert.That(Driver.FindElement(By.CssSelector("#registerRequestErrorMessage li:nth-child(1)")).Text, Is.EqualTo("Passwords must have at least one non alphanumeric character."));
+                Assert.That(Driver.FindElement(By.CssSelector("#registerRequestErrorMessage li:nth-child(2)")).Text, Is.EqualTo("Passwords must have at least one digit (\'0\'-\'9\')."));
+                Assert.That(Driver.FindElement(By.CssSelector("#registerRequestErrorMessage > li:nth-child(3)")).Text, Is.EqualTo("Passwords must have at least one uppercase (\'A\'-\'Z\')."));
             });
         }
 
@@ -61,7 +61,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             Driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys(TestClient.Password);
             Driver.FindElement(By.Id("registerSubmit")).Click();
-            Assert.That(Driver.FindElement(By.CssSelector("body > div > main > p")).Text, Is.EqualTo($"Please check your {TestClient.Email} email to confirm your account."));
+            Assert.That(Driver.FindElement(By.Id("registerConfirmationCheckEmailMessage")).Text, Is.EqualTo($"Please check your {TestClient.Email} email to confirm your account."));
         }
     }
 }

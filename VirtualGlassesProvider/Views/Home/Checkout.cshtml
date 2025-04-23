@@ -28,14 +28,14 @@
             <div class="col-12 mb-3">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">@item.BrandName - @item.Description</h5>
+                        <h5 class="card-title" id=@string.Concat("cartProduct", item.ID, "BrandNameAndDescription")>@item.BrandName - @item.Description</h5>
                     </div>
                     <div class="card-body d-flex justify-content-between">
                         <!-- Left side content -->
                         <div class="content-wrapper">
-                            <p class="card-text">Price: @item.Price</p>
-                            <p class="card-text">Quantity: @item.Quantity</p>
-                            <p class="card-text"><strong>Total: &#36;@item.TotalPrice.ToString("F")</strong></p>
+                            <p class="card-text" id=@string.Concat("cartProduct", item.ID, "Price")>Price: @item.Price</p>
+                            <p class="card-text" id=@string.Concat("cartProduct", item.ID, "Quantity")>Quantity: @item.Quantity</p>
+                            <p class="card-text" id=@string.Concat("cartProduct", item.ID, "Total")><strong>Total: &#36;@item.TotalPrice.ToString("F")</strong></p>
                             <form asp-action="RemoveFromCart" asp-controller="Home" method="post">
                                 <input type="hidden" name="glassId" value="@item.ID" />
                                 <button type="submit" class="btn btn-danger card-item" id=@string.Concat("product", item.ID, "CartRemoveButton")>Remove</button>

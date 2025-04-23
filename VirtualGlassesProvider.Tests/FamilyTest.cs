@@ -18,7 +18,7 @@ namespace VirtualGlassesProvider.Tests
             options.AddUserProfilePreference("download.default_directory", _downloadPath);
             options.AddUserProfilePreference("download.prompt_for_download", false);
             options.AddUserProfilePreference("disable-popup-blocking", "true");
-            options.AddArgument("--headless=new");
+            //options.AddArgument("--headless=new");
             Driver = new ChromeDriver(options);
         }
 
