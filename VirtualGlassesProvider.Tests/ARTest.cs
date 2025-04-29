@@ -1,5 +1,6 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Internal;
 
 
 namespace VirtualGlassesProvider.Tests
@@ -36,9 +37,9 @@ namespace VirtualGlassesProvider.Tests
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
             TestUtils.ClickElementSafely("productDetailsButton1", Driver);
-            Thread.Sleep(3000);
+            TestUtils.WaitForElementToBeVisible(By.Id("generateImageBtn"), Driver);
             TestUtils.ClickElementSafely("generateImageBtn", Driver);
-            Thread.Sleep(3000);
+            TestUtils.WaitForElementToBeVisible(By.Id("detailsErrorMessage"), Driver);
             Assert.That(Driver.FindElement(By.Id("detailsErrorMessage")).Text, Is.EqualTo("Please login to use this feature"));
         }
 
@@ -55,9 +56,9 @@ namespace VirtualGlassesProvider.Tests
             TestUtils.ClickElementSafely("productDetailsButton1", Driver);
             var preRenderAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(preRenderAltText?.Equals("Render"), Is.False);
-            Thread.Sleep(5000);
+            TestUtils.WaitForElementToBeVisible(By.Id("generateImageBtn"), Driver);
             TestUtils.ClickElementSafely("generateImageBtn", Driver);
-            Thread.Sleep(5000);
+            TestUtils.WaitForElementToBeVisible(By.Id("detailsImage"), Driver);
             var renderAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(renderAltText, Is.EqualTo("Render"));
             TestUtils.ClickElementSafely("downloadImageLink", Driver);
