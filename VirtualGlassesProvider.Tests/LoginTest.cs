@@ -35,6 +35,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys("Test1S");
             TestUtils.ClickElementSafely("login-submit", Driver);
+            TestUtils.WaitForElementToBeVisible(By.Id("loginRequestErrorMessage"), Driver);
             Assert.That(Driver.FindElement(By.Id("loginRequestErrorMessage")).Text, Is.EqualTo("Invalid login attempt."));
         }
 
@@ -44,10 +45,11 @@ namespace VirtualGlassesProvider.Tests
         {
             Driver.Navigate().GoToUrl(AppServer.URL);
             Driver.Manage().Window.Size = new System.Drawing.Size(Display.DesktopWidth, Display.DesktopHeight);
-            Driver.FindElement(By.Id("login")).Click();
+            TestUtils.ClickElementSafely("login", Driver);
             Driver.FindElement(By.Id("Input_Email")).SendKeys(TestClient.Email);
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
-            Driver.FindElement(By.Id("login-submit")).Click();
+            TestUtils.ClickElementSafely("login-submit", Driver);
+            TestUtils.WaitForElementToBeVisible(By.Id("accountDashboard"), Driver);
             Assert.That(string.Equals(Driver.FindElement(By.Id("accountDashboard")).Text, TestClient.Email.ToUpper()));
         }
     }

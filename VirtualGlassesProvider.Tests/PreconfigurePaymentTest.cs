@@ -74,6 +74,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_CVV")).SendKeys(cvv);
             Driver.FindElement(By.Id("Input_ExpiryDate")).SendKeys(expiryDate);
             TestUtils.ClickElementSafely("savePaymentInfoButton", Driver);
+            TestUtils.WaitForElementToBeVisible(By.Id("statusMessagePartialViewAlert"), Driver);
             Assert.Multiple(() =>
             {
                 Assert.That(Driver.FindElement(By.Id("statusMessagePartialViewAlert")).Text, Is.EqualTo("Your Payment Info has been updated"));

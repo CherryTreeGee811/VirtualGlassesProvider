@@ -177,10 +177,11 @@ namespace VirtualGlassesProvider.Tests
             TestUtils.ClickElementSafely("buyFor", Driver);
             buyForSelectList.FindElement(By.XPath("//option[. = 'Janet Sinclair']")).Click();
             Driver.FindElement(By.CssSelector("#buyFor > option:nth-child(2)")).Click();
+            TestUtils.WaitForElementToBeVisible(By.Id("detailsImage"), Driver);
             var preRenderAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(preRenderAltText?.Equals("Render"), Is.False);
             TestUtils.ClickElementSafely("generateImageBtn", Driver);
-            Thread.Sleep(5000);
+            TestUtils.WaitForElementToBeVisible(By.Id("detailsImage"), Driver);
             var renderAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(renderAltText, Is.EqualTo("Render"));
             TestUtils.ClickElementSafely("downloadImageLink", Driver);

@@ -1,4 +1,6 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 
 namespace VirtualGlassesProvider.Tests
@@ -26,6 +28,13 @@ namespace VirtualGlassesProvider.Tests
                 Console.WriteLine($"Error clicking element: {ex.Message}");
                 throw;
             }
+        }
+
+
+        internal static IWebElement WaitForElementToBeVisible(By locator, IWebDriver driver, int timeoutInSeconds = 10)
+        {
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeoutInSeconds));
+            return wait.Until(ExpectedConditions.ElementIsVisible(locator));
         }
     }
 }

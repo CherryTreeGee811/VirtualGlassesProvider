@@ -57,7 +57,8 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         shell: bash
         run: |
-          docker login -u cherrytreegee811 -p ${{ secrets.DOCKER_CRED }}
+          echo "${{ secrets.DOCKER_CRED }}" | docker login -u cherrytreegee811 --password-stdin
           docker commit sqlpreview cherrytreegee811/vision-vogue-database
+          docker tag visionvogue-app cherrytreegee811/vision-vogue:latest
           docker push cherrytreegee811/vision-vogue-database:latest
           docker push cherrytreegee811/vision-vogue:latest
