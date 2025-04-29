@@ -60,6 +60,7 @@ namespace VirtualGlassesProvider.Tests
             Driver.FindElement(By.Id("Input_Password")).SendKeys(TestClient.Password);
             Driver.FindElement(By.Id("Input_ConfirmPassword")).SendKeys(TestClient.Password);
             TestUtils.ClickElementSafely("registerSubmit", Driver);
+            TestUtils.WaitForElementToBeVisible(By.Id("registerConfirmationCheckEmailMessage"), Driver);
             Assert.That(Driver.FindElement(By.Id("registerConfirmationCheckEmailMessage")).Text, Is.EqualTo($"Please check your {TestClient.Email} email to confirm your account."));
         }
     }
