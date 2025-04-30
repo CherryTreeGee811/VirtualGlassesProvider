@@ -55,9 +55,9 @@ namespace VirtualGlassesProvider.Tests
             TestUtils.ClickElementSafely("productDetailsButton1", Driver);
             var preRenderAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(preRenderAltText?.Equals("Render"), Is.False);
-            Thread.Sleep(5000);
+            TestUtils.WaitForElementToBeVisible(By.Id("generateImageBtn"), Driver);
             TestUtils.ClickElementSafely("generateImageBtn", Driver);
-            Thread.Sleep(5000);
+            Thread.Sleep(6000);
             var renderAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(renderAltText, Is.EqualTo("Render"));
             TestUtils.ClickElementSafely("downloadImageLink", Driver);
