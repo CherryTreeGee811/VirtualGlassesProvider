@@ -1,5 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace VirtualGlassesProvider.Migrations
 {
@@ -28,6 +32,7 @@ namespace VirtualGlassesProvider.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -343,7 +348,7 @@ namespace VirtualGlassesProvider.Migrations
 
             migrationBuilder.InsertData(
                 table: "Glasses",
-                columns: ["ID", "BrandName", "Colour", "Description", "Image", "Price", "Style"],
+                columns: new[] { "ID", "BrandName", "Colour", "Description", "Image", "Price", "Style" },
                 values: new object[,]
                 {
                     { 1, "Rayban", "Black", "Black Colour Squared shaped Rayban Sunglasses", "GlassesImage/glasses.png", 10.99m, "Square" },
