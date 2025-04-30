@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VirtualGlassesProvider.Models.DataAccess;
 
+
 namespace VirtualGlassesProvider.Migrations
 {
     [DbContext(typeof(GlassesStoreDbContext))]
