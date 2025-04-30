@@ -21,10 +21,8 @@ namespace VirtualGlassesProvider.Services
             using var ms = new MemoryStream();
             using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
             {
-                using (var sw = new StreamWriter(cs))
-                {
-                    sw.Write(plainText);
-                }
+                using var sw = new StreamWriter(cs);
+                sw.Write(plainText);
             }
 
             return Convert.ToBase64String(ms.ToArray());

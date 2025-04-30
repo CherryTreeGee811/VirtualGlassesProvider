@@ -5,24 +5,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VirtualGlassesProvider.Models.DataAccess
 {
-    public class GlassesStoreDbContext : IdentityDbContext<User>
+    public class GlassesStoreDbContext(DbContextOptions<GlassesStoreDbContext> options)
+        : IdentityDbContext<IdentityUser>(options)
     {
-        public GlassesStoreDbContext(DbContextOptions<GlassesStoreDbContext> options) : base(options) { }
-
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.Entity<Glasses>().HasData(
-               new Glasses { ID = 1, BrandName = "Rayban", Description = "Black Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Black", Style = "Square", Image = "GlassesImage/glasses.png" },
-               new Glasses { ID = 2, BrandName = "Rayban", Description = "Blue Colour Circular shaped Rayban Sunglasses", Price = 10.99m, Colour = "Blue", Style = "Circular", Image = "GlassesImage/glassesbluerayban.png" },
-                new Glasses { ID = 3, BrandName = "Rayban", Description = "Blue Tint Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Blue Tint", Style = "Square", Image = "GlassesImage/glasses-bluetint.png" },
-                 new Glasses { ID = 4, BrandName = "Rayban", Description = "Green Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Green", Style = "Square", Image = "GlassesImage/glasses-green.png" },
-                  new Glasses { ID = 5, BrandName = "Rayban", Description = "Red Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Red", Style = "Square", Image = "GlassesImage/glasses-red.png" },
-                   new Glasses { ID = 6, BrandName = "Rayban", Description = "Clementine Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Clementine", Style = "Square", Image = "GlassesImage/glasses-clementine.png" },
-                    new Glasses { ID = 7, BrandName = "Rayban", Description = "Grape Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Grape", Style = "Square", Image = "GlassesImage/glasses-grape.png" },
-                     new Glasses { ID = 8, BrandName = "Rayban", Description = "Violin Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Violin", Style = "Square", Image = "GlassesImage/glasses-violin.png" }
+               new() { ID = 1, BrandName = "Rayban", Description = "Black Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Black", Style = "Square", Image = "GlassesImage/glasses.png" },
+               new() { ID = 2, BrandName = "Rayban", Description = "Blue Colour Circular shaped Rayban Sunglasses", Price = 10.99m, Colour = "Blue", Style = "Circular", Image = "GlassesImage/glassesbluerayban.png" },
+               new() { ID = 3, BrandName = "Rayban", Description = "Blue Tint Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Blue Tint", Style = "Square", Image = "GlassesImage/glasses-bluetint.png" },
+               new() { ID = 4, BrandName = "Rayban", Description = "Green Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Green", Style = "Square", Image = "GlassesImage/glasses-green.png" },
+               new() { ID = 5, BrandName = "Rayban", Description = "Red Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Red", Style = "Square", Image = "GlassesImage/glasses-red.png" },
+               new() { ID = 6, BrandName = "Rayban", Description = "Clementine Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Clementine", Style = "Square", Image = "GlassesImage/glasses-clementine.png" },
+               new() { ID = 7, BrandName = "Rayban", Description = "Grape Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Grape", Style = "Square", Image = "GlassesImage/glasses-grape.png" },
+               new() { ID = 8, BrandName = "Rayban", Description = "Violin Colour Squared shaped Rayban Sunglasses", Price = 10.99m, Colour = "Violin", Style = "Square", Image = "GlassesImage/glasses-violin.png" }
             );
 
             builder.Entity<Profiles>()

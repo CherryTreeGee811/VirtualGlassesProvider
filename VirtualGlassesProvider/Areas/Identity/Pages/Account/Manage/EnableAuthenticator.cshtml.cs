@@ -44,7 +44,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
-        public string[] RecoveryCodes { get; set; } = Array.Empty<string>();
+        public string[] RecoveryCodes { get; set; } = [];
 
 
         /// <summary>
@@ -133,11 +133,11 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
                 if (recoveryCodes != null)
                 {
-                    RecoveryCodes = recoveryCodes.ToArray();
+                    RecoveryCodes = [.. recoveryCodes];
                 }
                 else
                 {
-                    RecoveryCodes = Array.Empty<string>();
+                    RecoveryCodes = [];
                 }
                 return RedirectToPage("./ShowRecoveryCodes");
             }

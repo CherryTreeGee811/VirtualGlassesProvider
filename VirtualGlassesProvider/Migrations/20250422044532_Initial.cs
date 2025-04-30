@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace VirtualGlassesProvider.Migrations
 {
@@ -346,7 +343,7 @@ namespace VirtualGlassesProvider.Migrations
 
             migrationBuilder.InsertData(
                 table: "Glasses",
-                columns: new[] { "ID", "BrandName", "Colour", "Description", "Image", "Price", "Style" },
+                columns: ["ID", "BrandName", "Colour", "Description", "Image", "Price", "Style"],
                 values: new object[,]
                 {
                     { 1, "Rayban", "Black", "Black Colour Squared shaped Rayban Sunglasses", "GlassesImage/glasses.png", 10.99m, "Square" },

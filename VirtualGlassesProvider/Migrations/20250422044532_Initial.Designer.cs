@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VirtualGlassesProvider.Models.DataAccess;
 
-#nullable disable
 
 namespace VirtualGlassesProvider.Migrations
 {
@@ -18,7 +17,6 @@ namespace VirtualGlassesProvider.Migrations
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
@@ -700,7 +698,6 @@ namespace VirtualGlassesProvider.Migrations
                 {
                     b.Navigation("WishListItems");
                 });
-#pragma warning restore 612, 618
         }
     }
 }

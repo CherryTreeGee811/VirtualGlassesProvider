@@ -1,6 +1,5 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Internal;
 
 
 namespace VirtualGlassesProvider.Tests
@@ -56,9 +55,9 @@ namespace VirtualGlassesProvider.Tests
             TestUtils.ClickElementSafely("productDetailsButton1", Driver);
             var preRenderAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(preRenderAltText?.Equals("Render"), Is.False);
-            TestUtils.WaitForElementToBeVisible(By.Id("generateImageBtn"), Driver);
+            Thread.Sleep(5000);
             TestUtils.ClickElementSafely("generateImageBtn", Driver);
-            TestUtils.WaitForElementToBeVisible(By.Id("detailsImage"), Driver);
+            Thread.Sleep(5000);
             var renderAltText = Driver.FindElement(By.Id("detailsImage"))?.GetAttribute("alt")?.ToString();
             Assert.That(renderAltText, Is.EqualTo("Render"));
             TestUtils.ClickElementSafely("downloadImageLink", Driver);
