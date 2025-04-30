@@ -81,7 +81,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
 
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync()
                 ?? throw new InvalidOperationException($"Unable to load two-factor authentication user.");

@@ -236,7 +236,7 @@ namespace VirtualGlassesProvider.Controllers
                 IsPurchased = false // Initially, the game is not purchased
             };
 
-            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? new List<CartItem>();
+            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("cart") ?? [];
             var existingItem = cart.Find(x => x.ID == id);
 
             if (existingItem != null)
@@ -267,7 +267,7 @@ namespace VirtualGlassesProvider.Controllers
         [HttpPost]
         public IActionResult RemoveFromCart(int glassId)
         {
-            var cartItems = HttpContext.Session.GetObjectFromJson<HashSet<CartItem>>("cart") ?? new HashSet<CartItem>();
+            var cartItems = HttpContext.Session.GetObjectFromJson<HashSet<CartItem>>("cart") ?? [];
 
             var itemToUpdate = cartItems.FirstOrDefault(item => item.ID == glassId);
             if (itemToUpdate != null)
@@ -298,7 +298,7 @@ namespace VirtualGlassesProvider.Controllers
 
             var paymentinfo = await _context.PaymentInfo.FirstOrDefaultAsync(p => p.UserID == user.Id);
 
-            var cartItems = HttpContext.Session.GetObjectFromJson<HashSet<CartItem>>("cart") ?? new HashSet<CartItem>();
+            var cartItems = HttpContext.Session.GetObjectFromJson<HashSet<CartItem>>("cart") ?? [];
             var grandTotal = cartItems.Sum(item => item.TotalPrice);
             CheckoutViewModel? viewModel = null;
             if (paymentinfo == null)
@@ -472,10 +472,7 @@ namespace VirtualGlassesProvider.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            if (wishList.WishListItems == null)
-            {
-                wishList.WishListItems = new HashSet<WishListItems>();
-            }
+            wishList.WishListItems ??= new HashSet<WishListItems>();
 
             if (wishList.WishListItems.Count > 0)
             {

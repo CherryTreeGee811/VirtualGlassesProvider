@@ -22,7 +22,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
-        public string[] RecoveryCodes { get; set; } = Array.Empty<string>();
+        public string[] RecoveryCodes { get; set; } = [];
 
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             }
 
             var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
-            RecoveryCodes = recoveryCodes?.ToArray() ?? Array.Empty<string>();
+            RecoveryCodes = recoveryCodes?.ToArray() ?? [];
 
             _logger.LogInformation("User with ID '{UserId}' has generated new 2FA recovery codes.", userId);
             StatusMessage = "You have generated new recovery codes.";

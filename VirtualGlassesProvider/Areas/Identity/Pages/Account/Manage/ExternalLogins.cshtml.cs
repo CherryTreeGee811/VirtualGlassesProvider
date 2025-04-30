@@ -24,14 +24,14 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public ICollection<UserLoginInfo> CurrentLogins { get; set; } = new List<UserLoginInfo>();
+        public ICollection<UserLoginInfo> CurrentLogins { get; set; } = [];
 
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public ICollection<AuthenticationScheme> OtherLogins { get; set; } = new List<AuthenticationScheme>();
+        public ICollection<AuthenticationScheme> OtherLogins { get; set; } = [];
 
 
         /// <summary>
@@ -58,9 +58,8 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
             }
 
             CurrentLogins = await _userManager.GetLoginsAsync(user);
-            OtherLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync())
-                .Where(auth => CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
-                .ToList();
+            OtherLogins = [.. (await _signInManager.GetExternalAuthenticationSchemesAsync())
+                .Where(auth => CurrentLogins.All(ul => auth.Name != ul.LoginProvider))];
 
             string? passwordHash = null;
             if (_userStore is IUserPasswordStore<User> userPasswordStore)

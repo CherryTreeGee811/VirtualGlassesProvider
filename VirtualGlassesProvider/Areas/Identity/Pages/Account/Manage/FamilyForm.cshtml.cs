@@ -177,10 +177,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
                 {
                     existingMember = true;
 
-                    if(image == null)
-                    {
-                        image = await _context.UploadedImages.FindAsync(familyMember.ImageID);
-                    }
+                    image ??= await _context.UploadedImages.FindAsync(familyMember.ImageID);
                 }
             }
 

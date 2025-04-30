@@ -17,7 +17,7 @@ namespace VirtualGlassesProvider.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [TempData]
-        public string[] RecoveryCodes { get; set; } = Array.Empty<string>();
+        public string[] RecoveryCodes { get; set; } = [];
 
 
         /// <summary>
