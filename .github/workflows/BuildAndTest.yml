@@ -59,5 +59,6 @@ jobs:
         run: |
           echo "${{ secrets.DOCKER_CRED }}" | docker login -u cherrytreegee811 --password-stdin
           docker commit sqlpreview cherrytreegee811/vision-vogue-database
+          docker commit visionvogue-app cherrytreegee811/vision-vogue
           docker push cherrytreegee811/vision-vogue-database:latest
           docker push cherrytreegee811/vision-vogue:latest
