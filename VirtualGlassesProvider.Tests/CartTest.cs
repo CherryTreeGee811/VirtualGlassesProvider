@@ -56,7 +56,7 @@ namespace VirtualGlassesProvider.Tests
                 Assert.That(Driver.FindElement(By.Id("addedToCartMessage")).Text, Is.EqualTo("Glasses successfully added to cart!"));
                 Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("1"));
                 TestUtils.ClickElementSafely("productDetailsButton2", Driver);
-                Thread.Sleep(1000);
+                TestUtils.WaitForElementToBeVisible(By.Id("detailsAddToCartButton"), Driver);
                 TestUtils.ClickElementSafely("detailsAddToCartButton", Driver);
                 Assert.That(Driver.FindElement(By.Id("addedToCartMessage")).Text, Is.EqualTo("Glasses successfully added to cart!"));
                 Assert.That(Driver.FindElement(By.Id("ViewCartButton")).Text, Is.EqualTo("2"));
